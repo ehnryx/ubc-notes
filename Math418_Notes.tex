@@ -1,0 +1,570 @@
+\documentclass[11pt]{article}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx} %\usepackage[pdftex]{graphicx}
+%\usepackage{tikz}
+
+
+\setlength\parindent{0pt}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}{Corollary}[thm]
+\newtheorem{lemma}[thm]{Lemma}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{pty}{Property}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{obs}{Observation}[section]
+\newcommand{\The}[2]{\begin{#1}#2\end{#1}}
+
+\newcommand{\ord}[0]{\text{ord}}
+
+% notes
+\iftrue 
+\newcommand{\f}[2]{\frac{#1}{#2}}
+\newcommand{\re}[1]{\frac{1}{#1}}
+\newcommand{\half}[0]{\frac{1}{2}}
+\newcommand{\ift}[0]{It follows that}
+\newcommand{\cp}[1]{\overline{#1}}
+\newcommand{\Note}[0]{\noindent\textbf{Note: }} 
+\newcommand{\Claim}[0]{\noindent\textbf{Claim: }} 
+\newcommand{\Lemma}[1]{\noindent\textbf{Lemma #1}: } %
+\newcommand{\Ex}[0]{\noindent\textbf{Example: }} %
+\newcommand{\Special}[0]{\noindent\textbf{Special case: }} %
+\newcommand{\solution}[2]{\item[]\proof[Solution to #1] #2 \qedhere}
+\newcommand{\legendre}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\dent}[0]{\hspace{0.5in}}
+\fi
+
+\newcommand{\sm}[0]{\setminus}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\expect}[1]{\operatorname{E}\left[\,#1\,\right]}
+\newcommand{\nl}[0]{\vspace{12pt}}
+\newcommand{\rng}[2]{#1,\dots,#2}
+\newcommand{\srng}[3]{#1_#2,\dots,#1_#3}
+\newcommand{\st}[0]{\text{ such that }}
+\newcommand{\et}[0]{\text{ and }}
+\newcommand{\then}[0]{\text{ then }}
+\newcommand{\forsome}[0]{\text{ for some }}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+
+% misc
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert} %
+% lcm ???
+\DeclareMathOperator{\lcm}{lcm} 
+% blackboard bold
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\FF}{\mathbb{R}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\CC}{\mathbb{C}}
+% mathcal
+\newcommand{\m}[1]{\mathcal{#1}}
+% vectors
+\newcommand{\vvec}[1]{\textbf{#1}} %
+\newcommand{\ii}[0]{\vvec{i}} %
+\newcommand{\jj}[0]{\vvec{j}} %
+\newcommand{\kk}[0]{\vvec{k}} %
+\newcommand{\hvec}[1]{\hat{\textbf{#1}}} %
+\newcommand{\cvec}[3]{ %column vector
+    \ensuremath{\left(\begin{array}{c}#1\\#2\\#3\end{array}\right)}}
+\newcommand{\pfrac}[2]{\frac{\partial#1}{\partial#2}} %
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} %
+% dotp roduct
+\makeatletter
+\newcommand*\dotp{\mathpalette\dotp@{.5}}
+\newcommand*\dotp@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+% divrg and curl
+\newcommand{\divrg}[0]{\nabla\dotp} %
+\newcommand{\curl}[0]{\nabla\times} %
+
+\title{Math 418 Notes}
+\author{Henry Xia}
+%\date{15 September 2017}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 09 05
+
+\section{Introduction}
+
+\textbf{Text}: R. Durrett. Probability Theory adn Examples. Version 5a.
+
+\begin{defn}
+    A \emph{sample space} $\Omega$ is a non-empty set.
+
+    The set of subsets $\mathcal{F} \in 2^\Omega$ is a \emph{field} if and only if
+    \begin{enumerate}
+        \item[(i)] $\emptyset\in\mathcal{F}$.
+        \item[(ii)] Closed under complement. $\forall A \in \mathcal{F}$, $A^C \in \mathcal{F}$.
+        \item[(iii)] Closed under finite union. $\forall A,B \in \mathcal{F}$, $A\cup B \in \mathcal{F}$.
+    \end{enumerate}
+\end{defn}
+
+\begin{defn}
+    The set of subsets $\mathcal{F} \in 2^\Omega$ is a \emph{$\sigma$-field} iff 
+    \begin{enumerate}
+        \item[(i)] $\emptyset\in\mathcal{F}$.
+        \item[(ii)] Closed under complement. $\forall A \in \mathcal{F}$, $A^C \in \mathcal{F}$.
+        \item[(iii)] Closed under countable union.
+    \end{enumerate}
+\end{defn}
+
+\begin{defn}
+    Call $(\Omega, \mathcal{F})$ a \emph{measureable space} if $\mathcal{F}$ is a $\sigma$-field.
+\end{defn}
+
+\begin{defn}
+    We write $A = \dot\bigcup_{i\in{I}} A_i$ if the sets $A_i$ are disjoint.
+\end{defn}
+
+\begin{defn}
+    Let $(\Omega,\mathcal{F})$ be a measurable space. The \emph{measure} $\mu$ on
+    $(\Omega,\mathcal{F})$ is a countably additive, non-negative set function
+    $\mu:\mathcal{F}\to[0,\infty]$ such that 
+    \begin{enumerate}
+        \item[(i)] $\mu(\emptyset) = 0$
+        \item[(ii)] $\mu(\dot\bigcup_{i\in{I}} A_i) = \sum_{i\in{I}} \mu(A_i)$
+    \end{enumerate}
+    where $I = \NN$ or $I = \{1,\dots,n\}$.
+
+    $(\Omega,\mathcal{F},\mu)$ is a \emph{measure space}. If $\mu$ is a probability, that is
+    $\mu(\Omega)=1$, then the said measure space is a \emph{probability space}.
+\end{defn}
+
+\begin{defn}
+    A \emph{finite additive measure} on $(\Omega,\mathcal{F})$, where $\mathcal{F}$ is a field, is a
+    function $\mu:\mathcal{F}\to[0,\infty]$ such that
+    \begin{enumerate}
+        \item[(i)] $\mu(\emptyset) = 0$
+        \item[(ii)] $\mu(\dot\bigcup_{i\in{I}} A_i) = \sum_{i\in{I}} \mu(A_i)$
+    \end{enumerate}
+    where (ii) only holds for $I$ finite.
+\end{defn}
+
+\begin{example}
+    An example of a finite additive measure is
+    \[
+        \mu(A) = \begin{cases}
+            0 \text{ if } $A$ \text{ is finite } \\
+            \infty \text{ if } $A$ \text{ is infinite }
+        \end{cases}
+    \]
+\end{example}
+
+\begin{lemma}
+    Let $\mathcal{F}$ be a field and $\mu$ be a finite additive measure, then 
+    \begin{enumerate}
+        \item[(a)] Monotonicity. $A,B\in\mathcal{F}$ with $A\subset B$ implies $\mu(A)\le\mu(B)$.
+        \item[(b)] Subadditivity. $A,B\in\mathcal{F}$ means $\mu(A\cup B) \le \mu(A)+\mu(B)$. 
+    \end{enumerate}
+\end{lemma}
+\proof[Proof of (a).] Elementary. \qedhere
+\proof[Proof of (b).] Use (a) and disjoint union. \qedhere
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 09 07
+
+\begin{defn}
+    We write $A_n \uparrow A$ if $A_n\subset A_{n+1}$ and $\bigcup A_n = A$.
+    Defined similarly for $\downarrow$.
+\end{defn}
+
+\begin{thm}
+    Let $\mu$ be a measure on $(\Omega,\m{F})$, and $\set{A_n:n\in\NN}$ be a sequence in $\m{F}$.
+    \begin{enumerate}
+        \item[(a)] Continuity from below. $A_n\uparrow A \implies \mu(A_n) \uparrow \mu(A)$
+        \item[(b)] Continuity from above. $\mu(A_1)<\infty \text{ and } A_n\downarrow A \implies
+            \mu(A_n) \downarrow \mu(A)$
+        \item[(c)] Countable subadditivity. $\mu(\bigcup_n^\infty A_n) \le \sum_n^\infty \mu(A_n)$
+    \end{enumerate}
+\end{thm}
+
+\proof[Proof of (a)]
+Observe that $A_n = \dot\bigcup_{k=1}^n (A_k\sm A_{k-1})$ where we define $A_0 = \emptyset$. Then
+$$ \mu(A) = \sum_{k=1}^\infty \mu(A_k\sm A_{k-1}) = \lim_{n\to\infty} \mu(A_n) . $$
+Also, $\mu(A_n) \le \mu(A_{n+1})$, so $\mu(A_n)\uparrow\mu(A)$. 
+\qedhere
+
+\proof[Proof of (b)]
+We can take complements with respect to $A_1$ and use (a) on $(A_1 \sm A_n) \uparrow (A_1 \sm A)$.
+Then $\mu(A_1 \sm A_n) \uparrow \mu(A_1 \sm A)$. 
+\qedhere
+
+\proof[Proof of (c)]
+We use finite subadditivity as follows
+\[
+    \mu(\cup_k^n A_k) \le \sum_k^n \mu(A_k) \le \lim_{n\to\infty} \sum_k^n \mu(A_k). \qedhere
+\]
+\qedhere
+
+Partial converse to Theorem 1.2 (Continuity from below): If $\mu$ is finitely additive on
+$(\Omega,\m{F})$ and continuous from below, then $\mu$ is a measure (countably additive).
+
+
+\begin{example}
+    Consider the counting measure. Let $A_n = \set{n,n+1,\dots}$, then $A_n\downarrow\emptyset$, but
+    $\mu(A_n) = \infty$ for all $n$ and $\mu(\emptyset) = 0$.
+\end{example}
+
+\begin{defn}
+    A $\m{A}\subset 2^\Omega$ is a $\pi$-system if it is closed under intersection.
+
+    A $\m{A}\subset 2^\Omega$ is a $\lambda$-system if
+    \begin{itemize}
+        \item[(i)] $\Omega\in\m{A}$
+        \item[(ii)] If $A,B\in\m{A}$ and $B\subset A$, then $A\sm B \in \m{A}$
+        \item[(iii)] If $A_n\in\m{A}$ and $A_n \uparrow A$, then $A\in\m{A}$
+    \end{itemize}
+\end{defn}
+
+\begin{thm}[$\pi$-$\lambda$ Theorem]
+    Let $\m{C}$ be a $\pi$-system in $2^\Omega$, and $\m{L}$ be a $\lambda$-system in $2^\Omega$. If
+    $\m{C}\subset\m{L}$, then $\sigma(\m{C})\subset\m{L}$.
+\end{thm}
+\proof
+Draw a venn diagram, or show that the smallest $\lambda$-system containing $\m{C}$ is a
+$\sigma$-field.
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 09 12
+
+\begin{cor}
+    Let $P_1$ and $P_2$ be probabilities on $(\Omega,\m{F})$, and $\m{C}\subset\m{F}$ be a
+    $\pi$-system. If $P_1=P_2$ on $\m{C}$, then $P_1=P_2$ on $\sigma(\m{C})$.
+\end{cor}
+\proof
+Let $\m{L} = \set{A\in\m{F}: P_1(A) = P_2(A)}$, then $\m{C}\subset\m{L}$. We want to show that
+$\m{L}$ is a $\lambda$-system. 
+\begin{enumerate}
+    \item[(i)] Clearly $\Omega \in \m{L}$. 
+    \item[(ii)] If $A,B\in\m{L}$ and $A\subset B$, then $B\sm A \in \m{L}$ by finite additivity.
+    \item[(iii)] If $A_n\in\m{L}$ and $A_n\uparrow A$, then we can use continuity from below to get
+        $P_1(A) = P_2(A)$. 
+\qedhere
+\end{enumerate}
+\qedhere
+
+\begin{example}
+    Let $p_1,\dots,p_6 \in [0,1]$ and $\sum_{i=1}^6 p_i = 1$. We can define $\Omega =
+    \set{1,\dots,6}$, $\m{F} = 2^\Omega$, and $P(\set{i}) = p_i$. Then by finite additivity, we get
+    $P(A) = P(\dot\cup_{i\in A} \set{i}) = \sum_{i\in A} p_i$ for any $A\in\m{F}$.
+\end{example}
+
+
+% SECTION
+\section{The Law of Large Numbers}
+
+\subsection{The Law of Large Numbers for Coin Tossing}
+
+\textbf{Experiment}: Toss a fair coin an infinite number of times.
+
+\textbf{Outcome}: An infinite sequence of 0's and 1's. $w = (w_1,w_2,\dots)$.
+
+Let $\Omega = \set{0,1}^\NN$ be the sample space. 
+Let $x_n:\Omega\to\set{0,1}$ with $x_n(w) = w_n$, and $s_n:\Omega\to\set{0,1,\dots,n}$ with $s_n(w)
+= \sum_{i=1}^n x_i(w)$. 
+
+\begin{defn}
+    The event $A\subset\Omega$ is a finite dimensional event if $\exists n, B\subset\set{0,1}^n$
+    such that $A = \set{w:(w_1,w_2,\dots,w_n)\in B}$.  
+    (ie. we only need to look at the first $n$ things.)
+
+    Let $\m{F}_0$ be the set of finite dimensional events.
+\end{defn}
+
+We want to show that $\lim_{n\to\infty} \frac{s_n(n)}{n} = \frac12$.
+
+\begin{lemma}
+    $\m{F}_0$ is a field.
+\end{lemma}
+\proof
+Observe that $\emptyset = \set{w\in\Omega:w_1\in\emptyset}\in\m{F}_0$.
+
+Let $A_1, A_@ \in \m{F}$, then there exist $n_1, n_2, B_1, B_2$ such that $A_i =
+\set{w:(w_1,\dots,w_{n_i})\in B_i}$ for $i\in\set{1,2}$. Now we may assume without loss of
+generality that $n_1=n_2$, because we can extend the smaller $B_i$ so that it has the same
+dimension as the larger one. This is also closed under complement. 
+\qedhere
+
+\begin{defn}
+    Define $P:\m{F}_0\to[0,1]$ such that $P(\set{w:(w_1,\dots,w_n)\in B})=\frac{\#B}{2^n}$,
+    where $B\subset\set{0,1}^n$. We can check that $P$ is well defined.
+\end{defn}
+
+\begin{lemma}
+    $P$ is a probability.
+\end{lemma}
+\proof
+We can check that $P(\emptyset) = 0$ and $P(\Omega) = 1$.
+
+Let disjoint $A_1, A_2 \in \m{F}$. Then $\emptyset = A_1\cap A_2 =
+\set{w:(w_1,\dots,w_n)\in B_1\cap B_2}$, implying that $B_1\cap B_2 = \emptyset$. Then, we
+can write the disjoint union in the same way. 
+\qedhere
+
+We can compute $P(\set{s_n(w)=k}) = \binom{n}{k} 2^{-n}$, and say ``$s_n$ has binomial
+distribution with parameters $(n,\frac12)$''.
+
+Let $C = \set{w:\lim_{n\to\infty} \frac{s_n(w)}{n} = \frac12}$. Observe that
+$C\notin\m{F}_0$. However, we will extend $P$ from $\m{F}_0$ to $\sigma(\m{F}_0)$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 09 14
+
+\begin{lemma}
+    $C\in\sigma(\m{F}_0)$.
+\end{lemma}
+\proof
+Observe that
+\begin{align*}
+	w \in C &\iff \lim_{n\to\infty} \frac{S_n(w)}{n} = \frac12 \\
+	&\iff \forall M \in \NN,~ \exists N \text{ such that } \forall n\ge N,~
+	\abs{\frac{S_n(w)}{n}-\frac12} < \frac1M \\
+	&\iff w \in \bigcap_{M=1}^\infty \bigcup_{N=1}^\infty \bigcap_{n=N}^\infty
+	\set{w:\abs{\frac{S_n(w)}{n}-\frac12}<\frac1M}
+\end{align*}
+Let $C_{n,M}$ be the latter set, which is finite dimensional, hence $C_{n,M}\in\m{F}_0$.
+It follows that $C\in\sigma(\m{F}_0)$ as $\sigma$-fields are closed under finite unions
+and intersections. 
+\qedhere
+
+Suppose that we can extend $P$ to $\sigma(\m{F}_0)$ (by Carath\'eodory). Now we need to prove
+that $P(C)=1$, that is the event happens \emph{almost surely}.
+
+\begin{lemma}
+$P(C_{n,M}^c) \le \frac{M^2}{4n}$.
+\end{lemma}
+\proof
+We observe that $S_n$ is a binomial random variable, and $\frac{n}{2}$ is the mean. Then
+we can use Chebychev's inequality.
+\[
+	P\left(\abs{\frac{S_n}{n}-\frac12}\ge\frac1M\right) 
+	= P\left(\abs{S_n-\frac{n}{2}}\ge\frac{n}{M}\right)
+	\le \frac{\text{var}(S_n)}{(n/M)^2} = \frac{M^2}{4n} .
+\]
+There is also a direct calculation proof given on Perkins's webpage.
+\qedhere
+
+\begin{thm}[The Strong Law of Large Numbers for Coin Tossing]
+	$P(C)=1$. 
+\end{thm}
+\proof
+Let $\hat{C} = \set{w:\lim_{m\to\infty}\frac{S_{m^2}}{m^2}=\frac12}$. This set is equal to
+$C$ as shown in homework 1. Similarly, we can write 
+\[
+	\hat{C} = \bigcap_{M=1}^\infty \bigcup_{N=1}^\infty \bigcap_{m=N}^\infty
+	\set{\abs{\frac{S_{m^2}}{m^2}-\frac12}<\frac1M} .
+\]
+We want to show that $P\left(\bigcap_{m=N}^\infty C_{m^2,M}\right) = 1$, after which
+continuity from below and continuity from above will yield the result. 
+\begin{align*}
+	P\left(\bigcap_{m=N}^\infty C_{m^2,M}\right) 
+	&= 1 - P\left(\bigcup_{m=N}^\infty C_{m^2,M}^c\right)
+	\ge 1 - \sum_{m=N}^\infty P(C_{m^2,M}^c)
+	\ge 1 - \sum_{m=N}^\infty \frac{M^2}{4m^2} \to 1 ,
+\end{align*}
+where the convergence holds because $\frac1{m^2}$ is summable.
+
+Increasing $N$ means we take the intersection of less sets, which increases.  Continuity
+from below gives $P(\bigcup\bigcap{C_{m^2,M}})=1$. 
+
+Increasing $M$ makes the epsilon smaller, so we are decreasing the size of each set. This
+will decrease the intersection.  Continuity from above gives
+$P(\bigcap\bigcup\bigcap{C_{m^2,M}})=1$. 
+
+Hence $P(C)=P(\hat{C})=1$. 
+\qedhere
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 09 17
+
+Now we prove that we can indeed extend $P$ to $\sigma(\m{F}_0)$. 
+
+\begin{thm}
+    Let $\m{C}$ be a $\pi$-system, $\mu_1, \mu_2$ be measures on $\sigma(\m{C})$. If
+    $\mu_1=\mu_2$ on $\m{C}$ and both are $\sigma$-finite on $\m{C}$, then $\mu_1=\mu_2$ on
+    $\sigma(\m{C})$. 
+\end{thm}
+\proof
+Let $\set{A_n}\in\m{C}$ and $A_n\uparrow\Omega$ where $\mu_1(A_n)=\mu_2(A_n)<\infty$. For
+all $\mu_i(A_n) > 0$, define $P_{i,n}(\m{E}) = \frac{\mu_i(E\cap A_n)}{\mu_i(A_n)}$. Then
+$P_{i,n}$ is a probability. We can check that $\mu_i(A_n)>0$ for $n$ sufficiently large. We
+can also show that $P_{1,n}=P_{2,n}$ using continuity from below. Now we can use
+$\pi$-$\lambda$ theorem to finish the proof. 
+\qedhere
+
+\begin{lemma}
+    Let $P:\m{F}_0\to[0,1]$ be a finitely additive probability, then $P$ is a countably
+    additive probability, where $\m{F}_0$ is defined as above.
+\end{lemma}
+\proof
+Give $\Omega=\set{0,1}^\NN$ the product topology. That is for $\set{w_n}\subset\Omega$,
+then $w^n\to w$ as $n\to\infty$ if and only if $\forall i\in\NN$, we have
+$\lim_{n\to\infty} w_{n,i}=w_i$. Equivalently, we can define the metric $d(w,w') =
+\sum_{i=1}^\infty \frac{\abs{w_i-w'_i}}{2^i}$. Observe that $(\Omega,d)$ is compact by
+Cantor diagonalization. 
+
+Let $\set{A_n}$ be disjoint sets in $\m{F}_0$ such that $\bigcup_{n=1}^\infty
+A_n\in\m{F}_0$. Let $K_n=\bigcup_{j=1}^\infty A_j \sm \bigcup_{j=1}^n A_j$. Observe that
+$K_n\downarrow\emptyset$. If each $K_n$ is compact, then $\exists N$ such that $forall
+n\ge{N}$, we have $K_n=\emptyset$. Hence finite additivity implies countable additivity. 
+
+Now it suffices to show that each $K_n=\bigcup_{j=1}^\infty A_j \sm \bigcup_{j=1}^n A_j$ is
+compact. 
+% TODO
+\qedhere
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 09 19
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 09 21
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 09 24
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 09 26
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 09 28
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 10 01
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 10 03
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 10 05
+
+\section{Some stuff missing here}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 10 08
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 10 10
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 10 12
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 10 15
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 10 17
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 10 19
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2018 10 22
+
+
+
+
+
+
+
+
+
+\end{document}

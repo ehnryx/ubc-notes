@@ -1,0 +1,2024 @@
+\documentclass[11pt]{article}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx} %\usepackage[pdftex]{graphicx}
+%\usepackage{tikz}
+
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}{Corollary}[thm]
+\newtheorem{lemma}[thm]{Lemma}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{pty}{Property}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{obs}{Observation}[section]
+\newcommand{\The}[2]{\begin{#1}#2\end{#1}}
+
+\newcommand{\ord}[0]{\text{ord}}
+
+% notes
+\iftrue 
+\newcommand{\f}[2]{\frac{#1}{#2}}
+\newcommand{\re}[1]{\frac{1}{#1}}
+\newcommand{\half}[0]{\frac{1}{2}}
+\newcommand{\ift}[0]{It follows that}
+\newcommand{\cp}[1]{\overline{#1}}
+\newcommand{\Note}[0]{\noindent\textbf{Note: }} 
+\newcommand{\Claim}[0]{\noindent\textbf{Claim: }} 
+\newcommand{\Lemma}[1]{\noindent\textbf{Lemma #1}: } %
+\newcommand{\Ex}[0]{\noindent\textbf{Example: }} %
+\newcommand{\Special}[0]{\noindent\textbf{Special case: }} %
+\newcommand{\solution}[2]{\item[]\proof[Solution to #1] #2 \qedhere}
+\newcommand{\legendre}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\dent}[0]{\hspace{0.5in}}
+\fi
+
+\newcommand{\sm}[0]{\setminus}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\nl}[0]{\vspace{12pt}}
+\newcommand{\rng}[2]{#1,\dots,#2}
+\newcommand{\srng}[3]{#1_#2,\dots,#1_#3}
+\newcommand{\st}[0]{\text{ such that }}
+\newcommand{\et}[0]{\text{ and }}
+\newcommand{\then}[0]{\text{ then }}
+\newcommand{\forsome}[0]{\text{ for some }}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+
+% misc
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert} %
+% lcm ???
+\DeclareMathOperator{\lcm}{lcm} 
+% blackboard bold
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\FF}{\mathbb{R}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\CC}{\mathbb{C}}
+% vectors
+\newcommand{\vvec}[1]{\textbf{#1}} %
+\newcommand{\ii}[0]{\vvec{i}} %
+\newcommand{\jj}[0]{\vvec{j}} %
+\newcommand{\kk}[0]{\vvec{k}} %
+\newcommand{\hvec}[1]{\hat{\textbf{#1}}} %
+\newcommand{\cvec}[3]{ %column vector
+	\ensuremath{\left(\begin{array}{c}#1\\#2\\#3\end{array}\right)}}
+\newcommand{\pfrac}[2]{\frac{\partial#1}{\partial#2}} %
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} %
+% dotp roduct
+\makeatletter
+\newcommand*\dotp{\mathpalette\dotp@{.5}}
+\newcommand*\dotp@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+% divrg and curl
+\newcommand{\divrg}[0]{\nabla\dotp} %
+\newcommand{\curl}[0]{\nabla\times} %
+
+\title{Math 437 Notes}
+\author{Henry Xia}
+%\date{15 September 2017}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 09 08
+\section{Divisibility}
+Consider $a,b\in\ZZ, a>0$. There exists uniquely $q,r\in\ZZ$ such that 
+$$ \begin{cases} b = aq+r \\ 0 \le r < a \end{cases} $$
+\The{cor}{
+	$a \mid b \iff r=0$. 
+}
+
+\The{defn} { 
+	Let $a,b\in\ZZ$, not both 0. Then there exists a finite set of common divisors of both $a$ and $b$.
+	Denote greatest common divisor of $a$ and $b$ as $\gcd(a,b) = (a,b)$.
+}
+
+\begin{prop} Let $D = \gcd(a,b)$, then 
+\begin{enumerate}
+	\item if $d \mid a$ and $d \mid b$, then $d \mid D$.
+	\item $D$ is the least positive integer of the form $ax+by$, for some $x,y\in\ZZ$.
+\end{enumerate}
+\end{prop}
+\proof [Proof of $(2) \implies (1)$] $D = ax_0+by_0, d \mid ax_0+by_0 = D$
+\proof [Proof of $(2)$] Let $S = \set{ax + by > 0 : x,y \in \ZZ}$. Clearly $S$ is nonempty. Let $s = \min S$. Since $D \mid ax+by$, so $D\mid s \implies D \le s$. \\
+\textbf{Claim}: $s\mid a$ and $s\mid b$. It suffices to prove $s\mid a$. We divide $a$ by $s$ so that $a = sq+r$ and $0\le r < s$. It suffices to prove that $r=0$. Since $a$ is a linear combination of $a$ and $b$, and $s$ is a combination of $a$ and $b$, then $r = a-sq$ must be a combination of $a$ and $b$. But $r < s$ so $r \notin S$ so $r$ cannot be positive. Therefore $r=0$.
+
+Now since $s\mid a$ and $s\mid b$, then $s \mid D \implies s \le D$. Therefore $s = D$.
+\qedhere
+
+\begin{prop}[i] 
+Let $c\in\NN$, then $\gcd(ac,bc) = c\gcd(a,b)$.
+\end{prop}
+\begin{prop}[ii]
+Let $d\in\ZZ$ s.t. $d\mid a$ and $d\mid b$, then $\gcd\left(\f{a}{d}, \f{b}{d}\right) = \gcd(a,b)/d$.
+\end{prop}
+\proof [Proof of $(1) \implies (2)$] $d\gcd\left(\f{a}{d}, \f{b}{d}\right) = \gcd(a,b)$
+\proof [Proof of $(1)$] $\gcd(ac,bc) = \text{least positive integer of the form } acx + bcy \\ = c(\text{least positive integer of the form } ax+by) = c\gcd(a,b)$.
+\qedhere
+
+\begin{prop} $\gcd(a,b) = \gcd(\pm a, \pm b) = \gcd(a, b+ac)$ for any $c\in\ZZ$. \end{prop}
+\proof Any linear combination of $a$ and $b$ is a linear combination of $a$ and $b+ac$ since $ax+(b+ac)y = a(x+cy)+by$. 
+\proof $\begin{bmatrix} a \\ b+ac \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ c & 1 \end{bmatrix}\begin{bmatrix} a \\ b \end{bmatrix}$ and $\begin{bmatrix} 1&0\\c&1 \end{bmatrix}^{-1} = \begin{bmatrix} 1&0\\-c&1\end{bmatrix}$. This is a reversible transformation. 
+\qedhere
+
+\The{cor}{
+	We can use the Euclidean Algorithm to find $\gcd(a,b)$ and write $\gcd(a,b)$ as a linear combination of $a$ and $b$.
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 09 11
+
+\subsection{Greatest Common Divisor}
+\The{defn}{
+	Let $a_1,\dots,a_n \in \ZZ$, not all $0$. We define $\gcd(a_1,\dots,a_n)$ to be the greatest common divisor of all $a_i$. 
+}
+
+\begin{pty}[i]
+If $d\mid a_i$ for $i=\rng{1}{n}$, then $d\mid \gcd(\srng{a}{1}{n})$. 
+\end{pty}
+\begin{pty}[ii] $\gcd(\srng{a}{1}{n})$ is the least positive integer which can be written as $\sum_{i=1}^{n}{a_ix_i}$ for $x_i\in\ZZ$.
+\end{pty}
+
+\begin{thm}
+If $(a,b)=1$ and $(a,c)=1$, then $(a,bc)=1$.
+\end{thm}
+\proof Since $(a,b)=1, \exists x,y\in\ZZ$ such that $ax+by=1$.
+Also, $\exists z,t\in\ZZ$ \st $az+ct=1$.
+$$(ax+by)(az+ct)=1 \implies a(axz+xct+zby)+bc(yt) = 1 \implies \gcd(a,bc)=1.$$
+\qedhere
+
+\begin{thm}
+If $a\mid bc$ and $(a,b)=1$, then $a\mid c$.
+\end{thm}
+\proof $\exists x,y\in\ZZ$ \st $ax+by=1\mid c \implies acx+bcy=c$. Since $a\mid acx$ and $a\mid bcy$, then $a\mid c$. 
+\qedhere
+
+\subsection{Least Common Multiple}
+\The {defn} {
+	Let $a,b\in\ZZ\sm\set{0}$. We define the $\lcm[a,b]$ be the least positive integer which is a common multiple of $a$ and $b$. Similarly define $\lcm[\srng{a}{1}{n}]$.
+}
+
+\begin{prop} Let $M=\lcm[a,b]$. 
+\begin{enumerate}
+	\item If $m$ is a common multiple of $a$ and $b$, then $M\mid m$.
+	\item If $c\in\NN$, then $\lcm[ac,bc] = c\cdot\lcm[a,b]$.
+	\item $\gcd(a,b)\cdot\lcm[a,b] = \abs{ab}$.
+\end{enumerate}
+\end{prop}
+
+\proof[Proof of 1.] We divide $m$ by $M$ to get $m = Mq + r \st 0 \le r < M$. It suffices to prove that $r=0$. We know $a\mid M \implies Mq$ and $a\mid m$ therefore $a\mid r$. Similarly, $b\mid r$. Therefore $r$ is a common multiple of $a$ and $b$ and we must have $r=0$ because there does not exist a common multiple of $a$ and $b$ between $1$ and $M-1$ inclusive.
+\qedhere
+
+\proof[Proof of 2.] Let $M_1 = \lcm[ac,bc]$. We want $M_1 = c\cdot M$. We have $a\mid M \implies ac\mid c\cdot M$ and similarly $bc\mid c\cdot M$. Therefore $M_1 = \lcm[ac,bc]\mid c\cdot M$. 
+We also have $c\mid ac\mid M_1 \implies M_1 = cx$ for some $x\in\ZZ$. Then $ac\mid M_1 = cx \implies a\mid x$. Similarly $b\mid x$. 
+Then $x$ is a common multiple of $a$ and $b$ so $\lcm[a,b]\mid x \implies c\cdot\lcm[a,b]\mid M_1$. 
+Now we have both $M_1\mid c\cdot M$ and $c\cdot M\mid M_1$, and $c\cdot M = M_1$.
+\qedhere
+
+\proof[Proof of 3.] Let $d = (a,b)$ and $M = [a,b]$. Without loss of generality assume $a,b>0$. 
+\\Look at the $\lcm$. $dM = d\lcm[a,b] = \lcm[da,db]$. Since $d\mid a$ and $d\mid b$, then $db\mid ab$ and $da\mid ab$, so $\lcm[da,db] \mid ab \implies dM\mid ab$. 
+\\Look at the $\gcd$. $dM = \gcd(a,b)M = \gcd(aM,bM)$. Since $ab\mid aM$ and $ab\mid bM$, then $ab\mid \gcd(aM,bM) \implies ab\mid dM$. 
+\\ Now we have both $ab\mid dM$ and $dM\mid ab$ so $dM = ab$.
+\qedhere
+
+\subsection{Primes}
+\The{defn} {
+	An integer $n>1$ is called prime if its only positive divisors are 1 and itself.
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 09 13
+
+\begin{lemma} If $n>1$ is an integer, then there exists a prime $p$ dividing $n$. \end{lemma}
+\proof Proof by induction. 
+\\Case $n=2$: obvious. 
+\\Case $n>2$: We assume that the statement holds for all $k=\rng{2}{N-1}$. Suppose that $N$ is prime, then $N\mid N$ and we are done. Otherwise there exists some integer $d$ such that $1<d<N$ and $d\mid N$. Since there exists a prime $p$ such that $p\mid d$, we must have $p\mid d\mid N$.
+\qedhere
+
+\begin{thm}There exists infinitely many prime numbers\end{thm}
+\proof Suppose that there exists only finitely many prime numbers $\srng{p}{1}{k}$. Consider $N = \prod_{i=1}^{k}p_i + 1.$
+By the lemma, there exists some prime $q$ such that $q\mid N$. Since $q$ is prime, let $q=p_j$. Then $p_j\mid \prod_{i=1}^{k}p_i + 1$ and $p_j\mid \prod_{i=1}^{k}p_i$. It follows that $p_j\mid 1$ and we have a contradiction.
+\qedhere
+
+\begin{prop}[i] If $p$ is prime, $a\in\ZZ$, then $\gcd(a,p)\in\set{1,p} \et \gcd(a,p)=p\iff p\mid a$. \end{prop}
+\begin{prop}[ii] $p$ is prime, $a,b\in\ZZ$. If $p\mid ab$ then $p\mid a$ or $p\mid b$. \end{prop}
+\proof[idea for Proof of (i)] $p$ only has divisors $1$ and $p$. 
+\proof[Proof of (ii)] Assume that $p\nmid a$. Then $\gcd(a,p)=1$, so $p\mid b$, and we are done. \qedhere
+
+\begin{cor} If $p$ is prime and $p\mid \prod_{i=1}^{n} a_i$, then $p\mid a_i$ for some $i=\srng{a}{1}{n}$. \end{cor}
+
+%%%%
+\begin{thm}[\textbf{Fundamental Theorem of Arithmetic}]
+Any integer $n>1$ can be written uniquely as a product of primes if we disregard the order of factors. 
+\end{thm}
+\proof 
+\textbf{Claim 1}: $n>1$ can be written as a product of primes.
+
+\emph{Proof of Claim 1}: Proof by induction. Clearly $n=2$ works. There exists some integer $d$ such that $1<d<N$ and $d\mid N$. Then $N = d\cdot\frac{N}{d}$ and we are done.
+
+\textbf{Claim 2}: If $p_i \et q_j$ are primes and $p_1\cdots p_n = q_1 \cdots q_m$, then $n=m$ and there exists a permutation $\sigma$ of $\set{\rng{1}{n}} \st p_i=q_{\sigma(i)}$. 
+
+\emph{Proof of Claim 2}: Assume that there exists some positive integer $N$ that can be written as a product of primes in two ways. That is $p_1\cdots p_n = q_1\cdots q_m$. Without loss of generality, assume that $n+m$ is minimum among all possible products of primes. 
+It follows that $p_i\neq q_j$ for $1\le i\le n$ and $1\le j\le m$ because otherwise we can divide both sides by the repeated primes. 
+Then it follows that $p_1\mid\prod_{i=1}^{n}p_i$ but $p_1\nmid\prod_{j=1}^{m}q_j$. 
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 09 15
+\section{Congruences}
+\begin{defn} For $m\in\ZZ\sm\set{0} \et a,b\in\ZZ$ we say that $a$ is congruent with $b$ modulo $m$, that is $a\equiv b\pmod{m}$, if $m\mid a-b$. \end{defn}
+
+For $m\in\ZZ\sm\set{0}$ and $a\in\ZZ$, we denote by $\bar{a}$ the residue class of $a$ modulo $m$. 
+
+\begin{pty}[i] $a\equiv a\pmod{m}$. \end{pty}
+\begin{pty}[ii] If $a\equiv b\pmod{m}$, then $b\equiv a\pmod{m}$. \end{pty}
+\begin{pty}[iii] if $a\equiv b\pmod{m} \et b\equiv c\pmod{m}$, then $a\equiv c\pmod{m}$. \end{pty}
+
+\begin{pty} Given $m\in\NN$, for any $a\in\ZZ, \exists k\in\set{0,\rng{1}{m-1}} \st \bar{a}=\bar{k}$. \end{pty}
+\proof By the division algorithm, $\exists q\in\ZZ \et k\in\set{0,\rng{1}{m-1}} \st a=mq+k$. This implies $a\equiv k\pmod{m}$. \qedhere
+
+\begin{pty} If $d\mid m \et a\equiv b\pmod{m}$, then $a\equiv b\pmod{d}$. \end{pty}
+\proof $a\equiv b\pmod{m} \implies m\mid a-b \implies d\mid a-b \implies a\equiv b\pmod{d}$.
+
+\begin{pty} If $a\equiv b\pmod{m} \et c\equiv d\pmod{m} \then a+c\equiv b+d\pmod{m}$. \end{pty}
+\proof $m\mid a-b \et m\mid c-d \implies m\mid (a+c)-(b+d)$. \qedhere
+
+\begin{pty} If $a\equiv b\pmod{m} \et c\equiv d\pmod{m} \then ac\equiv bd\pmod{m}$ \end{pty}
+\proof $a\equiv b\pmod{m} \implies a-b=mx \forsome x\in\ZZ, \et c\equiv d\pmod{m} \implies c-d=my \forsome y\in\ZZ$. Then $ac = (mx+b)(my+d) = m^2xy + m(dx+by) + bd \implies ac\equiv bd\pmod{m}$. 
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 09 18
+\The{defn}{ $\ZZ/m\ZZ = \set{\overline{0}, \overline{1}, ..., \overline{m-1}}$ is a complete set of residues modulo $m$. 
+}
+
+\The{defn}{	We say that $a\in\ZZ$ is invertible modulo $m\in\ZZ\sm\set{0}$ if there exists $b\in\ZZ$ such that $ab \equiv 1 \pmod{m}$.
+}
+
+\The{defn}{ $(\ZZ/m\ZZ)*$ is the set of residues $\overline{i}$ such that $\overline{i}$ is invertible.
+}
+
+\The{prop}{ Let $\srng{m}{1}{r}\in\ZZ\sm\set{0}$, then $x\equiv y \pmod{m_i}$ for $i=\rng{1}{r}$ if and only if $x\equiv y\pmod{\lcm[\srng{m}{1}{r}]}$. 
+}
+
+\The{prop}{ $ax\equiv ay\pmod{m} \iff x\equiv y\pmod{\frac{m}{\gcd(a,m)}}$.
+} \proof Let $d=\gcd(a,m)$. Then $a=da_1 \et m=dm_1$ and $\gcd(a_1,m_1)=1$. It follows that 
+\The{align*}{
+	ax\equiv ay \pmod{m} &\iff m\mid a(x-y) \\
+	&\iff dm_1\mid da_1(x-y) \\
+	&\iff m_1\mid a_1(x-y) \\
+	&\iff m_1\mid x-y \iff x\equiv y\pmod{m_1}.
+}
+
+\The{prop}{ Let $f\in\ZZ[x]$. If $a\equiv b\pmod{m}$, then $f(a)\equiv f(b)\pmod{m}$. 
+} \proof Write $f(x) = \sum_{i=0}^{r} {c_i x^i}$. Then 
+$$ f(a)\equiv f(b) \pmod{m} \iff \sum_{i=0}^{r}c_ia^i \equiv \sum_{i=0}^{r}c_ib^i \pmod{m}. $$
+It suffices to show $a^i \equiv b^i \pmod{m}$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 09 20
+Let $N=\overline{a_na_{n-1}...a_0} = a_n10^n + a_{n-1}10^{n-1} + \cdots + a_0$ where $a_i \in\set{\rng{0}{9}}$. 
+\begin{itemize} 
+	\item $2\mid N \iff 2\mid a_0$. 
+	\item $4\mid N \iff 4\mid 10a_1+a_0 = \overline{a_1a_0}$.
+	\item $5\mid N \iff 5\mid a_0$. 
+	\item $3\mid N \iff 3\mid \sum{a_i}$ because $10\equiv 1\pmod{3} \implies 10^k\equiv 1\pmod{3}$.
+	\item $9\mid N \iff 9\mid \sum{a_i}$ similarly to $3$.
+	\item $11\mid N \iff 11\mid \sum{(-1)^ia_i}$ similarly to $9$.
+\end{itemize}
+
+\subsection{Fermat's Little Theorem, Euler's Theorem, Wilson's Theorem}
+
+\begin{thm}[Fermat's (Little) Theorem]
+Let $p$ be a prime and $a\in\ZZ$ such that $\gcd{a,p}=1$. Then $a$ is invertible modulo $p$ and $a^{p-1}\equiv a\pmod{p}$. 
+\end{thm}
+\proof Let $S = \set{\overline{1}, \overline{2}, ..., \overline{p-1}}$. Let $f_a:S\to S$ such that $f_a(\overline{k}) = \overline{ak}$. This is well defined because $p\nmid a \et p\nmid k$, then $p$ cannot divide $ak$. 
+
+\noindent\textbf{Claim}: $f_a$ is bijective. \\
+It suffices to prove that $f_a$ is injective. This is true because 
+$$\overline{ai} = \overline{aj} \implies p\mid{ai-aj} \implies p\mid{i-j} \implies \overline{i} = \overline{j}. $$ 
+
+Since $p\nmid(p-1)!$, it follows that from the claim that 
+$$\overline{1}\cdot\overline{2}\cdots\overline{p-1} = \overline{a\cdot1}\cdot\overline{a\cdot2}\cdots\overline{a\cdot(p-1)} \implies (p-1)! \equiv (p-1)!\cdot a^{p-1} \pmod{p}.$$
+Then $a^{p-1}\equiv 1\pmod{p}$.
+\qedhere
+
+\The{defn} {
+	Let $m\in\NN$. Then Euler's function $\phi(m)$ is the cardinality of \\$\set{0\le i<m: \gcd(i,m)=1}$.
+}
+
+\begin{itemize}
+	\item $\phi(1) = 1$.
+	\item If $p$ is prime, then $\phi(p)=p-1$.
+	\item If $p$ is prime, then $\phi(p^n) = p^{n} - p^{n-1}$.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 09 22
+\begin{thm}[Euler's Theorem] 
+	Let $m\in\NN \et a\in\ZZ$ such that $\gcd(a,m)=1$. Then $$a^{\phi(m)} \equiv 1 \pmod{m}.$$
+\end{thm}
+\proof Let $S = \set{\overline{i}: 0\le i \le m-1, \gcd(i,m)=1}$. Then $\phi(m)=\#S$. 
+
+Let $f_a:S\to S$ defined by $f_a(\overline{i}) = \overline{a\cdot i}$. 
+This function is well defined because 
+$$ \gcd(i,m)=1 \et \gcd(a,m)=1 \implies \gcd(a\cdot i, m) = 1 . $$
+
+Now we prove that $f_a$ is bijective (it suffices to prove that $f_a$ is injective).
+Observe that 
+$$ f_a(\overline{i}) = f_a(\overline{j}) \implies a\cdot i \equiv a\cdot j \pmod{m} \implies m\mid a(i-j) \implies m\mid (i-j). $$
+It follows that $\overline{i}=\overline{j}$ and $f_a$ must be bijective.
+
+Now let $P = \prod_{k\in S}k$. Observe that $P$ is coprime with $m$ because each $k\in S$ is coprime with $m$. Then 
+$$ P\cdot a^{\phi(m)} \equiv P \pmod{m} \implies a^{\phi(m)} \equiv 1 \pmod{m}. $$
+\qedhere
+
+\begin{thm}[Wilson's Theorem]
+	Let $p$ be a prime. Then 
+	$$ (p-1)! \equiv -1 \pmod{p}. $$
+\end{thm}
+\proof 
+We claim that $\forall i\in\set{\rng{2}{p-2}}, \exists! j\in\set{\rng{2}{p-2}}$ such that $ij\equiv 1\pmod{p}$, and $i\neq j$.
+
+First we check that the inverse of $i$ cannot be $1$ or $-1$. If $j=1$, then $ij\equiv i\pmod{p} \implies i\equiv 1 \pmod{p}$. If $j=-1$, then $ij\equiv -i \implies i\equiv p-1 \pmod{p}$. 
+
+Now $j\neq i$ because if $j=i$, then $i^2\equiv 1 \pmod{p} \implies p\mid (i-1)(i+1)$. Contradiction.
+
+It follows that 
+$$ (p-1)! = (1\cdot(p-1)) \cdot (i_1\cdot j_1) \cdots (i_\frac{p-3}{2}\cdot j_\frac{p-3}{2}) \equiv -1 \pmod{p}. $$
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 09 25
+
+\begin{prop}[i]
+	If $p\equiv 1 \pmod{4}$ is prime, then 
+		$$ \left(\left(\frac{p-1}{2}\right)!\right)^2 \equiv -1 \pmod{p}. $$
+\end{prop}
+\begin{prop}[ii] 
+	If $p\equiv 3 \pmod{4}$ is prime, then 
+		$$ \left(\left(\frac{p-1}{2}\right)!\right)^2 \equiv 1 \pmod{p}. $$
+\end{prop}
+
+\proof Wilson's Theorem gives 
+	\begin{align*}
+		(p-1)! &\equiv -1 \pmod{p} \\
+		1\cdot2\cdots\left(\frac{p-1}{2}\right)\cdot\left(\frac{p+1}{2}\right)\cdots(p-1) &\equiv -1 \pmod{p} \\
+		\left(\frac{p-1}{2}\right) \cdot (-1)^{\frac{p-1}{2}}\left(\frac{p-1}{2}\right) &\equiv -1 \pmod{p}
+	\end{align*}
+	If $p\equiv1\pmod{4}$, then $\frac{p-1}{2}$ and the result follows. If $p\equiv3\pmod{4}$, then $\frac{p-1}{2}$ is odd and the result follows.
+\qedhere
+
+\subsection{Sum of two squares}
+
+\begin{thm}[i]
+	If $p\equiv 1 \pmod{4}$, then there exists 2 distinct residue classes $\overline{x}$ such that $x^2\equiv -1\pmod{p}$. 
+\end{thm}
+\begin{thm}[ii]
+	If $p\equiv 3 \pmod{4}$, then there exists no integer $x$ such that $x^2\equiv -1 \pmod{p}$. 
+\end{thm}
+
+\proof[Proof of (i)] 
+There exists two residue classes $\overline{\pm\left(\frac{p-1}{2}\right)!}^2 \equiv -1 \pmod{p}$. These are the only two residue classes.
+
+If $x^2\equiv y^2 \pmod{p}$, then $(x-y)(x+y) \equiv 0 \pmod{p}$ so $x\equiv y \pmod{p}$ and $x\equiv -y \pmod{p}$. 
+\qedhere
+
+\proof[Proof of (ii)] 
+Assume $\exists x\in\ZZ \st x^2 \equiv -1 \pmod{p}$. This implies $\gcd(x,p)=1$. Therefore $$ -1 \equiv (-1)^\frac{p-1}{2} \equiv (x^2)^\frac{p-1}{2} \equiv x^{p-1} \equiv 1 \pmod{p} $$ 
+because $\frac{p-1}{2}$ is odd.
+\qedhere
+
+\The{cor} {
+	Let $p\equiv 3 \pmod{4}$ be a prime. If $p\mid a^2+b^2$, then $p\mid a \et p\mid b$. 
+} 
+\proof Suppose that $p\mid a^2+b^2 \et p\nmid a$. Then $p\nmid b$. 
+Since $p$ is prime, there exists $c\in\ZZ \st bc\equiv 1\pmod{p}$. Then $a^2+b^2 \equiv 0 \pmod{p} \implies (ac)^2+(bc)^2 \equiv 0 \pmod{p} \implies (ac)^2\equiv -1 \pmod{p}$. 
+\qedhere
+
+\The{defn} {
+	For any prime $p$ and any positive integer $n$, we define $\exp_p(n)$ be the exponent of $p$ in the prime factorization of $n$. 
+}
+\The{prop} {
+	Let $p\equiv 3 \pmod{4}$ be a prime. If $n\in\NN \et a,b\in\ZZ$ such that $n=a^2+b^2$, then $\exp_p(n)$ is even.
+}
+\proof If $p\nmid n$, we are done. So assume $p\mid n$. Then $p\mid a \et p\mid b \implies p^2\mid n$. 
+Then we let $\alpha = \min\set{\exp_p(a), \exp_p(b)}$, without loss of generality let $\exp_p(a) = \alpha$. Then $p^{2\alpha} \mid n \implies n = p^{2\alpha} m$ for some $m\in\NN$. 
+Now let $a=p^\alpha c \et b=p^\alpha d$ for some $c,d\in\NN$. Then $m=c^2+d^2$. Now $p\nmid m$ because $p\nmid c$. Therefore $\exp_p(n) = 2\alpha$. 
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 09 27
+\The{prop} {
+	$ (a^2+b^2)(c^2+d^2) = (ac-bd)^2 + (ad+bc)^2 $. 
+}
+\The{prop} {
+	Let $p\equiv 1 \pmod{4}$ be a prime. There exists $a,b\in\NN \st a^2+b^2 = p$. 
+}
+\proof
+Let $S=\set{c\in\NN : \exists a,b\in\NN, a^2+b^2=c\cdot p}$. Now $S$ is nonempty because $p\in S$ because $p\cdot p = p^2 + 0^2$. 
+
+Consider $c_0 = \min S$. It suffices to show that $c_0 = 1$. 
+
+\nl
+\Lemma{1} $c_0 < p$. 
+\\\indent\emph{proof}. There exists $x\in\ZZ \st x^2 \equiv -1 \pmod{p}$. Let $x\in\set{0,\rng{1}{p-1}}$. Now $x^2 + 1 \le (p-1)^2 + 1 < p^2$. Then $x^2+1 = kp$ and $k<p$ so $k\in S$. 
+\\--- END LEMMA ---\nl
+
+Let $a_0,b_0\in\NN\cup\set{0} \st a_0^2 + b_0^2 = c_0 \cdot p$. 
+
+\nl
+\Lemma{2} $\gcd(a_0,c_0) = \gcd(b_0,c_0) = 1$. 
+\\\indent\emph{proof}. It suffices to prove that $\gcd(a_0,c_0) = 1$ by symmetry. 
+Suppose that there exists a prime $q \st q\mid a_0 \et q\mid c_0$. Then $q\mid c_0\cdot p = a_0^2 + b_0^2 \implies q\mid b_0$. Now since $q \le c_0 < p$ (Lemma 1), we must have $q\nmid p$. Then
+$$ a_0^2 + b_0^2 = c_0\cdot p \implies \left(\frac{a_0}{q}\right)^2 + \left(\frac{b_0}{q}\right)^2 = \frac{c_0}{q^2}\cdot p $$
+and we get a contradiction.
+\\--- END LEMMA ---\nl
+
+Now we proceed by contradiction. Assume that $c_0 > 1$. 
+
+There exists 
+$$ a_1,b_1\in\ZZ \st \begin{cases}
+	a_0 \equiv a_1 \pmod{c_0} \et b_0 \equiv b_1 \pmod{c_0} \\
+	\abs{a_1} \le \frac{c_0}{2} \et \abs{b_1}\le\frac{c_0}{2} \\
+	\abs{a_1}\neq 0 \et \abs{b_1}\neq 0
+	\end{cases}
+$$
+Part 2 can be shown by listing the residue classes. Part 3 can be shown by considering Lemma 2 and the assumption $c_0 > 1$.
+Now 
+$$ c_0 \mid a_0^2 + b_0^2 \et a_1^2 + b_1^2 \equiv a_0^2 + b_0^2 \pmod{c_0} \implies a_1^2 + b_1^2 = c_0 \cdot c_1. $$
+It follows that $c_1 < c_0$ because 
+$$ a_1^2+b_1^2 \le \left(\frac{c_0}{2}\right)^2 + \left(\frac{c_0}{2}\right)^2 < c_0^2. $$ 
+
+Now we get 
+\begin{align*} 
+	(a_0^2 + b_0^2)(a_1^2 + b_1^2) &= p\cdot c_0^2 \cdot c_1 \\
+	(a_0a_1 + b_0b_1)^2 + (a_0b_1 - a_1b_0)^2 &= p\cdot c_0^2 \cdot c_1 \\
+	\left(\frac{a_0a_1 + b_0b_1}{c_0}\right)^2 + \left(\frac{a_0b_1 - a_1b_0}{c_0}\right)^2 &= p\cdot c_1
+\end{align*}
+It follows that $c_1\in S$ and $c_1 < c_0$, contradicting the minimality of $c_0$. 
+
+Therefore $c_0$ must be 1.
+\qedhere\nl
+
+\noindent\textbf{Question}: What positive integers can be written as a sum of 2 squares?
+$$ n = 2^\alpha \cdot \prod_{i=1}^{r} p_i^{\beta_i} \cdot \prod_{j=1}^{s} q_j^{\gamma_j} $$
+where $p_i \equiv 1 \pmod{4} \et q_j \equiv 3 \pmod{4}$. 
+Now since $2$ and each $p_i$ can be written as a sum of two squares. It suffices that $\prod_{j=1}^{s} q_j^{\gamma_j}$ is a square, that is $\gamma_j$ is even for all $j$. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 09 29
+% MIDTERM 1
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 10 02
+\subsection{Chinese Remainder Theorem}
+\begin{thm}[\textbf{Chinese Remainder Theorem}]
+Let $\srng{m}{1}{r}\in\ZZ\sm\set{0}$ be pairwise coprime integers. Let $\srng{a}{1}{r}\in\ZZ$ be arbitrary. Then the system of congruences
+\begin{align*}
+	x \equiv a_1 \pmod{m_1} \\
+	\vdots
+	x \equiv a_r \pmod{m_r} \\
+\end{align*}
+has a unique solution modulo $\prod_{i=1}^{r}m_i$. 
+\end{thm}
+
+\proof 
+Let $M_i = \prod_{j\neq i} m_j$ for each $i=\rng{1}{r}$. Then since $\gcd(m_i,M_i)=1$, there exists 
+$$ y_i\in\ZZ \st y_iM_i\equiv 1 \pmod{m_i} . $$
+Then $x = \sum_{i=1}^{r} a_i y_i M_i$ is a solution to the system. Consider $x$ modulo $m_j$. 
+\begin{align*}
+	\sum_{i=1}^{r} a_i y_i M_i &\equiv a_j y_j M_j + \sum{i\neq j} a_i y_i M_i \pmod{m_j} \\
+	&\equiv a_j y_j M_j \mod{m_j} \\
+	&\equiv a_j \pmod{m_j}
+\end{align*}
+If $x'\in\ZZ$ is another solution to the system of congruences, then $x-x' \equiv 0 \pmod{m_i}$ for all $i = \rng{1}{r}$. This is equivalent to $\lcm[\srng{m}{1}{r}] = \prod_{i=1}^{r} m_i \mid x-x'$. However our mod is $\prod_{i=1}^{r}m_i$ so the solution $x$ must be unique. 
+\qedhere
+
+%%% %
+\subsection{Euler's Totient Function $\phi$}
+The function $\phi:\NN\to\NN$ is defined as follows $\phi(n) = \#\set{0 \le i \le n-1 : \gcd(i,n)=1} = \#(\ZZ/n\ZZ)^*$.
+
+\The{prop} {
+	If $\gcd(m,n)=1$, then $\phi(mn) = \phi(m)\phi(n)$. 
+}
+\proof Observation: $\gcd(i,mn)=1 \iff \gcd(i,m)=1 \et \gcd(i,n)=1$. 
+
+Let $f:(\ZZ/mn\ZZ)^* \to (\ZZ/m\ZZ)^* \times (\ZZ/n\ZZ)^*$ defined as $f(\overline{i}) = (i\mod{m}, i\mod{n})$. This function is well defined (if direction of the observation). 
+
+For any $i,j$ such that 
+$$ \begin{cases}
+	0 \le i \le m-1 \et \gcd(i,m)=1 \\
+	0 \le j \le n-1 \et \gcd(j,n)=1
+\end{cases} $$
+then CRT yeilds the existence of a unique $x$ modulo $mn$ such that 
+$$ \begin{cases}
+	x \equiv i \pmod{m} \\
+	x \equiv j \pmod{m}
+\end{cases} $$
+Then $f(\overline{x}) = (i\mod{m}, j\mod{n})$. 
+Now $f$ is both surjective and injective. 
+Therefore $f$ is bijective so $\phi(mn) = \phi(m)\phi(n)$. 
+\qedhere
+
+Since Euler's function is multiplicative, then 
+\begin{align*}
+	\phi\left(n=\prod_{i=1}^{r}p_i^{\alpha_i}\right) &= \prod_{i=1}^{r}(p_i^{\alpha_i} - p_i^{\alpha_i-1}) \\
+	&= n\left(1-\frac{1}{p_i}\right)
+\end{align*}
+
+
+\The{defn} {
+	For the function $f:\NN\to\CC$, we say that $f$ is {multiplicative} if $f(mn) = f(m)f(n)$ whenever $\gcd(m,n)=1$. 
+	If we do not need the condition $\gcd(m,n)=1$, we call $f$ {completely multiplicative}. 
+}
+
+\The{prop} {
+	The function $d(n) = \#\set{\text{positive divisors of } n}$ is multiplicative. 
+}
+\proof
+	If $\gcd(m,n)=1$ and $d\mid mn$, then $d = \gcd(d,m) \gcd(d,n)$. 
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 10 04
+
+\section{The congruence $f(x) \equiv 0 \pmod{p^\alpha}$}
+
+In this section $p$ will always be prime.
+
+\The{prop} { 
+	Let $f\in\ZZ[x]$ and for each nonzero $m\in\ZZ$, we let $N_f(m)$ be the number of solutions to the congruence $f(x)\equiv 0\pmod{m}$. Then $N_f:\NN \to \NN\cup\set{0}$ is multiplicative. 
+}
+\proof Suppose $\gcd(m,n)=1$, then $f(x)\equiv 0 \pmod{mn} \iff f(x)\equiv0 \pmod{m} \et f(x)\equiv0 \pmod{n}$. 
+Now if $x_1$ is a solution to $f(x)\equiv0 \pmod{m}$ and $x_2$ is a solution to $f(x)\equiv0 \pmod{n}$, then there exists a unique $x \mod mn$ such that $x\equiv x_1 \pmod{m}$ and $x\equiv x_2 \pmod{n}$ (by CRT). 
+Then $f(x) \equiv 0 \pmod{mn}$. It suffices to count the solutions.
+\qedhere
+
+\nl
+Now suppose we want to solve the congruence $f(x)\equiv 0 \pmod{n}$. We should write $n=\prod_{i=1}^{r}p_i^{\alpha_i}$. Then it suffices to solve 
+$$ \begin{cases}f(x)\equiv0 \pmod{p_i^{\alpha_i}} \\ \vdots \\ f(x)\equiv0 \pmod{p_r^{\alpha_r}} \end{cases} $$
+By CRT, we can solve these congruences independently. 
+
+\The{defn} {
+	A degree $n$ polynomial $f$ is monic if $f(x) = \sum_{i=0}^{n} a_nx^n$ and $a_n=1$. 
+}
+\The{prop} {
+	Let $f\in\ZZ[x]\sm\set{0}$ of degree $n\ge0$. Without loss of generality, let $f$ be monic. Then for any prime $p$, there exists at most $n$ solutions to $f(x)\equiv 0 \pmod{p}$. 
+}
+\proof
+We prove this by induction on $n$.
+
+Case $n=0$: We want to solve $f(x)=1\equiv0 \pmod{p}$. There are 0 solutions and $0\le 0$, so we are done.
+
+Now assume that the proposition is true for all monic polynomials of degree less than $n$. Suppose there exists some $x_1$ such that $f(x_1) \equiv 0 \pmod{p}$. 
+We can write $f(x) = (x-x_1)g(x) + R(x)$ where $R(x)$ has degree less than $1$. It follows that $r = f(x_1) \equiv 0 \pmod{p}$. 
+
+Now solving $f(x)\equiv 0 \pmod{p}$ is equivalent to solving $(x-x_1)g(x) \equiv 0 \pmod{p}$. Suppose $x_2\not\equiv x_1 \pmod{p}$ is another solution to $f(x)\equiv 0 \pmod{p}$. Then $(x_2-x_1)g(x) \equiv 0 \pmod{p}$. Since $p \nmid x_2-x_1$, then we must have $p \mid g(x) \implies g(x) \equiv 0 \pmod{p}$. 
+
+Observe that $g$ is monic and $\deg(g)=n-1 < n$. Then by induction, there are at most $n-1$ solutions to the congruence $g(x)\equiv0 \pmod{p}$. It follows that $f(x)\equiv 0 \pmod{p}$ has at most $n$ solutions. 
+\qedhere
+
+\The{prop} {
+	Given any $f\in\ZZ[x]$ of degree $n\ge0$, we can find a $g\in\ZZ[x]$ with less that $p$ such that $f(x) \equiv g(x) \pmod{p}$. 
+}
+\proof 
+For any $x\in\ZZ$, we have $x^p \equiv x \pmod{p}$. Then $f(x) = (x^p-x)Q(x) + R(x)$ where $\deg(R) < p$. 
+Then $f(x) \equiv 0 \pmod{p} \iff R(x) \equiv 0 \pmod{p}$. 
+
+Observe that $f$ has $p$ solutions if and only if $R(x) \equiv 0 \pmod{p}$ for all $x\in\ZZ$.
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 10 06
+
+\subsection{Hensel's Lemma}
+\begin{thm}[\textbf{Hensel's Lifting Lemma}]
+Let $f\in\ZZ[x]$, let $p$ be a prime and let 
+$$x_1\in\ZZ \st f(x_1)\equiv0\pmod{p} \et f'(x_1)\not\equiv0\pmod{p}.$$
+Then for any $n\in\NN$, there exists a unique solution $x_n$ to the congruence 
+$$f(x)\equiv0\pmod{p^n} \et x_n\equiv x_1\pmod{p}.$$
+\end{thm}
+\proof 
+It suffices to show that if $f(x_n)\equiv 0 \pmod{p^n} \et x_n\equiv x_1\pmod{p}$, then there exists a unique solution $x_{n+1}$ to $f(x)\equiv 0\pmod{p^{n+1}} \et x_{n+1} \equiv x_n \pmod{p^n}$. 
+
+We write 
+\begin{align*}
+	f(x) &= \sum_{i=0}^{d} c_i x^i \\
+	x_{n+1} &= x_n + p^n k \\
+	f(x_{n+1}) &= f(x_n + p^n k) = \sum_{i=0}^{d} c_i(x_n + p^n k) \\
+		&= \sum_{i=0}^{d} c_i \sum_{j=0}^{i} \binom{i}{j} x_n^j (p^nk)^{i-j} \\
+		&= \left(\sum_{i=0}^{d} c_i x_n^i\right) + \left(p^nk \sum_{i=1}^{d} ic_i x_n^{i-1} \right) + p^{2n} A \\
+		&= f(x_n) + p^n k f'(x_n) \equiv 0 \pmod{p^{n+1}}
+\end{align*}
+Now since $f(x_n)\equiv 0 \pmod{p^n} \iff f(x_n) = p^n b$, it 
+$$ p^n b + p^n k f'(x_n) \equiv 0 \pmod{p^{n+1}} \iff b+kf'(x_n) \equiv 0 \pmod{p}. $$ 
+
+Then by the assumption that $x_n \equiv x_1 \pmod{p}$, we get $f'(x_n) \equiv f'(x_1) \not\equiv 0 \pmod{p}$, so $f'(x_n)$ is invertible modulo $p$. Then we can uniquely solve for $k$ modulo $p$. 
+
+Therefore we get a unique solution $x_{n+1} = x_n + p^n k$ modulo $p^{n+1}$.
+\qedhere
+
+\begin{thm}[Refined Hensel's Lemma]
+	If $x_0$ is a solution to $f(x_0) \equiv 0 \pmod{p}$ and 
+	$$\exp_p(f(x_0)) > 2\exp_p(f'(x_0)),$$
+	then it always lifts.
+\end{thm}
+
+Example: $x^2 + x + 37 \equiv 0 \pmod{7}$. 
+Everything lifts to level 2, only some lift to level 3.
+
+Example: $x^2 + 2x + 50 \equiv 0 \pmod{7}$. 
+Everything lifts to level 2, nothing lift to level 3. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 10 11
+
+\subsection{The Congruence $a^n \equiv 1 \pmod{m}$} 
+\The{defn} {
+	Let $m\in\ZZ\sm\set{0}$ and let $a\in\ZZ \st \gcd(a,m)=1$. We define the order of $a$ modulo $m$, denoted $\ord_m(a)$ be the least positive integer $d$ such that $a^d \equiv 1 \pmod{m}$. 
+}
+Since $a^{\phi(m)} \equiv 1 \pmod{m}$, we have $\ord_m(a) \le \phi(m)$. 
+
+\begin{lemma}
+	If $p$ is a prime and $d\in\NN$ divides $p-1$, then there are exactly $d$ solutions to 
+	$$ x^d - 1 \equiv 0 \pmod{p}. $$
+\end{lemma}
+\proof
+Let $k = \frac{p-1}{d} \in\NN$. Now 
+$$\underbrace{x^{p-1}-1}_{\text{exactly } p-1 \text{ solutions}} 
+	= (x^d-1)\underbrace{(x^{d(k-1)} + x^{d(k-2)} + \cdots + 1)}_{\text{at most } d(k-1)=p-d \text{ solutions}}. $$
+It follows that $x^d-1\equiv0\pmod{p}$ has at least $d$ solutions because modulo prime. 
+
+However, since $\deg(x^d-1) = d$, it cannot have more than $d$ solutions. 
+Therefore, $x^d-1\equiv0\pmod{p}$ has exactly $d$ solutions.
+\qedhere
+
+\begin{lemma}
+	For any $n\in\NN \st a^n\equiv1\pmod{m}$, we have $\ord_m(a)\mid n$. 
+\end{lemma}
+\proof
+Let $d = \ord_m(a)$.
+Let $q\et r$ be the quotient and remainder respectively when we divide $n$ by $d$. 
+That is $n = dq+r$ with $0\le r < d$. It suffices to show $r=0$. 
+
+$$ 1 \equiv a^n \equiv a^{dq+r} \equiv (a^d)^q a^r \equiv a^r \pmod{m}. $$
+It follows that $r = 0$, implying that $d\mid n$.
+\qedhere
+
+\begin{lemma}
+	Let $d = \ord_m(a)$.
+	If $k\in\ZZ$, then $\ord_m(a^k) = \frac{d}{\gcd(k,d)}$
+\end{lemma}
+\proof
+Let $D = \gcd(d,k)$ and let $d = l\gcd(d,k) = D l$. 
+Now we need to show that $\ord_m(a^k) = l$. 
+
+$$ (a^k)^l \equiv a^{\frac{k}{D} D l} \equiv (a^{d})^{\frac{k}{D}} \equiv 1 \pmod{m} .$$
+So, $\ord_m(a^k) \mid l$.
+Furthermore, 
+$$ a^{k\ord_m(a^k)} \equiv (a^k)^{\ord_m(a^k)} \equiv 1 \pmod{m} $$ 
+so $\ord_m(a) = d \mid kd_1 \implies \frac{d}{D} \mid \frac{k}{D} d_1 \implies l \mid d_1$. 
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 10 13
+
+\begin{lemma}
+	If $d_1 = \ord_m(a_1) \et d_2 = \ord_m(a_2) \et \gcd(d_1,d_2)=1$, then $\ord_m(a_1a_2) = d_1d_2$. 
+\end{lemma}
+\proof
+	Let $d = \ord_m(a_1a_2)$. 
+	$$ (a_1a_2)^{d_1d_2} \equiv (a_1^{d_1})^{d_2} (a_2^{d_2})^{d_1} \equiv 1 \pmod{m} $$
+	so $d \mid d_1d_2$. 
+	$$ 1 \equiv ((a_1a_2)^d)^{d_1} \equiv (a_1a_2)^{dd_1} \equiv (a_1^{d_1})^d a_2^{dd_1} \equiv a_2^{dd_1} \pmod{m} $$
+	so $d_2 \mid dd_1 \implies d_2 \mid d$. 
+	Similarly, we must have $d_2 \mid d$. 
+	Therefore $d_1d_2 \mid d$ so we must have $d = d_1d_2$.
+\qedhere
+
+\begin{lemma}
+	Let $p,q$ be primes and $\alpha\in\NN \st q^\alpha \mid p-1$. Then there exist exactly $q^\alpha - q^{\alpha-1}$ residue classes of integers $a \st \ord_p(a) = q^\alpha$. 
+\end{lemma}
+\proof
+	Since $q^\alpha \mid p-1$, there exist exactly $q^\alpha$ solutions to the congruence 
+	$$ x^{q^\alpha} \equiv 1 \pmod{p} . $$
+	For each solution $a$ of this congruence, we must have $\ord_p(a) \mid q^\alpha$, that is $\ord_p(a) = q^\beta$ where $0\le\beta\le\alpha$.
+	
+	\textbf{Consider} the case where $\beta<\alpha$. This implies 
+	$$ a^{q^{\alpha-1}} \equiv 1 \pmod{p} . $$ 
+	Now since $q^{\alpha-1} \mid p-1$, there are exactly $q^{\alpha-1}$ solutions to this congruence.
+
+	The lemma follows.
+\qedhere
+
+\begin{thm}
+	Let $p$ be a prime, then there exists $a\in\ZZ \st \ord_p(a) = p-1$. 
+\end{thm}
+\proof
+	For $p=2$, we can choose $a=1$. 
+
+	For $p>2$, let $p-1 = \prod_{i=1}^{l} q_i^{\alpha_i}$. 
+	By the previous lemma, for each $i=\rng{i}{l}$, let $a_i\in\ZZ$ such that $\ord_p(a_i) = q_i^{\alpha_i}$. 
+	Now let $a = \prod_{i=1}^{l} a_i$, $\ord_p(a) = p-1$. 
+\qedhere
+\begin{defn}
+	If $\ord_p(a) = p-1$, then $a$ is a primitive root modulo $p$. 
+\end{defn}
+
+\begin{cor}
+	There exist exactly $\phi(p-1)$ primitive roots modulo $p$. 
+\end{cor}
+\proof
+	We know there exists one primitive root $g$ modulo $p$. 
+	Now we can write all nonzero residue classes of $p$ as $g^{\alpha}$. 
+
+	\Claim $\set{g^\alpha: 0\le\alpha\le p-2} = \set{\overline{1}, \overline{2}, ..., \overline{p-1}}$ \\
+	It suffices to prove that $g^\alpha\not \equiv g^\beta \pmod{p}$ if $0\le\alpha<\beta\le p-2$. 
+	If $g^\alpha \equiv g^\beta \pmod{p}$, then $g^{\beta-\alpha} \equiv 1 \pmod{p}$. 
+	Now this is a contradiction because $\beta-\alpha < p-1 = \ord_p(g)$. 
+	
+	Observe that we want $\gcd(\alpha, \ord_p(g)) = 1$ in order for $g^\alpha$ to be a primitive root.
+	$$ \ord_p(g^\alpha) = \frac{\ord_p(g)}{\gcd(\alpha, \ord_p(g))} = p-1 \iff \gcd(\alpha, p-1) = 1. $$
+	It follows that there are exactly $\phi(p-1)$ primitive roots.
+\qedhere
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 10 16
+
+\begin{lemma}
+	Let $a,b\in\ZZ, m\in\ZZ\sm\set{0}$ and let $d = \gcd(a,m)$. Consider the congruence 
+	$$ ax \equiv b \pmod{m}. $$
+	\begin{enumerate}
+		\item[(a)] If $d\mid b$, then there exists exactly $d$ solutions.
+		\item[(b)] If $d\nmid b$, then there exists no solution.
+	\end{enumerate}
+\end{lemma}
+\proof
+	To see that $d$ must divide $b$ in order for there to be solutions, observe that 
+	$$ m\mid ax-b \implies d\mid ax-b \implies d\mid b. $$
+	Now let $a = da_1, b = db_1, m = dm_1$. Now $ax \equiv b \pmod{m} \iff a_1 x \equiv b_1 \pmod{m_1}$. 
+	There exists a unique $x_0$ modulo $m_1$ that is the solution to $a_1 x \equiv b_1 \pmod{m_1}$. 
+	Then the solutions to $ax\equiv b \pmod{m}$ are 
+	$$ x_0,\ x_0+m_1,\ ...,\ x_0 + (d-1)m_1 , $$
+	a total of $d$ solutions. 
+\qedhere
+
+\begin{thm}
+	Let $p$ be a prime and $a\in\ZZ$ not divisible by $p$ and $n\in\NN$. Let $d = \gcd(n,p-1)$. 
+	\begin{enumerate}
+		\item[(a)] If $a^{\frac{p-1}{d}} \not\equiv 1 \pmod{p}$, then there is no solution to $x^n \equiv a \pmod{p}$. 
+		\item[(b)] If $a^{\frac{p-1}{d}} \equiv 1 \pmod{p}$, then there exist $d$ solutions to $x^n \equiv a \pmod{p}$. 
+	\end{enumerate}
+\end{thm}
+\proof
+	Let $g$ be some primitive root modulo $p$.
+	Then there exists some $\alpha\in\set{\rng{1}{p-2}}$ such that $a \equiv g^\alpha \pmod{p}$. 
+	Now any solution $x$ to $x^n\equiv a \pmod{p}$ can be written as $g^\beta$ where $\beta\in\set{\rng{1}{p-2}}$. 
+	Then the congruence becomes
+	\begin{align*}
+		(g^\beta)^n \equiv g^\alpha \pmod{p} &\iff g^{n\beta} \equiv g^\alpha \pmod{p} \\
+		&\iff g^{\abs{n\beta-\alpha}} \equiv 1 \pmod{p} \\
+		&\iff p-1 = \ord_p(g) \mid n\beta - \alpha.
+	\end{align*}
+	Now this last divisibility is equivalent to the congruence
+	$$ n\beta \equiv \alpha \pmod{p} . $$
+	By the previous lemma, we are done.
+\qedhere
+
+\begin{cor} 
+	If $p$ is an odd prime and $a\in\ZZ$ not divisible by $p$, then 
+	\begin{enumerate} 
+		\item[(a)] If $a^{\frac{p-1}{2}} \not\equiv 1 \pmod{p}$, then there is no solution to $x^2 \equiv a \pmod{p}$. 
+		\item[(b)] If $a^{\frac{p-1}{2}} \equiv 1 \pmod{p}$, then there are $2$ solutions to $x^2 \equiv a \pmod{p}$. 
+	\end{enumerate}
+\end{cor}
+
+%%%
+\subsection{Primitive Roots}
+\begin{thm}
+	Let $p$ be an odd prime and $\alpha\in\NN$. Then there is a primitive root $g$ modulo $p^{\alpha}$, that is 
+	$$ \ord_{p^\alpha}(g) = \phi(p^{\alpha}) = p^{\alpha-1}(p-1). $$
+\end{thm}
+\proof 
+	We know there exists $g_1\in\ZZ$ such that $ord_p(g_1) = p-1$. 
+	We construct $g_2\in\ZZ$ such that $\ord_{p^2}(g_2) = p(p-1)$. 
+	Now if $g_2 \equiv g_1 \pmod{p}$, then $\ord_p(g_2) = \ord_p(g_1) = p-1$. 
+	Now we must have $p-1 \mid \ord_{p^2}(g_2)$ because we need $g_2^n \equiv 1 \pmod{p}$ if we want $g_2^n \equiv 1 \pmod{p^2}$. 
+	
+	By Euler's Theorem, we get $\ord_{p^2}(g_2) \mid \phi(p^2) = p(p-1)$, hence it suffices to show that there exists some $g_2$ such that 
+	$$ \ord_{p^2}(g_2) \neq p-1 .$$
+
+	Now if $\ord_{p^2}(g_2) = p-1$, this means $g^{p-1} \equiv 1 \pmod{p^2}$. Hence $g_2^p \equiv g_2 \pmod{p^2}$. 
+	We can write $g_2 = g_1 + pk$ and get
+	\begin{align*}
+		g_2^p &= (g_1+pk)^p \\
+		&= g_1^p + \sum_{i=1}^{p} {g_1^{p-i} (pk)^i} \\
+		&\equiv g_1^p \pmod{p^2}
+	\end{align*}
+	Now this is equivalent to
+	$$ g_2 \equiv g_2^p \equiv g_1^p \equiv g_1 + pk \pmod{p^2}. $$
+	This means 
+	$$ (g_1^p - g_1) - pk \equiv 0 \pmod{p^2} $$
+	which is true for at most one residue class $k$. 
+	Therefore there exist $p-1$ residue classes modulo $p^2$ such that $\ord_{p^2}(g_2) \neq p-1$. 
+	Hence we must have $\ord_{p^2}(g_2) = p(p-1)$.
+
+	This proves that there is a primitive root modulo $p^2$. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 10 18
+
+	\nl
+	\Claim $g_2$ is a primitive root modulo $p^\alpha$ for any $\alpha \ge 1$.
+	We already know that the claim is valid for $\alpha \le 2$. 
+
+	We prove this claim by induction on $\alpha$. 
+	Suppose that $g_2$ is a primitive root for all $\beta \le \alpha$ for some $\alpha \ge 2$. 
+
+	We want to show $\ord{p^{\alpha+1}}(g_2) = p^{\alpha}(p-1) = \phi(p^{\alpha+1})$. 
+	Observe that 
+	$$ g_2^{\ord_{p^{\alpha+1}}(g_2)} \equiv 1 \pmod{p^\alpha} \implies \ord_{p^\alpha}(g_2) \mid \ord_{p^{\alpha+1}}(g_2). $$
+	This means $p^{\alpha-1}(p-1) \mid \ord_{p^{\alpha+1}}(g_2)$. 
+	Hence suffices to prove that $\ord_{p^{\alpha+1}}(g_2) \neq p^{\alpha-1}(p-1)$, that is 
+	$$ g_2^{p^{\alpha-1}(p-1)} \not\equiv 1 \pmod{p^{\alpha+1}}. $$
+
+	Now since we are dealing with orders, we get 
+	$$ g_2^{p^{\alpha-2}(p-1)} \not\equiv 1 \pmod{p^\alpha} $$
+	$$ g_2^{p^{\alpha-2}(p-1)} \equiv 1 \pmod{p^{\alpha-1}} $$
+	Hence we write
+	$$ g_2^{p^{\alpha-2}(p-1)} = 1 + p^{\alpha-1}k $$
+	where $p\nmid k$. 
+
+	Therefore we can compute 
+	\begin{align*}
+		\text{Let } q &= g_2{p^{\alpha-2}} \\
+		\text{Let } h &= g^{\alpha-1} \\
+		q^p &= (1 + hk)^p \\
+		&= 1 + \binom{p}{1} hk + \binom{p}{2} (hk)^2 + \cdots + (hk)^p \\
+		&= 1 + p^\alpha k + \sum_{i=2}^{p} \binom{p}{i} (hk)^i
+	\end{align*}
+
+	Now for $i = \rng{2}{p-1}$, we have 
+	$$ \exp_p\left(\binom{p}{i}(p^{\alpha-1}k)^i\right) = 1 + i(\alpha-1) \ge 1 + 2(\alpha-1) \ge \alpha+1 $$
+	and for $i=p$, we have
+	$$ \exp_p((p^{\alpha-1}k)^p) = p(\alpha-1) \ge 3(\alpha-1) \ge \alpha+1. $$
+
+	Now we are done.
+	\qedhere
+
+	\begin{lemma}
+		If $\alpha \ge 3$, there is no primitive root modulo $2^\alpha$. 
+	\end{lemma}
+	\proof
+		We prove that if $x$ is odd, then 
+		$$ x^{2^{\alpha-2}} \equiv 1 \pmod{2^\alpha}. $$
+		We already know this is true for $\alpha=3$. 
+		We use induction on $\alpha$. 
+
+		Assume that this is true for $\alpha$ and prove the result for $\alpha+1$. 
+		We can compute 
+		$$ x^{2^{\alpha-1}} = (x^{2^{\alpha-2}})^2 = (1+2^\alpha k)^2 = 1 + 2^{\alpha+1}k + 2^{2\alpha}k^2 \equiv 1 \pmod{2^{\alpha+1}}. $$
+
+		(The reason is the exponent is not large enough)
+	\qedhere
+
+	\begin{lemma}
+		Let $m,n\in\NN \st \gcd(m,n)=1$. If $a$ is a primitive root modulo $mn$, then
+		\begin{enumerate}
+			\item[(a)] $a$ is a primitive root modulo $m$ and modulo $n$.
+			\item[(b)] $\gcd(\phi(m), \phi(n)) = 1$. 
+		\end{enumerate}
+	\end{lemma}
+	\proof
+		Let $d_1 = \ord_m(a) \et d_2 = \ord_n(a)$. 
+		$$ a^{d_1d_2} \equiv (a^{d_1})^{d_2} \equiv 1 \pmod{m} $$
+		$$ a^{d_1d_2} \equiv (a^{d_2})^{d_1} \equiv 1 \pmod{n} $$
+		Since $\gcd(m,n)=1$, we have $a^{d_1d_2} \equiv 1 \pmod{nm}$. Hence 
+		$$ \phi(mn) = \ord_{mn}(a) \mid d_1d_2 \mid \phi(m)\phi(n) = \phi(mn). $$
+		Now this means $d_1 = \phi(m) \et d_2 = \phi(n)$, and part (a) follows.  
+
+		Replacing $d_1d_2$ with $\lcm[d_1,d_2]$ gives part (b) because we get 
+		$$ \phi(mn) = \ord_{mn}(a) \mid \lcm[d_1,d_2] \mid d_1d_2 \mid \phi(m)\phi(n) = \phi(mn). $$
+		Then $\lcm[d_1,d_2] = d_1d_2$ so $\gcd(\phi(m), \phi(n)) = 1$. 
+	\qedhere
+
+	\nl
+	\noindent\textbf{CONCLUSION}: $n$ admits a primitive root if 
+	\begin{itemize}
+		\item $n = 2^\alpha$, where $\alpha \le 2$.
+		\item $n = p^\alpha$, where $p$ is an odd prime.
+		\item $n = 2 \cdot p^\alpha$, where $p$ is an odd prime. 
+	\end{itemize}
+
+	\Claim If $a$ is some primitive root $p^\alpha$, then either $a$ or $a+p^\alpha$ is a primitive root modulo $2\cdot p^\alpha$. 
+	\proof
+		Without loss of generality, $a$ is odd. Then $\ord_{2\cdot p^\alpha}(a) = \phi(p^\alpha)$ is divisible by $\ord_{p^\alpha}(a) = \phi(p^\alpha)$. 
+	\qedhere
+	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 10 20
+% MIDTERM 2
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 10 23
+
+\section{Quadratic Reciprocity}
+
+\subsection{Quadratic Residues and the Legendre Symbol}
+
+Recall the congruence 
+$$ (a^{\frac{p-1}{2}})^2 \equiv 1 \pmod{p} . $$
+Then there are two possibilities:
+$$ a^{\frac{p-1}{2}} \equiv 1 \pmod{p} \implies x^2 \equiv a \pmod{p} \text{ has 2 solutions} , $$
+$$ a^{\frac{p-1}{2}} \equiv -1 \pmod{p} \implies x^2 \equiv a \pmod{p} \text{ has 0 solutions} . $$
+
+Recall that the congruence
+$$ x^2 \equiv -1 \pmod{p} $$ 
+is solvable if $p \equiv 1 \pmod{4}$ and not solvable if $p \equiv 3 \pmod{4}$. 
+
+\begin{defn}
+	Let $p$ be an odd prime and $a\in\ZZ$. The Legendre symbol is 
+	$$ \left(\frac{a}{p}\right) \text{ is } 
+	\begin{cases}
+		0, \text{ if } p\mid a \\
+		1, \text{ if } p\nmid a \et a^\frac{p-1}{2} \equiv 1 \pmod{p} \\
+		-1, \text{ if } p\nmid a \et a^\frac{p-1}{2} \equiv -1 \pmod{p} \\
+	\end{cases} $$
+\end{defn}
+
+\begin{remark}
+	Observations for odd primes $p$.
+	\begin{enumerate}
+		\item If $\legendre{a}{p} \in \set{0,1}$, then $a$ is called a quadratic residue modulo $p$ (square mod $p$). 
+		\item There are $\frac{p-1}{2}$ nonzero quadratic residues modulo $p$. They are $1^2, 2^2, ... , (\frac{p-1}{2})^2$. 
+		\item $\legendre{a}{p} \equiv a^{\frac{p-1}{2}} \pmod{p}$. 
+	\end{enumerate}
+\end{remark}
+\proof[Proof of observation 2]
+	It suffices to show that the residue classes are distinct. 
+	That is if $1 \le i < j \le \frac{p-1}{2}$ then $i^2 \not\equiv j^2 \pmod{p}$. 
+	Suppose that there exists $i^2 \equiv j^2 \pmod{p}$ for contradiction.
+	Then 
+	$$ (i-j)(i+j) \equiv 0 \pmod{p} \iff i \equiv j \pmod{p} \text{ or } i+j \equiv 0 \mod{p}. $$
+	This cannot be true. 
+\qedhere
+
+\begin{lemma}
+	If $p$ is an odd prime, then 
+	$$ \legendre{ab}{p} = \legendre{a}{p}\legendre{b}{p} . $$
+\end{lemma}
+\proof
+	Observe that 
+	$$ \legendre{ab}{p} \equiv (ab)^\frac{p-1}{2} \equiv a^\frac{p-1}{2} b^\frac{p-1}{2} \equiv \legendre{a}{p}\legendre{b}{p} \pmod{p}. $$
+	Now this means 
+	$$ \legendre{ab}{p} - \legendre{a}{p}\legendre{b}{p} \implies \legendre{ab}{p} = \legendre{a}{p}\legendre{b}{p}. $$
+\qedhere
+
+\begin{remark}
+	More observations. 
+	\begin{enumerate}
+		\item $\legendre{1}{p} = 1 \et \legendre{-1}{p} = (-1)^\frac{p-1}{2}$.
+		\item If $p\nmid a$, then $\legendre{a^n}{p} = \legendre{a}{p}^n$.
+		\item If $a\equiv b \pmod{p}$, then $\legendre{a}{p} = \legendre{b}{p}$. 
+	\end{enumerate}
+\end{remark}
+
+\begin{thm}[Quadratic Reciprocity]
+	If $p\neq q$ are odd primes, then
+	$$ \legendre{p}{q} \cdot \legendre{q}{p} = (-1)^{\frac{(p-1)(q-1)}{4}} . $$
+	Equivalently, 
+	$$ \legendre{p}{q} = \legendre{q}{p} \cdot (-1)^{\frac{(p-1)(q-1)}{4}} . $$
+\end{thm}
+\proof First we outline the very enlightening proof.
+\begin{enumerate}
+	\item Polynomials and Irreducibility
+	\item Roots of Unity
+	\item Character Sums
+	\item Quadratic Reciprocity
+\end{enumerate}
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 10 25
+
+\begin{thm}
+	If $p$ is an odd prime, then
+	$$ \legendre{2}{p} = 1 \iff p \equiv \pm1 \pmod{8} \et \legendre{2}{p} = -1 \iff p \equiv \pm3 \pmod{8}. $$
+\end{thm}
+\proof
+	For each $i = 1, ..., \frac{p-1}{2}$, there exist unique $\varepsilon(i)\in\set{0,1} \et f(i)\in\set{1,...,\frac{p-1}{2}}$
+	such that $$ 2\cdot i \equiv (-1)^{\varepsilon(i)} \cdot f(i) \pmod{p} . $$
+	
+	We claim that $f$ is bijective. Since $f$ is from a set to itself, it suffices to prove that it is injective.
+	
+	\noindent\textbf{Case 1: } $\varepsilon(i) = \varepsilon(j)$.
+	Then 
+	$$ 2i \equiv (-1)^{\varepsilon(i)} f(i) \equiv (-1)^{\varepsilon(j)} f(j) \equiv 2j \pmod{p} \implies i \equiv j \pmod{p} \implies i = j. $$
+	\noindent\textbf{Case 2: } $\varepsilon(i) \neq \varepsilon(j)$. 
+	Then 
+	$$ 2i \equiv (-1)^{\varepsilon(i)} f(i) \equiv - (-1)^{\varepsilon(j)} f(j) \equiv -2j \pmod{p} \implies p\mid 2(i+j) \implies p \mid i+j. $$
+	This leads to a contradiction. 
+
+	Now take the products (same trick as Euler's Theorem)
+	\begin{align*}
+		\prod_{i=1}^{\frac{p-1}{2}} (2i) &\equiv \prod_{i=1}^{\frac{p-1}{2}} (-1)^{\varepsilon(i)} f(i) \pmod{p} \\
+		2^{\frac{p-1}{2}} \left(\frac{p-1}{2}\right)! &\equiv (-1)^{l} \left(\frac{p-1}{2}\right)! \pmod{p}
+	\end{align*}
+	Now, $l = \#\set{1 \le i \le \frac{p-1}{2} : 2i > \frac{p-1}{2}}$. 
+
+	We can consider the two cases $p = 4k+1$ and $p = 4k+3$ to get that $l$ is even if and only if $p \equiv \pm1 \pmod{8}$. 
+\qedhere
+
+Observe that we can write $\legendre{2}{p} = (-1)^\frac{p^2-1}{8}$. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 10 27
+
+\subsection{Polynomials and Commutative Algebra}
+
+We want to prove that the $p$th cyclotomic polynomial $x^{p-1} + x^{p-2} + \cdots + x + 1$ is irreducible. 
+
+\begin{prop}
+	Let $f,g,h\in\ZZ[x]$, and $f(x) = g(x)\cdot h(x)$. 
+	If there exists a prime $p$ dividing each coefficient of $f$, then $p$ devidies each coefficient of $g$ or each coefficient of $h$. 
+\end{prop}
+\proof[Proof with algebra.]
+	We can reduce the polynomials modulo $p$, that is 
+	$$ \overline{f}, \overline{g}, \overline{h} \in \FF_p[x]. $$
+	Now if the proposition is not true, we can consider the product of the following nonzero polynomials
+	$$ \overline{g}(x) = \overline{a_m}x^m + \cdots $$
+	$$ \overline{h}(x) = \overline{b_n}x^n + \cdots $$
+	which is nonzero.
+\qedhere
+\proof
+	We prove this by contradiction.
+
+	Let $m,n$ be maximal such that if 
+	$$ g(x) = \sum_{i=0}^{\deg(g)} a_i x^i $$
+	$$ h(x) = \sum_{i=0}^{\deg(h)} b_i x^i $$
+	then $a_m \not\equiv 0 \pmod{p}$ and $b_n \not\equiv 0 \pmod{p}$. 
+	Now consider the coefficient of $x^{m+n}$ in $f(x)$, then
+	$$ \sum_{i+j=m+n} a_i b_j \equiv a_m b_n \pmod{p} . $$
+	Now we are done because $a_m b_n \not\equiv 0 \pmod{p}$. 
+\qedhere
+
+\begin{defn}
+	We first define irreducibility. 
+	\begin{enumerate}
+		\item $f\in\QQ[x]$ is irreducible if $\nexists g,h\in\QQ[x]$ such that $f = g\cdot h$ and $\deg(g), \deg(h) < \deg(f)$. 
+		\item $f\in\ZZ[x]$ is irreducible if $\nexists g,h\in\ZZ[x]$ such that $f = g\cdot h$ and $\deg(g), \deg(h) < \deg(f)$. 
+	\end{enumerate}
+\end{defn}
+
+\begin{prop}[Gauss's Lemma]
+	Let $f\in\ZZ[x]$. Then $f$ is irreducible in $\QQ[x]$ if and only if $f$ is irreducible in $\ZZ[x]$. 
+\end{prop}
+\proof
+	Since $\ZZ\subset\QQ$, the implication follows.
+
+	For the converse, we prove that if $f$ is reducible in $\QQ[x]$, then $f$ is reducible in $\ZZ[x]$. 
+	There exists $g,h\in\QQ[x]$ such that $f = g\cdot h$ and $\deg(g), \deg(h) < \deg(f)$.
+
+	Let $D(g) \in \ZZ\sm\set{0}$ such that $D(g) g(x) \in \ZZ[x]$. Similarly define $D(h)$. 
+	Let $g_1(x) = D(g) g(x) \in \ZZ[x]$ and $h_1(x) = D(h) h(x) \in \ZZ[x]$. 
+	Then we have 
+	$$ D(g) D(h) \cdot f = g_1 \cdot h_1. $$
+	
+	Let $N(g_1)$ be the gcd of the coefficients of $g_1$. Similarly define $N(h_1)$. 
+	Let $g_2(x) = \frac{g_1(x)}{N(g_1)} \in \ZZ[x]$ and $h_2(x) = \frac{h_1(x)}{N(h_1)} \in \ZZ[x]$. 
+	Now we have 
+	$$ D(g) D(h) \cdot f = g_1 \cdot g_2 = N(g_1) N(h_1) \cdot g_2 \cdot h_2 . $$
+
+	By the previous lemma, there does not exist a prime $p$ that divides each coefficient of $g_2(x)$ or each coefficient of $h_2(x)$.
+	Otherwise, we contradict gcd. 
+
+	Let $\frac{N(g_1)N(h_1)}{D(g)D(h)}$ written in lowest terms as $\frac{a}{b}$ (ie. $a,b\in\ZZ \et \gcd(a,b)=1$). 
+	It suffices to prove that $b=1$, that is no prime $p$ divides $b$. 
+	By contradiction, suppose that there exists some prime $p$ that divides $b$. 
+	Since $\gcd(a,b)=1$, then $p \nmid a$. 
+	Equivalently, 
+	$$ b\cdot f = a\cdot g_2 \cdot h_2 . $$
+	Now $p$ divides each coefficient of $b\cdot f$. 
+	Since $p\nmid a$ and $p$ does not divide each coefficient of $g_2$ or each coefficient of $h_2$ and we have a contradiction. 
+	It follows that $b = 1$. 
+\qedhere
+
+\begin{prop}[Eisenstein Criterion for Irreducibility]
+	Let $p$ be a prime and let $\srng{a}{0}{n}\in\ZZ$ such that 
+	\begin{enumerate}
+		\item $p \nmid a_n$,
+		\item $p \mid a_i$ for $0\le i \le n-1$,
+		\item $p^2 \nmid a_0$. 
+	\end{enumerate}
+	Then $a_n x^n + a_{n-1} x^{n-1} + \cdots + a_1 x + a_0$ is irreducible.
+\end{prop}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 10 30
+
+\proof
+	We prove this by contradiction.
+	Assume that there exists such a polynomial is reducible, that is $\exists g,h\in\ZZ[x]$ such that $f=gh$ and $1\le\deg(g),\deg(h)<\deg(f)$. 
+	Let 
+	\begin{align*}
+		g(x) &= b_m x^m + b_{m-1} x^{m-1} + \cdots + b_1 x + b_0 \\
+		h(x) &= c_l x^l + c_{l-1} x^{l-1} + \cdots + c_1 x + c_0 \\
+	\end{align*}
+	Since $a_0 = b_0 c_0$, $p\mid a_0$ and $p^2\nmid a_0$, we get that $p$ divides exactly one of $b_0$ and $c_0$.
+	Without loss of generality, assume that $p\mid b_0$ and $p\nmid c_0$. 
+	Now we can prove by induction that $p\mid b_i$ for all $i = \rng{0}{m}$. 
+
+	We already have the base case. 
+	Assume that $p\mid b_j$ for all $j < i$. 
+	Then 
+	$$ p \mid a_i = b_i c_0 + b_{i-1} c_1 + \cdots + b_0 c_i \implies p \mid b_i . $$
+	It follows that $p \mid a_n$, contradiction.
+\qedhere
+\begin{cor}
+	Let $p$ be a prime, and let $\Phi_p(x) = x^{p-1} + \cdots + x + 1$, then $\Phi_p(x)$ is irreducible. 
+\end{cor}
+\proof
+	Observe that $\Phi_p(x+1) = \frac{x^p-1}{x-1}$. Then
+	$$ \Phi_p(x+1) = \frac{(x+1)^p-1}{x} = x^{p-1} + \binom{p}{1}x^{p-2} + \cdots + \binom{p}{p-1} $$
+	satisfies the Eisenstein criterion for $p$, so $\Phi_p(x+1)$ is irreducible. 
+	Now $\Phi_p(x)$ must be irreducible.
+
+	We can see that if $\Phi_p(x) = g(x) \cdot h(x) \implies \Phi_p(x+1) = g(x+1) \cdot h(x+1)$. 
+\qedhere
+
+%%%%%
+\subsection{Primitive Roots of Unity}
+
+Consider the roots of $\Phi_p(x)$. These are $ e^{i\frac{2\pi l}{p}}, l\in\set{\rng{1}{p-1}} . $
+Let $\xi_p = e^{i\frac{2\pi}{p}}$. 
+\begin{lemma}
+	There exists no nonzero polynomial $g(x) \in \QQ[x]$ of degree less than $p-1$ such that $g(\xi_p) = 0$. 
+\end{lemma}
+\proof
+	We can assume that $g\in\ZZ[x]$ because we can simply clear the denominators. 
+	Without loss of generality, assume $g$ has the minimum degree among all polynomials with $\xi_p$ as a root.
+	We divide $\Phi_p(x)$ by $g(x)$ with quotient and remainder
+	$$ \Phi_p(x) = g(x) \cdot Q(x) + R(x) $$
+	where $Q,R\in\QQ[x]$ and $\deg(R) < \deg(g)$. 
+
+	Now we get $\Phi_p(\xi_p) = g(\xi_p) Q(\xi_p) + R(\xi_p) \implies R(\xi_p) = 0$. 
+	By the minimality of $g$, we get $R(x) = 0$. 
+	This implies that $\Phi_p(x) = g(x)Q(x)$ and by Gauss's Lemma, $\Phi_p(x)$ is irreducible. 
+	Hence $Q(x)$ is a constant function.
+\qedhere
+\begin{cor}
+	If $\srng{c}{1}{p-1} \in\QQ$ such that $c_1\xi_p + c_2\xi_p^2 + \cdots + c_{p-1}\xi_p^{p-1} = 0$, then $c_1 = c_2 = \cdots = c_{p-1} = 0$. 
+\end{cor}
+\proof
+	Assume $\sum_{i=1}^{p-1} c_i \xi_p^i = 0$. Since $\xi_p \neq 0$, we can divide by $\xi_p$. 
+	Now we get some polynomial of degree less than $p-1$ with a root at $\xi_p$, so it is identically $0$. 
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 11 01
+
+\begin{lemma}
+	Let $b\in\ZZ$. Then 
+	\[
+		\sum_{i=1}^{p-1} \xi_p^{ib} = 
+		\begin{cases}
+			p-1 \text{ if } p\mid b \\
+			-1 \text{ if } p\nmid b
+		\end{cases}
+	\]
+\end{lemma}
+\proof 
+	If $p\mid b$, then $\xi_p^{ib} = 1$ for all $i$, so $\sum_{i=1}^{p-1} \xi_p^{ib} = p-1$. 
+
+	If $P\nmid b$, then $\set{ib : 1 \le i \le p-1} = \set{1, ..., p-1}$ modulo $p$, so
+	$$ \sum_{i=1}^{p-1} \xi_p^{ib} = \sum_{i=1}^{p-1} \xi_p^{i} = -1. $$
+\qedhere
+
+\begin{defn}
+	We define the Gauss sum to be 
+	$$ G(p) = \sum_{i=1}^{p-1} \legendre{i}{p} \cdot \xi_p^i . $$
+\end{defn}
+
+\begin{lemma}
+	$ G(p)^2 = p\cdot\legendre{-1}{p} = p \cdot (-1)^\frac{p-1}{2} $.
+\end{lemma}
+\proof
+	We expand to get
+	\begin{align*} 
+		G(p)^2 &= \sum_{1\le i,j \le p-1} \legendre{i}{p} \legendre{j}{p} \xi_p^i \xi_p^j
+	\end{align*}
+	Everything is invertible, so we an let $j = ik$ for some $k\in\set{1,...,p-1}$. 
+	\begin{align*}
+		G(p)^2 &= \sum_{1\le i,j \le p-1} \legendre{ij}{p} \xi_p^{i+j}
+		= \sum_{1\le i,k \le p-1} \legendre{i^2 k}{p} \xi_p^{i(k+1)} 
+		= \sum_{k=1}^{p-1} \legendre{k}{p} \sum_{i=1}^{p-1} \xi_p^{i(k+1)} \\
+		&= \left( \sum_{k=1}^{p-2} \legendre{k}{p} \sum_{i=1}^{p-1} \xi_p^{i} \right) + \legendre{p-1}{p} \sum_{i=1}^{p-1} \xi_p^{0} 
+		= \left( \sum_{k=1}^{p-2} \legendre{k}{p} (-1) \right) + \legendre{p-1}{p} (p-1) \\
+		&= p\legendre{-1}{p} - \sum_{k=1}^{p-1} \legendre{k}{p}
+		= p\legendre{-1}{p}
+	\end{align*}
+\qedhere
+
+\begin{lemma}
+	Let $n\in\NN$, $i_1, ..., i_k \in\ZZ \et a_{i_1},...,a_{i_k} \in\ZZ$ such that $n\mid a_{i_j}$ for each $j = 1,...,k$. 
+	Then there exist 
+	\begin{gather*}
+		b_1,...,b_{p-1}\in\ZZ \st \forall j\in\set{1,...,p-1}, n\mid b_j \st \\ 
+		a_{i_1} \xi_p^{i_1} + \cdots + a_{i_k} \xi_p^{i_k} = b_1\xi_p + b_2\xi_p^2 + \cdots + b_{p-1}\xi_p^{p-1}
+	\end{gather*}
+\end{lemma}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 11 03
+
+%%%%%%%%%%%%%%%%%%%%%
+\subsection{Proof of Quadratic Reciprocity}
+
+\begin{lemma}
+	Let $k\in\NN \et \srng{x}{1}{k}$ are variables and $q$ is a prime. 
+	Then
+	$$ (x_1 + \cdots + x_k)^q = x_1^q + \cdots + x_k^q + \sum_{i_1 + \cdots i_k = q} c_{i_1,...,i_k} x_1^{i_1} \cdots x_k^{i_k} $$
+	where each $c$ is divisible by $q$. That is
+	$$ (x_1+\cdots+x_k)^q \equiv x_1^q + \cdots + x_k^q \pmod{q} . $$ 
+\end{lemma}
+\proof 
+	Proof by induction ok $k$.
+
+	Base case $k=2$: Obvious after expansion.
+
+	Inductive step $k > 2$: 
+	\begin{align*}
+		(x_1 + \cdots + (x_k+x_{k+1}))^q 
+		&= x_1^q + \cdots + (x_k+x_{k+1})^q + \sum_{i_1+\cdots+i_k=q} c_{i_1,...,i_k} \cdots (x_k + x_{k+1})^{i_k} \\
+		&= x_1^q + \cdots + x_{k+1}^q + \sum_{j=1}^{q-1} \binom{q}{j} x_k^j x_{k+1}^{q-j} + \sum c \cdots \cdot \left( \sum \text{binom} \right)
+	\end{align*}
+	Now we get $(x_1+\cdots+x_k)^q \equiv x_1^q + \cdots + x_k^q \pmod{q}$. 
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%
+
+\begin{thm}[Quadratic Reciprocity]
+	If $p\neq q$ are odd primes, then
+	$$ \legendre{p}{q} \cdot \legendre{q}{p} = (-1)^{\frac{(p-1)(q-1)}{4}} . $$
+	Equivalently, 
+	$$ \legendre{p}{q} = \legendre{q}{p} \cdot (-1)^{\frac{(p-1)(q-1)}{4}} . $$
+\end{thm}
+\proof
+	Consider the Gauss sum. 
+	\begin{align*}
+		G(p) &= \sum_{i=1}^{p-1} \legendre{i}{p} \xi_p^i \\
+		G(p)^2 &= p \cdot \legendre{-1}{p} = p\cdot (-1)^\frac{p-1}{2} \\
+		G(p)^q &= G(p) \cdot (G(p)^2)^\frac{q-1}{2}
+	\end{align*}
+	Raising the Gauss sum to the power of $q$ we get
+	\begin{align*}
+		G(p)^q &= \left( \sum_{i=1}^{p-1} \legendre{i}{p} \xi_p^i \right)^q \\
+		&= \sum_{i=1}^{p-1} \legendre{i}{p}^q \xi_p^{iq} 
+				+ \sum_{i_1,...,i_{p-1}} c_{i_1,...,i_{p-1}} \left( \prod_{j=1}^{p-1} {\left(\legendre{j}{p} \xi_p^j\right)^{i_j}} \right) \\
+		&= \sum_{i=1}^{p-1} \legendre{i}{p} \xi_p^{iq} + \sum_{i=1}^{p-1} b_i \xi_p^i \\
+		&= \legendre{q}{p} \sum_{i=1}^{p-1} \legendre{iq}{p} \xi_p^{iq} + \sum_{i=1}^{p-1} b_i \xi_p^i \\
+		&= \legendre{q}{p} G(p) + \sum_{i=1}^{p-1} b_i \xi_p^i
+	\end{align*}
+	where $p\mid b_i$ for each $i$. 
+	Now from the other side, we get 
+	\begin{align*}
+		G(p)^q 
+		&= G(p) \cdot (G(p)^2)^\frac{q-1}{2} \\
+		&= G(p) \cdot (p \cdot (-1)^\frac{p-1}{2})^\frac{q-1}{2} \\
+		&= G(p) \cdot p^{q-1}{2} \cdot (-1)^\frac{(p-1)(q-1)}{4} \\
+		&= G(p) \cdot \left( \legendre{p}{q} + ql \right) \cdot (-1)^\frac{(p-1)(q-1)}{4} \\
+		&= G(p) \cdot \legendre{p}{q} + ql (-1)^\frac{(p-1)(q-1)}{4} G(p) \\
+		&= G(p) \cdot \legendre{p}{q} + \sum_{i=1}^{p-1} a_i \xi_p^i 
+	\end{align*}
+	where $q \mid a_i$ for each $i$. 
+
+	Equating the two expressions for $G(p)^q$ gives 
+	\begin{align*}
+		\legendre{q}{p} G(p) + \sum_{i=1}^{p-1} b_i \xi_p^i 
+				&= \legendre{p}{q} (-1)^\frac{(p-1)(q-1)}{4} G(p) + \sum_{i=1}^{p-1} a_i \xi_p^i \\
+		\left( \legendre{q}{p} - \legendre{p}{q} (-1)^\frac{(p-1)(q-1)}{4} G(p) \right) 
+				&= \sum_{i=1}^{p-1} (a_i - b_i) \xi_p^i \\
+		\sum_{i=1}^{p-1} \left( \legendre{q}{p} - \legendre{p}{q} (-1)^\frac{(p-1)(q-1)}{4} \right) \legendre{i}{p} \xi_p^i
+				&= \sum_{i=1}^{p-1} (a_i - b_i) \xi_p^i
+	\end{align*}
+	It follows that for each $i = 1,...,p-1$ we have
+	$$ q \mid a_i - b_i = \left( \legendre{q}{p} - \legendre{p}{q}(-1)^\frac{(p-1)(q-1)}{4} \right) \legendre{i}{p} \in \set{-2, 0, 2}. $$
+	Hence $a_i = b_i$ and the proof is complete.
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 11 06
+
+\section{Diophantine Equations}
+
+\begin{defn}
+	If $f\in\ZZ[x_1,...,x_n]$, then $f(x_1, ..., x_n) = 0$ is a diophantine equation.
+	We search for integer solutions.
+\end{defn}
+
+The common questions relating to Diophantine equations:
+\begin{enumerate}
+	\item Find all solutions.
+	\item Determine whether there are infinitely many solutions.
+\end{enumerate}
+
+Consider the equation 
+$$ A x^m + B y^n + C z^k = 0 $$
+where $A,B,C\in\ZZ$ and $m,n,k\in\NN$, and we are looking for solutions in rationals. 
+Then we have three cases.
+\begin{enumerate}
+	\item If $\frac{1}{m}+\frac{1}{n}+\frac{1}{k} > 1$, then there are infinitely many solutions.
+	\item If $\frac{1}{m}+\frac{1}{n}+\frac{1}{k} = 1$, this gives an elliptic curve.
+	\item If $\frac{1}{m}+\frac{1}{n}+\frac{1}{k} < 1$, then there are finitely many solutions.
+\end{enumerate}
+
+Note: There are always finitely many integer solutions on an elliptic curve. 
+
+Example on elliptic curves. 
+$$ y^2 + x^3 - 17z^6 = 0 $$
+We can rewrite this equation as 
+$$ \left( \frac{y}{z^3} \right)^2 + \left( \frac{x}{z^2} \right)^3 - 17 = 0 $$
+which is a planar curve as follows
+$$ y^2 = x^3 + 17 . $$
+
+How do we generate solutions when we know one solution?
+We can draw the tangent and find another point on the curve.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 11 08
+
+\subsection{Examples of Diophantine Equations}
+\begin{example}
+	Consider the Diophantine equation
+	$$ x^2 + 2y^2 - 8z - 5 = 0 . $$
+\end{example}
+\proof
+	This is equivalent with the congruence 
+	$$ x^2 + 2y^2 \equiv 5 \pmod{8} . $$
+	Observe that $x$ is odd, so $x^2 \equiv 1 \pmod{8}$. 
+	Then the congruence is equivalent to 
+	$$ 2y^2 \equiv 4 \pmod{8} . $$
+	Now $2\mid y$ so $4\mid y^2$, hence $2y^2 \equiv 0 \pmod{8}$ and we have a contradiction.
+	Therefore there are no solutions. 
+\qedhere
+
+\begin{example}
+	Consider the Diophantine equation
+	$$ x^2 - 3xy + z^2 - 6xz^3 - 21 = 0 . $$
+\end{example}
+\proof
+	We reduce this equation modulo 3. 
+	$$ x^2 + z^2 \equiv 0 \pmod{3} . $$
+	This means $3\mid x^2 + z^2$ and since $3\pmod{4}$, we get $3\mid x$ and $3\mid z$. 
+	Now we get that $9$ divides all terms in the equation except $-21$ and we have a contradiction. 
+	Therefore there are no solutions.
+\qedhere
+
+\begin{example}
+	Consider the Diophantine equation
+	$$ x^2 - 2xy^2 + 5y^4 - 3x + 6y + 10 = 0 . $$
+\end{example}
+\proof
+	Observe that 
+	\begin{align*}
+		0 &= \left( \frac{1}{4}x^2 - 2xy^2 + 4y^4 \right) + \left( \frac{3}{4}x^2 - 3x + 3 \right) + \left( y^4 - 2y^2 + 1 \right) + 2y^2 + 6y + 6 \\
+		&= \left( \frac{1}{2}x - 2y^2 \right)^2 + 3\left( \frac{1}{2}x - 1 \right)^2 + \left( y^2 - 1 \right)^2 + 2\left( y + \frac{3}{2} \right)^2 + \frac{3}{2} \\
+		&> 0
+	\end{align*}
+\qedhere
+
+\begin{example}
+	Consider the Diophantine equation
+	$$ x^3 + 2y^3 - 7z^3 - 14w^3 = 0 . $$
+\end{example}
+\proof
+	Consider reducing modulo $7$.
+	$$ x^3 + 2y^3 \equiv 0 \pmod{7} . $$
+	Observe that $(n^3)^2 = x^6 \equiv 1 \pmod{7}$ so
+	\[
+		x^3 \equiv \begin{cases}
+			0 \pmod{7} \\
+			\pm 1 \pmod{7}
+		\end{cases}
+	\]
+	It follows that we must have $7\mid x$ and $7\mid y$. 
+	Now consider the original equation, we must get $7\mid z^3 + 2w^3$ and hence infinite descent. 
+
+	If $(0,0,0,0)$ is not the only solution, then there exists a nontrivial solution $(x,y,z,w)$ such that $\gcd(x,y,z,w) = 1$. 
+	Then we show that $7 \mid \gcd(x,y,z,w)$ and get a contradiction. 
+\qedhere
+
+\begin{example}
+	Consider the Diophantine equation
+	$$ 7x^4 + 11y^4 - z^4 = 0 . $$
+\end{example}
+\proof
+	Assume that there is a nontrivial solution $(x,y,z)$ such that $\gcd(x,y,z) = 1$. 
+
+	Consider reducing modulo $7$. 
+	$$ 4y^4 \equiv z^4 \pmod{7} $$
+	This does not give anything when $7\nmid y$ and $7\nmid z$. 
+
+	Consider reducing modulo $11$ and suppose that $11\nmid x$ and $11\nmid z$. 
+	$$ 7x^4 \equiv z^4 \pmod{7} . $$
+	No we get $7 \equiv A^4 \pmod{11} \iff 7 \equiv B^2 \pmod{11}$
+	but $\legendre{7}{11} = -1$ and we have a contradiction.
+\qedhere
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 11 10
+% MIDTERM 3
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 11 15
+
+\subsection{Pythagorean Triples}
+
+Consider the Diophantine equation
+$$ x^2 + y^2 = z^2 \text{ where } x,y,z\in\ZZ. $$
+
+\begin{obs}
+	If $d \mid \gcd(x,y,z)$, then 
+	$$ \left(\frac{x}{d}\right)^2 + \left(\frac{y}{d}\right)^2 = \left(\frac{z}{d}\right)^2 $$
+\end{obs}
+
+\begin{obs}
+	We can assume $\gcd(x,y) = \gcd(y,z) = \gcd(z,x) = 1$. 
+\end{obs}
+
+\begin{obs}
+	$z$ is odd.
+\end{obs}
+\proof
+	If $z$ is even, then $x$ and $y$ have the same parity.
+
+	If $x \et y$ are even, then we contradict the coprimality. 
+
+	If $x \et y$ are odd, then we have 
+	$$0 \equiv z^2 \equiv x^2 + y^2 \equiv 2 \pmod{4} . $$
+\qedhere
+
+\nl
+	Now, since we know that $z$ is odd, then without loss of generality, let $x$ be even and $y$ be odd.
+	Then
+	$$ x = 2 x_1 ; x_1 \in\ZZ. $$
+	$$ x^2 = z^2 - y^2 = (z-y)(z+y) . $$
+
+\begin{obs}
+	If $A,B,C\in\NN \et n\in\NN$, and
+	$$ \begin{cases} A^n = BC \\ \gcd(B,C) = 1 \end{cases} $$
+	then we must have $B \et C$ are both $n$th powers. 
+\end{obs}
+\proof
+	For each prime $p$, we have 
+	$$ \exp_p(B) + \exp_p(C) = n \cdot \exp_p(A) $$
+	However, we must have $\exp_p(B) = 0$, or $\exp_p(B) > 0$ and $\exp_p(C) = 0$. 
+	Hence, $\exp_p(B) \in \set{0, n \cdot \exp_p(A)}$. Similarly for $C$. 
+\qedhere
+
+\nl
+	Since $z$ and $y$ are both odd, we can let 
+	\begin{align*}
+		z-y &= 2u ; u\in\NN \\
+		z+y &= 2v ; v\in\NN
+	\end{align*}
+	$$ 4x_1^2 = 2u \cdot 2v  \implies  x_1^2 = u \cdot v . $$
+
+\begin{obs}
+	$u \et v$ are coprime. 
+\end{obs}
+\proof
+	Since $z = u+v \et y = v-u$, if $d \mid u \et d \mid v$, then $d\mid y \et d\mid z$.
+	Hence $\gcd(u,v) = 1$.
+\qedhere
+
+\nl
+	Now, we get that $u$ and $v$ are perfect squares, that is there exist $a,b\in\NN$ such that 
+	\begin{align*}
+		u &= a^2 \\
+		v &= b^2
+	\end{align*}
+	$$ x_1 = a \cdot b . $$
+
+	Now we get the solutions 
+	\begin{align*}
+		x &= 2ab \\
+		y &= b^2 - a^2 \\
+		z &= b^2 + a^2
+	\end{align*}
+	for $a,b\in\NN \et \gcd(a,b) = 1$. 
+	These are all the primitive solutions. 
+
+	$$ (2ab, b^2-a^2, b^2+a^2) \text{ solves } x^2 + y^2 = z^2 $$
+
+	Now, any $a,b\in\ZZ$ would solve the equation. 
+	However, we do not recover all solutions like this. 
+	To recover all solutions, it suffices to multiply the triple by a constant
+	$$ (2abc, (b^2-a^2)c, (b^2+a^2)c) $$
+
+\subsubsection{Rational Points on the Unit Circle}
+	
+	Consider rational solutions to the equation
+	$$ x^2 + y^2 = 1 . $$
+
+	Since we have the integer solutions to $x^2 + y^2 = z^2$, we can simply divide to get
+	$$ \left( \frac{2ab}{a^2+b^2} , \frac{b^2-a^2}{a^2+b^2} \right) $$
+	$$ \left( \frac{2t}{1 + t^2} , \frac{1 - t^2}{1 + t^2} \right) $$
+	for $t = \frac{a}{b}$. 
+
+	This means that the number of rational solutions of $x^2 + y^2 = 1$ is infinite. 
+	Usually we expect the number of rational solutions on a curve is finite.
+
+	\begin{thm}[Faltings]
+		Let $f \in \QQ[x,y]$, $\deg_x(f), \deg_y(f) \ge 4$ and $f$ is irreducible over $\QQ$, 
+		then the number of rational solutions to $f(x,y) = 0$ is finite. 
+	\end{thm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 11 17
+
+\subsubsection{The Equation $x^4+y^4=z^4$}
+	
+\begin{thm}
+	There are no solutions in $\NN$ to the equation
+	$$ x^4 + y^4 = z^4. $$
+\end{thm}
+\proof
+	Assume that there exist solutions in $\NN$ to the equation
+	$$ x^4 + y^4 = z^2 . $$
+	Let $(x_0, y_0, z_0)$ be the solution with the smallest $z_0$. 
+	
+	Observe that $\gcd(x_0,y_0,z_0) = 1$. 
+	If $p\mid x_0 \et p\mid y_0$, then $p^4 \mid x^4 + y^4 = z^2 \implies p^2\mid z$. 
+	Hence $(\frac{x_0}{p}, \frac{y_0}{p}, \frac{z_0}{p^2}$ is another solution with a smaller $z_0$. 
+	Now we get that $\gcd(x_0,y_0) = \gcd(y_0,z_0) = \gcd(x_0,z_0) = 1$. 
+
+	\nl
+	Now we can rewrite the original equation as
+	$$ (x_0^2)^2 + (y_0^2)^2 = z_0^2 $$
+	where $(x_0^2, y_0^2, z_0)$ is a primitive Pythagorean triple.
+
+	Now we know that $z_0$ is odd and we may assume that $x_0$ is even and $y_0$ is odd. 
+	Hence there exist $a,b\in\NN$ where $\gcd(a,b)=1$ such that
+	\begin{align*}
+		x_0^2 &= 2ab \\
+		y_0^2 &= b^2-a^2 \\
+		z_0 &= a^2+b^2
+	\end{align*}
+
+	Observe that we have another primitive Pythagorean triple
+	$$ a^2 + y_0^2 = b^2 . $$
+	Now there exist $u,v\in\NN$ where $\gcd(u,v)=1$ such that 
+	\begin{align*}
+		a &= 2uv \\
+		y_0 &= v^2-u^2 \\
+		b &= u^2+v^2
+	\end{align*}
+
+	Now we need to check that $x_0^2 = 2ab$ is a perfect square.
+	Since $x_0$ is even, we can write $x_0 = 2x_1$. 
+	$$ x_1^2 = uv(u^2+v^2) . $$
+
+	Since $\gcd(u,v) = 1$, we get that 
+	$$ 1 = \gcd(u,v) = \gcd(u,u^2+v^2) = \gcd(v,u^2+v^2) . $$
+	Hence $u$, $v$, $u^2+v^2$ are all perfect squares. 
+	
+	Let $c,d,e\in\NN$ where $c,d,e$ are pairwise coprime such that 
+	\begin{align*}
+		u &= c^2 \\
+		v &= d^2 \\
+		u^2+v^2 &= e^2
+	\end{align*}
+	Now we get the equation
+	$$ c^4 + d^4 = e^2 . $$
+
+	It suffices to check that $e < z_0$. 
+	\[
+		e \le e^2 = u^2+v^2 = b \le b^2 < a^2+b^2 = z_0
+	\]
+	Now we have found a smaller solution in $\NN$ to the original equation, contradicting the minimality of $z_0$. 
+\qedhere
+
+%%%%%%%%
+\subsection{Pell's Equation}
+
+\begin{thm}
+	Let $D\in\NN$ such that $\sqrt{D} \not\in \NN$.
+	There exist infinitely many solutions in $\NN\times\NN$ to $x^2 - Dy^2 = 1$. 
+\end{thm}
+
+\begin{lemma}
+	If there exists a solution $(x_0,y_0) \in \NN\times\NN$ such that
+	$$ x^2 - Dy^2 = 1 . $$
+	then there exist infinitely many solutions.
+\end{lemma}
+\proof
+	Assume that 
+	\[
+		\begin{cases}
+			x_0^2 - Dy_0^2 = 1 \\
+			x_1^1 - Dy_1^2 = 1
+		\end{cases}
+	\]
+	We simply multiply the two equations to get 
+	\begin{align*}
+		1 &= x_0^2x_1^2 + D^2y_0^2y_1^2 - D(x_0^2y_1^2 + x_1^2y_0^2) \\
+		  &= x_0^2x_1^2 + D^2y_0^2y_1^2 + 2Dx_0x_1y_0y_1 - D(x_0^2y_1^2 - 2x_0x_1y_0y_1 + x_1^2y_0^2) \\
+		  &= (x_0x_1 + Dy_0y_1)^2 - D(x_0y_1 + x_1y_0)^2 \\
+		  &= x_2^2 - Dy_2^2
+	\end{align*}
+	Clearly, $(x_2,y_2)\in\NN\times\NN$ and $x_2, y_2$ are not equal to the two solutions we started with.
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 11 20
+
+\begin{lemma}
+	Let $\alpha\in\RR\sm\QQ \et N\in\NN$, then there exists $(p,q)\in\ZZ\times\NN$ such that 
+	$$ q \le N  \et  \abs{\alpha-\frac{p}{q}} < \frac1{qN} . $$
+\end{lemma}
+\proof
+	Consider $\{i \cdot \alpha\} \in [0,1); 0\le i \le N$. 
+	We divide the interval $[0,1)$ into $N$ intervals. 
+	Then by the Pigeonhole Principle, there exist $0 \le j < i \le N$ such that 
+	\begin{align*} 
+		\frac1N &> \abs{\{i\alpha\} - \{j\alpha\}} \\
+		&= \abs{ (i-j)\alpha - (\floor{i\alpha} - \floor{j\alpha}) } \\
+		\frac{1}{(i-j)N} &> \abs{ \alpha - \frac{\floor{i\alpha} - \floor{j\alpha}}{i-j} }
+	\end{align*}
+	Now we let $p = \floor{i\alpha} - \floor{j\alpha}$ and $q = i-j$ to get the desired result. 
+\qedhere
+
+\begin{cor}
+	Let $\alpha\in\RR\sm\QQ$, then there exist infinitely many pairs $(p,q)\in\ZZ\times\NN$ such that 
+	$$ \abs{\alpha-\frac{p}{q}} < \frac{1}{q^2} . $$
+\end{cor}
+\proof
+	For each $N\in\NN$, there exists $(p_N,q_N) \in \ZZ\times\NN$ such that 
+	$$ \abs{\alpha-\frac{p_N}{q_N}} < \frac1{q_N N} \le \frac1{q_N^2} . $$
+	It suffices to show that there is no pair $(p,q) \in \ZZ\times\NN$ such that for infinitely many $N\in\NN$, 
+	we have $(p_N,q_N) = (p,q)$. 
+	Suppose that we have such $(p,q)$, then
+	$$ \abs{\alpha - \frac{p}{q}} = \abs{\alpha - \frac{p_N}{q_N}} < \frac1{q_N N} \to 0 , $$
+	contradicting the irrationality of $\alpha$. 
+\qedhere
+
+\begin{lemma}
+	Let $D\in\NN \st \sqrt{D}\not\in\NN$, then there exists $n_0\in\ZZ\sm\set{0}$ such that the equation
+	$$ x^2-Dy^2 = n_0 $$
+	has infinitely many solutions in $\NN\times\NN$. 
+\end{lemma}
+\proof
+	We know there exist infinitely many $(p,q) \in \ZZ\times\NN$ such that 
+	$$ \abs{\sqrt{D} - \frac{p}{q}} < \frac1{q^2} . $$
+	Observe that 
+	\[
+		\abs{ p^2 - Dq^2 } = \abs{ p - \sqrt{D}q } \cdot \abs{ p + \sqrt{D} q }
+		= q^2 \cdot \abs{ \frac{p}{q} - \sqrt{D} } \cdot \abs{ \frac{p}{q} + \sqrt{D} }
+		< q^2 \cdot \frac1{q^2} \cdot (2\sqrt{D} + 1)
+	\]
+	Now, for each pair $(p,q)\in\ZZ\times\NN$, we have 
+	$$ \abs{ p^2 - D q^2 } < 2 \sqrt{D} + 1 . $$
+	There exists $n_0 \in [-2\sqrt{D}-1, 2\sqrt{D}+1]$ such that the equation $x^2 - Dy^2 = n_0$ has infinitely many solutions.
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 11 22
+
+\subsubsection{Diophantine Approximation}
+
+
+% TODO missing part here
+
+% TODO fix this part 
+\begin{lemma}
+	Let $D \in \NN \st \sqrt{D} \notin \NN$, Let $(x_1, y_1)\in\NN\times\NN$ such that $x_1^2 - Dy_1^2 = 1$
+	and $x_1$ is minimal among all such nontrivial solutions, then for any $(\alpha,\beta)\in\NN\times\NN$
+	such that $\alpha^2 - D \beta^2 = 1$, there exists a unique $n\in\NN$ such that 
+	\begin{align*}
+		\alpha + \sqrt{D} \beta &= (x_1 + \sqrt{D} y_1)^n \\
+		\alpha - \sqrt{D} \beta &= (x_1 - \sqrt{D} y_1)^n 
+	\end{align*}
+\end{lemma}
+\proof
+	Since $x_1$ is minimal among all nontrivial solutions to Pell's equation, 
+	then $x_1 + \sqrt{D} y_1$ is minimal among all nontrivial solutions.
+	We argue by contradiction that there exists an $n$ such that 
+	\begin{align*} 
+		(x_1+\sqrt{D}y_1)^n &< \alpha + \sqrt{D} \beta < (x_1 + \sqrt{D}y_1)^{n+1} \\
+		1 &< (\alpha + \sqrt{D} \beta)(x_1 - \sqrt{D} y_1)^n < x_1 + \sqrt{D} y_1
+	\end{align*}
+	It suffices to show that if $\gamma + \delta \sqrt{D} = (\alpha + \beta\sqrt{D})(x_1 - \sqrt{D}y_1)^n$, 
+	then $\gamma$ and $\delta$ are positive, since $\gamma^2 - D \delta^2 = 1$ so we contradict
+	the minimality of $x_1 + \sqrt{D}y_1$. 
+
+	First observe that $\gamma$ and $\delta$ are nonzero because Pell's equation.
+	By inspection, at least one of $\gamma$ and $\delta$ is positive.
+
+	If $\gamma < 0$ and $\delta > 0$, then since $\gamma^2 > D\delta^2$, we have $-\gamma > \sqrt{D}\delta$.
+	Hence $\gamma + \sqrt{D}\delta < 0$, contradicting $\gamma + \sqrt{D}\delta > 1$.
+
+	If $\gamma > 0$ and $\delta < 0$, then we get 
+	$\gamma + \sqrt{D}\delta = \frac1{\gamma - \sqrt{D}\delta} < 1$,
+	contradiction.
+	
+	Finally we get that $\gamma,\delta > 0$, contradicting the minimality of $x_1+\sqrt{D}y_1$.
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 11 24
+
+\begin{lemma}
+	There exist infinitely many $(p,q) \in \NN\times\NN$ such that 
+	$$ \abs{\frac{p}{q} - \sqrt{2}} < \frac1{2\sqrt{2} q^2} $$
+\end{lemma}
+\proof
+	There exist infinitely many solutions to Pell's Equation.
+
+	Let $(p,q) \in \NN\times\NN$ be a solution to Pell's Equation
+	$$ x^2 - 2y^2 = 1 . $$
+
+	Now we rewrite the approximation as 
+	\[
+		\abs{\frac{p}{q} - \sqrt2} = \frac{\abs{p-\sqrt2 q}}{q} 
+		= \frac{\abs{p^2 - 2q^2}}{q(p+\sqrt2 q)}
+		= \frac1{q^2\left(\frac{p}{q}+\sqrt2\right)}
+		< \frac1{2\sqrt2 q^2}
+	\]
+\qedhere
+
+\begin{lemma}
+	There exist no $(p,q) \in \NN\times\NN$ such that 
+	$$ \abs{\frac{p}{q} - \sqrt2} \le \frac1{3q^2} . $$
+\end{lemma}
+\proof
+	If $q = 1$, then 
+	$$ \abs{\frac{p}{q} - \sqrt2} \ge \min\set{2-\sqrt2, \sqrt2-1} = \sqrt2-1 > \frac13 . $$
+	Now we assume that $q \ge 2$. 
+	\[
+		\abs{\frac{p}{q}-\sqrt2} = \frac{\abs{p^2-2q^2}}{q(p+\sqrt2 q)}
+		\ge \frac1{q^2\left(\frac{p}{q} + \sqrt2\right)} .
+	\]
+	Now it suffices to prove that 
+	$$ \frac{p}{q} < 3-\sqrt2 . $$
+	If $\frac{p}{q} \ge 3-\sqrt2$, then 
+	$$ \abs{\frac{p}{q}-\sqrt2} \ge 3-2\sqrt2 > 0.16 > \frac1{3q^2} . $$
+\qedhere
+
+\begin{lemma}
+	There exist no $(p,q)\in\NN\times\NN$ such that 
+	$$ \abs{\frac{p}{q} - \sqrt[4]2} \le \frac1{12q^4} . $$
+\end{lemma}
+\proof
+	We rewrite as 
+	\[
+		\abs{\frac{p}{q} - \sqrt[4]2} = \frac{\abs{p-\sqrt[4]2 q}}{q} 
+		= \frac{\abs{p^4 - 2q^4}}{q^4 \left(\frac{p}{q} + \sqrt[4]{2}\right)\left(\frac{p^2}{q^2} + \sqrt{2}\right)}
+		\ge \frac1{q^4 \left(\frac{p}{q} + \sqrt[4]{2}\right) \left(\frac{p^2}{q^2} + \sqrt{2} \right)} .
+	\]
+	Observe that 
+	$ 1 < \sqrt[4]2 < \frac54 $, so $0 < \frac{p}{q} < \frac32$.
+	If otherwise, $\frac{p}{q} \ge \frac32$, then $\abs{\frac{p}{q}-\sqrt[4]{2}} > \frac14 > \frac1{12q^4}$.
+	Hence $\frac{p}{q} < \frac32$, so $\frac{p}{q} + \sqrt[4]{2} < 3$. 
+	Similarly, $\frac{p^2}{q^2} + \sqrt2 < 4$. 
+\qedhere
+
+\nl
+	Another approach that does not involve numerically expressing irrational numbers is as follows.
+
+	Assume that $\abs{\frac{p}{q} - \sqrt[4]2} < 1$, otherwise it is not a good approximation. 
+	\begin{align*}
+		\abs{\frac{p}{q} + \sqrt[4]2}  &= \abs{\frac{p}{q} - \sqrt[4]2 + \sqrt[4]2 + \sqrt[4]2}  < 1 + 2\sqrt[4]2 \\
+		\abs{\frac{p}{q} + i\sqrt[4]2} &= \abs{\frac{p}{q} - \sqrt[4]2 + \sqrt[4]2 + i\sqrt[4]2} < 1 + \abs{\sqrt[4]2+i\sqrt[4]2} \\
+		\abs{\frac{p}{q} - i\sqrt[4]2} &= \abs{\frac{p}{q} - \sqrt[4]2 + \sqrt[4]2 - i\sqrt[4]2} < 1 + \abs{\sqrt[4]2-i\sqrt[4]2} \\
+	\end{align*}
+	Then we can rewrite the error as
+	\begin{align*}
+		\abs{\frac{p}{q} - \sqrt[4]{2}} 
+		&= \frac{\abs{p^4 - 2q^4}}{q^4 \left(\frac{p}{q} + \sqrt[4]{2}\right)\left(\frac{p^2}{q^2} + \sqrt{2}\right)} \\
+		&= \frac{\abs{p^4 - 2q^4}}{q^4 \abs{\frac{p}{q} + \sqrt[4]2} \abs{\frac{p}{q} + i\sqrt[4]2} \abs{\frac{p}{q} - i\sqrt[4]2}} \\
+		&> \frac1{q^4 (1+\abs{\sqrt[4]2 - (-\sqrt[4]2)}) (1+\abs{\sqrt[4]2 - (-i\sqrt[4]2)}) (1 + \abs{\sqrt[4]2 - (i\sqrt[4]2)})}
+	\end{align*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 11 27
+
+\subsubsection{Liouville's Theorem}
+
+\begin{defn}
+	A number $\alpha \in \CC$ is algebraic if $\exists f \in \ZZ[x]\sm\set{0}$ such that $f(\alpha)=0$. 
+	The minimum degree $d$ for such a polynomial is called the degree of $\alpha$.
+\end{defn}
+\begin{defn}
+	A number is trancendental if it is not algebraic.
+\end{defn}
+
+\begin{remark}
+	Observe the following.
+	\begin{itemize}
+		\item $d=1 \iff \alpha \in \QQ$. 
+		\item The set of all algebraic numbers is countable.
+		\item If $f\in\ZZ[x]$ is monic, then $\alpha$ is an algebraic integer. 
+	\end{itemize}
+\end{remark}
+
+\begin{lemma}
+	If $\alpha$ has degree $d$ and $f\in\ZZ[x]$ has degree $d$ and $f(\alpha)=0$,
+	then $f$ is irreducible.
+\end{lemma}
+\proof
+	Otherwise, let $f = g\cdot h; g,h\in\ZZ[x]$. 
+	Then $\deg g, \deg h < \deg f$, contradicting the minimality of $\deg f$.
+\qedhere
+
+\begin{remark}
+	Let $f$ be the minimal polynomial, then if $\deg(f) \ge 2$, then $f$ has no root which is a rational number. 
+\end{remark}
+
+\begin{remark}
+	All the roots of $f$ are simple (multiplicity $1$). 
+\end{remark}
+\proof
+	Otherwise, $f$ and $f'$ would share a root.
+	The $\gcd(f, f') = g$, where $g\in\QQ[x] \et \deg g \ge 1$. 
+	Then $f$ is reducible, but it cannot be.
+\qedhere
+
+\begin{thm}[Liouville's Theorem]
+	Let $\alpha$ be algebraic of degree $d\ge2$ and let $f\in\ZZ[x]$ of degree $d$ such that $f(\alpha)=0$.
+	$$ f(x) = a_d x^d + a_{d-1} x^{d-1} + \cdots + a_0 . $$
+	Let $\alpha_1, \alpha2, ..., \alpha_d$ be the roots of $f$.
+	Let $\alpha = \alpha_1$.
+	Let 
+	$$ c = \frac1{\abs{a_d} \cdot \prod_{i=2}^{d}(1+\abs{\alpha_i - \alpha1}} . $$
+	Then for any $\frac{p}{q} \in \QQ$, we have 
+	$$ \abs{\frac{p}{q} - \alpha} > \frac{c}{q^d} . $$
+\end{thm}
+\proof
+	Let $\frac{p}{q}\in\QQ$ and consider
+	\begin{align*} 
+		\abs{ f(\frac{p}{q}) } &= \abs{ a_d \left(\frac{p}{q}\right)^d + a_{d-1} \left(\frac{p}{q}\right)^{d-1} + \cdots + a_0 } \\
+		&= \frac{\abs{ a_d p^d + a_{d-1} p^{d-1} q + \cdots + a_0 q^d }}{q^d} \\
+		&\ge \frac1{q^d}
+	\end{align*}
+
+	Now we look at the roots of $f$. 
+	$$ \abs{ f(\frac{p}{q}) } = \abs{ a_d \cdot \prod_{i=2}^{d}(\frac{p}{q} - \alpha_i) } $$
+
+	Now we get the following inequality.
+	$$ \abs{\frac{p}{q} - \alpha} \ge \frac1{q^d \cdot \abs{a_d} \cdot \prod_{i=2}^{d} \abs{\frac{p}{q} - \alpha_i}} . $$
+	
+	If $\abs{\frac{p}{q} - \alpha} \ge 1$, then we are done because $c < 1$.
+
+	If $\abs{\frac{p}{q} - \alpha} < 1$, then for each $i = 2,...,d$, we have 
+	$$ \abs{\frac{p}{q} - \alpha_i} \le \abs{\frac{p}{q} - \alpha_1} + \abs{\alpha_1 - \alpha_i} < 1 + \abs{\alpha_1 - \alpha_i} . $$ 
+
+	The result of the theorem follows.
+\qedhere
+
+\begin{cor}
+	Let $\beta = \sum_{n=1}^\infty \frac1{10^{n!}}$, then $\beta$ is trancendental.
+\end{cor}
+\proof
+	First observe that $\beta \notin \QQ$. 
+
+	Assume that $\beta$ is algebraic with degree $d\ge2$. 
+	So $\exists c > 0$ such that for any $\frac{p}{q} \in \QQ$, we have 
+	$$ \abs{\frac{p}{q} - \beta} > \frac{c}{q^d} . $$
+
+	Let the partial sum of the series be
+	$$ \frac{p_n}{q_n} = \sum_{i=1}^n \frac1{10^{i!}} . $$
+	Then we have 
+	\begin{align*}
+		\abs{\frac{p_n}{q_n} - \beta} &= \sum_{i={n+1}}^\infty \\
+		&< \frac1{10^{(n+1)!}} \cdot \sum_{i\ge0} \frac1{10^i} = \frac1{10^{(n+1)!}} \cdot \frac1{1-\frac1{10}} \\
+		&= \frac{10}{9\cdot 10^{(n+1)!}}
+	\end{align*}
+	Now we get the following inequalities, 
+	$$ \frac{c}{10^{n!\cdot d}} < \abs{\frac{p_n}{q_n} - \beta} < \frac{10}{9 \cdot 10^{(n+1)!}} $$
+	$$ \frac{9c}{10} < 10^{n! (d-n-1)} \to 0 $$
+	which is a contradiction.
+\qedhere
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 11 29
+
+% TODO missed class
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2017 12 01
+
+\subsection{Polynomial-Exponential Equations}
+
+\begin{example}
+	We want to solve the following equation where $m,n\in\ZZ$. 
+	$$ 3^m - 2^n = 1 . $$
+	Then $(m,n) = (1,1), (2,3)$ are the only solutions
+\end{example}
+\proof
+	If $n \ge 2$, then $2^n \equiv 0 \pmod{4}$. Then $(-1)^m \equiv 3^m \equiv 1 \pmod{4}$, so $m$ is even.
+	Let $m = 2k$. It follows that 
+	$$ 3^{2k} - 1 = 2^n \implies (3^k-1)(3^k+1) = 2^n $$
+	and the result follows.
+\qedhere
+
+\begin{example}
+	Another similar equation is 
+	$$ 3^m - 2^n = -1 . $$
+\end{example} 
+\proof 
+	A similar trick but with $3^m = 2^n-1$ taken modulo $3$.
+\qedhere
+
+\begin{example}
+	Consider the equation
+	$$ n^2017 - 53n + 21) \cdot 10^n + (n+2) \cdot 13^n - (m^4 + 5m + 2) \cdot 6^m - (k^2 + 5k + 2) \cdot 5^k = 2018 . $$
+\end{example}
+\proof
+	This one will be ugly.
+\qedhere
+
+\begin{example}
+	Any polynomial-exponential is a linear recurrence sequence. 
+	$$ (n^2 + 3) \cdot 2^n + 3^n + (-n + 6) \cdot 12^n $$
+	gives the recurrence
+	$$ (x-2)^3 \cdot (x-3) \cdot (x-12)^2 . $$
+\end{example}
+
+\begin{thm}[Laurent's Theorem]
+	The equation 
+	$$ \sum_{i=1}^{l} \sum_{j=1}^{k_i} p_{i,j} (n_i) r_{i,j}^{n_i} = b , $$
+	where $p_{i,j} \in \ZZ[x] , r_{i,j} \in \ZZ, n_i\in\NN \text{ are variables}$,
+	has finitely many solutions if the numbers $r_{i,j}$ are multiplicatively independent.
+	ie. if for some $c_{i,j}\in\ZZ$, we have $\prod_{i,j} r_{i,j}^{c_{i,j}} = 1$, then $c_{i,j}=0, \forall i,j$. 
+	
+	Note: The equation could be rewritten as 
+	$$ \sum_{i=1}^{l} a_{i,n_i} . $$
+\end{thm}
+
+\begin{example}
+	Consider the linear recurrences 
+	\begin{align*}
+		&\set{F_n}; \\
+		&\set{a_0=2; a_1=3; a_{n+2} = -5a_{n+1} - 2a_{n}}; \\
+		&\set{b_0=1; b_1=-2; b_2=3; b_{n+3} = 7b_{n+2} - 2b_{n+1} + 3b_{n}}
+	\end{align*}
+	$$ F_n + a_m + b_k = 2017 . $$
+\end{example}
+\proof
+	Laurent's Theorem says this has finitely many solutions.
+\qedhere
+
+
+\end{document}

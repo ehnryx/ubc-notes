@@ -7,6 +7,7 @@
 \usepackage{amsfonts}
 \usepackage{graphicx} %\usepackage[pdftex]{graphicx}
 \usepackage{xcolor}
+\usepackage{setspace}
 %\usepackage{tikz}
 
 
@@ -1027,7 +1028,247 @@ All the nice properties for $\RR$ also happen in $\RR^n$ ( + invariance of rotat
 
 \section{Differentiation of Measures}
 
-% TODO
+\begin{example}
+  Let $(X,\m{M},\mu)$ be a measurable space, and $f\in L^+$. Let $\nu:\m{M}\to[0,\infty]$
+  such that $\nu:E\mapsto\int_Ef~d\mu$. Observe that $\nu$ is a measure, and we write
+  $d\nu=f~d\mu$. 
+\end{example}
+
+\begin{defn}
+  Define an extended $\mu$-integrable function as follows.  Let $g:X\to[-\infty,\infty]$
+  be measurable. We can write $g=g^+-g^-$ with $g^+,g^-\in L+$ such that we have
+  $\int_Xg^+~d\mu<\infty$ or $\int_Xg^-~d\mu<\infty$. 
+\end{defn}
+
+Observe that if $g$ is extended $\mu$-integrable, and we have a function
+$\nu:E\mapsto\int_Eg~d\mu$, then at most one of $\infty$ and $-\infty$ can be in the range
+of $\nu$. 
+
+\begin{defn}
+  A signed measure on $(X,\m{M})$ is a function $\nu:\m{M}\to[-\infty,\infty]$ such that
+  \begin{itemize}
+    \item $\nu(\emptyset)=0$
+    \item $\nu$ assumes at most one of $\infty$ and $-\infty$
+    \item If $\set{E_j}_{j=1}^\infty\subset\m{M}$ are disjoint, then
+    $\nu\left(\bigcup_{j=1}^\infty E_j\right) = \sum_{j=1}^\infty\nu(E_j)$
+  \end{itemize}
+\end{defn}
+
+\begin{defn}
+  The set $E\in\m{M}$ is positive, negative, or null for $\nu$ if respectively
+  $\nu(F)\ge0$, $\nu(F)\le0$, or $\nu(F)=0$ for all measurable $F\subset E$.
+\end{defn}
+
+\begin{example}
+  Let $\nu:E\mapsto\int_Eg~d\mu$. Then $E$ is positive for $\nu$ if and only if $g\ge0$
+  $\mu$ almost everywhere ($\mu$-a.e.) on $E$. 
+\end{example}
+
+\begin{thm}[Hahn Decomposition]
+  Let $\nu$ be a signed measure on $(X,\m{M})$. There exists sets $P$ positive for $\nu$
+  and $N$ negative for $\nu$ such that $X=P\cup N$ with $P\cap N = \emptyset$.
+
+  If there exists another pair of such sets $P'$ and $N'$, then $P\triangle P'$ and
+  $N\triangle N$ are null for $\nu$. 
+\end{thm}
+
+\proof
+Without loss of generality, assume that $\nu:\m{M}\to[-\infty,\infty)$. Otherwise, we can
+take $-\nu$. Let $m=\sup\set{\nu(E):E\text{ positive for }\nu}$, so we have positive sets
+$P_j$ such that $\lim_{j\to\infty}\nu(P_j)=m$. Let $P=\bigcup_{j=1}^\infty P_j$. Observe
+that $P$ is also positive for $\nu$. It follows from continuity that $m=\nu(P)<\infty$.
+{\color{red}Exercise: show that continuity from above/below holds for signed measures.}
+
+Let $N=X\sm P$. We show by contradiction that $N$ does not contain any positive subsets.
+Suppose that $N$ contains some positive $E$ with $\nu(E)>0$, then $\nu(P\cup E) =
+\nu(P)+\nu(E) > m$, which contradicts the maximality of $m$.
+
+Suppose that $N$ contains some set $A$ with $\nu(A)>0$. Since $A$ is not positive,
+there exists some $C\subset A$ with $\nu(C)<0$. Then if $B=A\sm C$, we have $B\subset A$
+and $\nu(B)=\nu(A)-\nu(C)>\nu(A)$.
+
+Now we show that we can construct some problematic set.  We can define a sequence
+$\set{A_j}_{j=1}^\infty$ as follows.
+\begin{itemize}
+  \item Choose $A_1\subset N$ with $\nu(A_1)>\frac1{n_1}$ where $n_1$ is the smallest
+  positive integer for the inequality to hold.
+  \item For $j>1$, choose $A_j\subset A_{j-1}$ with $\nu(A_j)>\nu(A_{j-1})+\frac1{n_j}$
+  where $n_j$ is the smallest positive integer for the inquality to hold.
+\end{itemize}
+Let $A=\bigcap_{j=1}^\infty A_j$. Note that $\nu(A)$ needs to be finite, so the sum
+$\sum_{j=1}^\infty\frac1{n_j}$ must be summable, which means $n_j\to\infty$.  But, since
+$\nu(A)>0$, there is some $B\subset A$ with $\nu(B)>\nu(A)$, that is
+$\nu(B)>\nu(A)+\frac1n$ for some sufficiently large $n$. So we contradict the minimality
+of $n_j$ when $n_j>n$. This means that $N$ is negative, so we are done. 
+
+Now we consider the uniqueness of $P$ and $N$. Let $X=P'\cup N'$ where $P'$ is positive
+and $N'$ is negative, and these two sets are disjoint. Then the symmetric difference is 
+\[
+  P\triangle P' = (P\cap N') \cup (N\cap P') .
+\]
+These two intersections are both $\nu$-null, so we are done. 
+\qedhere
+
+
+\begin{defn}
+  Signed measures $\mu$ and $\nu$ on $(X,\m{M})$ are mutually singular if there exists
+  some disjoint $A,B\in\m{M}$ such that $X=A\cup B$ and $\mu(B)=\nu(A)=0$.  We write
+  $\mu\perp\nu$. 
+\end{defn}
+
+\begin{example}
+  Consider $(\RR,\m{B}_\RR)$. Then $\delta_{x_0}$ is mutually singular to the Lebesgue
+  measure, but not the counting measure. 
+\end{example}
+
+\begin{thm}[Jordan Decomposition]
+  Let $\nu$ be a signed measure on $(X,\m{M})$. Then there exist unique positive measures
+  $\nu^+$ and $\nu^-$ such that $\nu=\nu^+-\nu^-$ and $\nu^+\perp\nu^-$. 
+\end{thm}
+\proof
+Let $X=P\cup N$ be the Hahn decomposition. Let $\nu^+(E)=\nu(E\cap P)$ and
+$\nu^-(E)=-\nu(E\cap N)$. Observe the following. 
+\begin{itemize}
+  \item $(\nu^+-\nu^-)(E)=\nu(E\cap P)+\nu(E\cap P^c)=\nu(E)$ 
+  \item $P$ is $\nu^-$-null and $N$ is $\nu^+$-null, so $\nu^+\perp\nu^-$. 
+\end{itemize}
+For uniqueness, suppose $\nu=\mu^+-\mu^-$ with $\mu^+\perp\mu^-$. Then $X=A\cup B$ with
+$\mu^+(B)=\mu^-(A)=0$ for some disjoint $A,B\in\m{M}$. Observe that this implies that
+$X=A\cup B$ is Hahn, so $A\triangle P$ is null. Then 
+\[
+  \mu^+(E)=\mu^+(E\cap A)=\nu(E\cap A)=\nu(E\cap P)=\nu^+(E\cap P)=\nu^+(E) ,
+\]
+so $\mu^+=\nu^+$. We can do the same for $\mu^-=\nu^-$. 
+
+{\color{red}Exercise: show that $A\triangle P \implies \nu(E\cap A)=\nu(E\cap P)$.}
+\qedhere
+
+\begin{defn}
+  Let $\abs{\nu}=\nu^++\nu^-$ be the total variation measure of $\nu$.  \end{defn}
+
+{\color{red}
+Exercise: $E$ $\nu$-null $\iff$ $\abs{\nu}(E)=0$. 
+
+Exercise: $\nu\perp\mu \iff \abs{\nu}\perp\mu \iff \nu^+\perp\mu \text{ and }
+\nu^-\perp\mu$. 
+}
+
+\subsection{The Radon-Nikodym Derivative}
+
+Let $f$ be extended $\mu$-integrable and $\nu:E\mapsto\int_Ef~d\mu$ where $\mu$ is a
+positive measure. We write $d\nu=f~d\mu$. 
+\setstretch{0.8}
+\begin{remark} Here are some remarks. 
+  \begin{itemize}
+    \item $X = P\cup N = \set{f>0}\cup\set{f\le0}$ 
+    \item $f=f^+-f^-$, so $\int_Ef^+~d\mu-\int_Ef^-~d\mu=\nu^+-\nu^-$
+    \item $\abs{f}=f^++f^-$, so
+    $(\nu^++\nu^-)(E)=\abs{\nu}(E)=\int_E(f^++f^-)~d\mu=\int_E\abs{f}~d\mu$. Hence
+    $d\abs{\nu}=d\abs{\mu}$
+    \item $\nu\perp\mu$ only if $\nu=0$. That is $f=0$ $\mu$-a.e.
+    \item $\nu(E)=\int_E(\chi_P-\chi_N)~d\abs{\nu}$ 
+    \item Integration with respect to signed $\nu$: $L^1(\nu)=L^1(\nu^+)\cap L^1(\nu^-) =
+    L^1(\abs{\nu})$. Hence $\int f~d\nu = \int f~d\nu^+ - \int f~d\nu^-$
+    \item $\abs{\nu(E)}\le\abs{\nu}(E)$ (by the triangle inequality)
+  \end{itemize}
+\end{remark}
+\setstretch{1.0}
+
+\begin{defn}
+  let $\nu$ be signed and $\mu\ge0$ on $(X,\m{M})$. We say $\nu$ is absolutely continuous
+  with respect to $\mu$ if $\nu(E)=0$ for all $E\in\m{M}$ where $\mu(E)=0$. We write
+  $\nu\ll\mu$. 
+\end{defn}
+
+{\color{red}
+Exercise: $\nu\ll\mu \iff \nu^+\ll\mu \text{ and } \nu^-\ll\mu$. 
+
+Exercise: $\nu\ll\mu \text{ and } \nu\perp\mu \implies \nu=0$. 
+}
+
+\begin{remark}
+  If $d\nu=f~d\mu$, then $\nu\ll\mu$. 
+\end{remark}
+
+%%%
+\begin{thm}
+  If $\nu$ is finite, that is $\abs{\nu}(X)<\infty$, then $\nu\ll\mu$ if and only if
+  $\forall\epsilon>0$, $\exists\delta>0$ such that $E\in\m{M}$ with $\mu(E)<\delta$
+  implies $\abs{\nu(E)}<\epsilon$.
+\end{thm}
+
+\proof
+If the latter holds, then the former must hold. (Eg. take a sequence of decreasing sets and
+use continuity from above). 
+
+Let $\nu\ll\mu$. Without loss of generality, assume that $\nu\ge0$. Otherwise,
+$\abs{\nu(E)}\le\abs{\nu}(E)$, so we consider $\abs{\nu}$ instead. We proceed by
+contradiction. There exists some $\epsilon>0$ and for each $j$, we have $E_j\in\m{M}$ such
+that $\mu(E_j)<2^{-j}$ and $\nu(E_j)>\epsilon$. Set $F_k=\bigcup_{j=k}^\infty E_j$.
+Observe that $F_k\searrow F = \bigcap_{k=1}^\infty F_k$. Then 
+\[
+  \mu(F_k) \le \sum_{j=k}^\infty\mu(E_j) \le \sum_{j=k}^\infty2^{-j} = \frac1{2^{k-1}} . 
+\]
+Now by continuity from above, $\mu(F)=\lim_{k\to\infty}\mu(F_k)=0$. Since $E_k\subset
+F_k$, we get 
+\[
+  \nu(F) = \lim_{k\to\infty}\nu(F_k) \ge \lim_{k\to\infty}\nu(E_k) \ge \epsilon .
+\]
+However, this contradicts $\nu\ll\mu$, so we are done. 
+\qedhere
+
+
+\begin{defn}
+  Let $\nu$ be signed and $\mu\ge0$ on $(X,\m{M})$. Then we can write $\nu=\lambda+\rho$
+  with $\lambda\perp\mu$ and $\rho\ll\mu$. This is the Lebesgue Decomposition. 
+\end{defn}
+
+\begin{thm}[Radon-Nikodym Theorem]
+  Let $\nu$ be signed and $\mu\ge0$ on $(X,\m{M})$ where both are $\sigma$-finite. Then
+  there exists a unique Lebesgue Decomposition $\nu=\lambda+\rho$, and there exists a
+  unique extended $\mu$-integrable $f:X\to\RR$ such that $d\rho=f~d\mu$ (up to $\mu$-null
+  sets). Then $\rho(E)=\int_Ef~d\mu$, and $f=\frac{d\rho}{d\mu}$ is the Radon-Nikodym
+  derivative of $\rho$ with respect to $\mu$. 
+\end{thm}
+
+\proof
+We can assume $\nu\ge0$, because we can take $\nu=\nu^+-\nu^-$. 
+We will assume that $\nu$ and $\mu$ are finite (see text for an extension to
+$\sigma$-finite). 
+
+Let $\m{F}=\set{f\in L^+ : \int_Ef~d\mu \le \nu(E) ~~\forall E\in\m{M}}$. Observe that
+$0\in\m{F}$, so $\m{F}$ is non-empty. Observe that if $f,g\in\m{F}$, then 
+\[
+  \int_E\max(f,g)~d\mu = \int_{E\cap\set{f>g}}f~d\mu+\int_{E\cap\set{f\le g}}g~d\mu
+  \le \nu(E\cap\set{f>g}) + \nu(E\cap\set{f\le g}) = \nu(E) ,
+\]
+so $\max(f,g)\in\m{F}$. 
+
+Let $a=\sup\set{\int f~d\mu : f\in\m{F}}$. Note that $a\le\nu(X)<\infty$ (by assumption of
+finiteness), and $a=\lim_{j\to\infty}\int f_j~d\mu$ (by definition of supremum). Set
+$g_j=\max(f_1,f_2,...,f_j)\in\m{F}$. Now $\set{g_j}_{j=1}^\infty$ is monotone, so using
+MCT, we get 
+\[
+  a = \lim_{j\to\infty}\int f_j~d\mu \le \lim_{j\to\infty}\int g_j~d\mu \le a ,
+\]
+so $\int f~d\mu = \lim_{j\to\infty}\int g_j~d\mu = a$. More MCT gives
+\[
+  \int_Ef~d\mu=\lim_{j\to\infty}\int_Eg_j~d\mu\le\nu(E) ,
+\]
+so $f\in\m{F}$.
+
+Now set $d\lambda = d\nu - f~d\mu$. 
+
+% TODO ???
+
+\qedhere
+
+
+
+% TODO @ class 23
+
+
+
 
 
 
@@ -1036,3 +1277,27 @@ All the nice properties for $\RR$ also happen in $\RR^n$ ( + invariance of rotat
 
 
 \end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

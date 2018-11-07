@@ -1003,7 +1003,10 @@ $x\mapsto\int_Yf_x~d\nu\in L^+(\mu)$ and $y\mapsto\int_Xf^y~d\mu\in L^+(\nu)$, a
 \qedhere
 
 \begin{thm}[Fubini]
-  Let $f\in L^1(\mu\times\nu)$. ... TLDR: We can also change the order of iterated integrals. 
+  Let $f\in L^1(\mu\times\nu)$. Then $f_x\in L^1(\nu)$ a.e.$x$, $f^y\in L^1(\mu)$ a.e.$y$,
+  $x\mapsto\int_Yf_x~d\nu\in L^1(\mu)$, and $y\mapsto\int_Xf^y~d\mu\in L^1(\nu)$. 
+
+  ... TLDR: We can also change the order of iterated integrals. 
 \end{thm}
 \proof
   Let $f:X\times Y\to\CC$. Write $f=(\Re(f)^+-\Re(f)^-)+i(\Im(f)^+-\Im(f)^-)$ and apply
@@ -1112,8 +1115,8 @@ These two intersections are both $\nu$-null, so we are done.
 
 \begin{defn}
   Signed measures $\mu$ and $\nu$ on $(X,\m{M})$ are mutually singular if there exists
-  some disjoint $A,B\in\m{M}$ such that $X=A\cup B$ and $\mu(B)=\nu(A)=0$.  We write
-  $\mu\perp\nu$. 
+  some disjoint $A,B\in\m{M}$ such that $X=A\cup B$ where $B$ is $\mu$-null and $A$ is
+  $\nu$-null. We write $\mu\perp\nu$. 
 \end{defn}
 
 \begin{example}

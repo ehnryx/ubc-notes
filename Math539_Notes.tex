@@ -1,0 +1,220 @@
+\documentclass[11pt]{article}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx} %\usepackage[pdftex]{graphicx}
+\usepackage{xcolor}
+\usepackage{setspace}
+%\usepackage{tikz}
+
+
+\setlength\parindent{0pt}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}{Corollary}[thm]
+\newtheorem{lemma}[thm]{Lemma}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{exe}{Exercise}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{pty}{Property}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{obs}{Observation}[section]
+\newcommand{\The}[2]{\begin{#1}#2\end{#1}}
+
+\newcommand{\ord}[0]{\text{ord}}
+
+% notes
+\iftrue 
+\newcommand{\f}[2]{\frac{#1}{#2}}
+\newcommand{\re}[1]{\frac{1}{#1}}
+\newcommand{\half}[0]{\frac{1}{2}}
+\newcommand{\ift}[0]{It follows that}
+\newcommand{\cp}[1]{\overline{#1}}
+\newcommand{\Note}[0]{\noindent\textbf{Note: }} 
+\newcommand{\Claim}[0]{\noindent\textbf{Claim: }} 
+\newcommand{\Lemma}[1]{\noindent\textbf{Lemma #1}: } %
+\newcommand{\Ex}[0]{\noindent\textbf{Example: }} %
+\newcommand{\Special}[0]{\noindent\textbf{Special case: }} %
+\newcommand{\solution}[2]{\item[]\proof[Solution to #1] #2 \qedhere}
+\newcommand{\legendre}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\dent}[0]{\hspace{0.5in}}
+\fi
+
+\newcommand{\sm}[0]{\setminus}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\nl}[0]{\vspace{12pt}}
+\newcommand{\rng}[2]{#1,\dots,#2}
+\newcommand{\srng}[3]{#1_#2,\dots,#1_#3}
+\newcommand{\st}[0]{\text{ such that }}
+\newcommand{\et}[0]{\text{ and }}
+\newcommand{\then}[0]{\text{ then }}
+\newcommand{\forsome}[0]{\text{ for some }}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+
+% misc
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert} %
+% lcm ???
+\DeclareMathOperator{\lcm}{lcm} 
+% blackboard bold
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\FF}{\mathbb{R}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\CC}{\mathbb{C}}
+% mathcal
+\newcommand{\m}[1]{\mathcal{#1}}
+% vectors
+\newcommand{\vvec}[1]{\textbf{#1}} %
+\newcommand{\ii}[0]{\vvec{i}} %
+\newcommand{\jj}[0]{\vvec{j}} %
+\newcommand{\kk}[0]{\vvec{k}} %
+\newcommand{\hvec}[1]{\hat{\textbf{#1}}} %
+\newcommand{\cvec}[3]{ %column vector
+    \ensuremath{\left(\begin{array}{c}#1\\#2\\#3\end{array}\right)}}
+\newcommand{\pfrac}[2]{\frac{\partial#1}{\partial#2}} %
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} %
+% dotp roduct
+\makeatletter
+\newcommand*\dotp{\mathpalette\dotp@{.5}}
+\newcommand*\dotp@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+% divrg and curl
+\newcommand{\divrg}[0]{\nabla\dotp} %
+\newcommand{\curl}[0]{\nabla\times} %
+
+\title{Math 539 Notes}
+\author{Henry Xia}
+%\date{15 September 2017}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 01 07
+
+\section{Introduction}
+
+Motivating questions (some statistics):
+\begin{itemize}
+\item the ``probability'' that a random number has some property
+\item the ``distribution'' of some given multiplicative/additive function
+\end{itemize}
+
+Idea: we can answer the question for $\set{1,...,\floor{x}}$ for some parameter $x$. Then,
+take the limit $x\to\infty$ for all natural numbers.
+
+\subsection{Notation}
+
+Let $g(x)\ge0$.
+
+\begin{defn}
+$O(g(x))$ means some unspecified function $u(x)$ such that $\abs{u(x)}\le cg(x)$ for some
+constant $c>0$.
+\end{defn}
+
+\begin{example}
+Show that $e^{2x}-1=2x+O(x^2)$ for $x=[-1,1]$.
+\end{example}
+\proof
+Observe that $f(z)=e^{2z}-1-2z$ is analytic (and entire) and has a double zero at $z=0$
+(one can check that $f(z)=f'(z)=0$. Hence, $g(z)=(e^{2z}-1-2z)/z^2$ has a removable
+singularity at $z=0$, whence $g$ is analytic and entire. Let
+$C=\max\set{\abs{g(z)}:\abs{z}\le1}$. Then 
+\[
+  \abs{g(z)}\le C \implies \abs{e^{2z}-1-2z} \le C\abs{z^2}
+  \implies e^{2z}-1-2z = O(\abs{z}^2) .
+\]
+\qedhere
+
+\begin{exe}
+Show that $\sqrt{x+1}=\sqrt{x}+O(1/\sqrt{x})$ for $x\in[1,\infty)$.
+\end{exe}
+
+\begin{defn}
+$f(x)\ll g(x)$ means $f(x)=O(g(x))$.
+\end{defn}
+
+\begin{exe}
+Suppose that $f_1\ll g_1, f_2\ll g_2$, then $f_1+f_2\ll\max\set{g_1,g_2}$. \checkmark
+\end{exe}
+
+\begin{exe}
+Let $f,g$ be continuous on $[0,\infty)$, and $f\ll g$ on $[123,\infty)$. Show that $f\ll g$
+on $[0,\infty)$. \checkmark
+\end{exe}
+
+\begin{defn}
+$f(x)\sim g(x)$ means $\lim\frac{f(x)}{g(x)}=1$.
+\end{defn}
+
+\begin{defn}
+$f(x)=o(g(x))$ means $\lim\frac{f(x)}{g(x)}=0$.
+\end{defn}
+
+\begin{defn}
+$f(x)=O_y(g(x))$ means $f,g$ depend on some parameter $y$, and the implicit constant
+depends on $y$.
+\end{defn}
+
+\begin{exe}
+For any $A,\epsilon>0$, show that $(\log x)^A \ll_{A,\epsilon} x^\epsilon$.
+\end{exe}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 01 09
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 01 14
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 01 16
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

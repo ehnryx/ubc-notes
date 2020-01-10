@@ -14,16 +14,16 @@
 \setlength\parindent{0pt}
 
 \newtheorem{thm}{Theorem}[section]
-\newtheorem{cor}{Corollary}[thm]
+\newtheorem{cor}[thm]{Corollary}
 \newtheorem{lemma}[thm]{Lemma}
 \theoremstyle{definition}
-\newtheorem{defn}{Definition}[section]
-\newtheorem{example}{Example}[section]
-\newtheorem{exe}{Exercise}[section]
-\newtheorem{prop}{Proposition}[section]
-\newtheorem{pty}{Property}[section]
-\newtheorem{remark}{Remark}[section]
-\newtheorem{obs}{Observation}[section]
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{example}[thm]{Example}
+\newtheorem{exe}[thm]{Exercise}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{pty}[thm]{Property}
+\newtheorem{remark}[thm]{Remark}
+\newtheorem{obs}[thm]{Observation}
 \newcommand{\The}[2]{\begin{#1}#2\end{#1}}
 
 \newcommand{\ord}[0]{\text{ord}}
@@ -174,7 +174,79 @@ For any $A,\epsilon>0$, show that $(\log x)^A \ll_{A,\epsilon} x^\epsilon$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2020 01 09
 
+\subsection{Riemann-Stieltjes Integral}
 
+Appendix A in the book.
+
+\begin{defn}
+Some definitions for partitions
+\begin{enumerate}
+\item Let $\underline{x}=\set{x_0,...,x_N}$ be a partition of $[c,d]$ if
+$c=x_0<\cdots<x_N=d$.
+\item The mesh size $m(\underline{x})=\max_{1\le j\le N} x_j-x_{j-1}$.
+\item Sample points $\xi_j\in[x_{j-1},x_j]$.
+\end{enumerate}
+\end{defn}
+
+\begin{defn}[Riemann-Stieltjes Integral]
+Given two functions $f(x)$ and $g(x)$, define the Riemann-Stieltjes integral as
+\[
+  \int_c^df(x)~dg(x) = \lim_{m(\underline{x})\to0} \sum_{j=1}^N
+  f(\xi_j)(g(x_j)-g(x_{j-1})) .
+\]
+\end{defn}
+
+\begin{remark}
+Setting $g(x)=x$ gives the Riemann integral.
+\end{remark}
+
+\begin{thm}
+Let $f(x)$ have bounded variation and let $g(x)$ be continuous on $[c,d]$, or vice versa.
+Then $\int_c^df(x)~dg(x)$ exists.
+\end{thm}
+
+\begin{remark}
+If a function is piecewise monotone, then it has bounded variation.
+\end{remark}
+
+\begin{example}
+Given a sequence ${a_n}_{n\in\NN}$, define the summatory function $A(x)=\sum_{n\le x}a_n$.
+Then, on any $[c,d]$, $A(x)$ is bounded, piecewise continuous and piecewise monotone.
+Hence, the Riemann-Stieltjes integral exists when $g$ is continuous.
+\end{example}
+
+\begin{remark}
+We present 3 facts that we will use.
+\begin{enumerate}
+\item If $A(x)$ is the summatory function as above, and $f(x)$ is continuous, then
+\[
+  \int_c^d f(x) ~dA(x) = \sum_{c<n\le d} a_nf(n) .
+\]
+\item (Integration by parts). If the integrals exist, then
+\[
+  \int_c^d f(x) ~dg(x) = \left.f(x)g(x)\right|_c^d - \int_c^d g(x) ~df(x) .
+\]
+\item If $f(x)$ is continuously differentiable, then
+\[
+  \int_c^d g(x) ~df(x) = \int_c^d g(x)f'(x) ~dx .
+\]
+\end{enumerate}
+\end{remark}
+
+\begin{example}[Summation by parts]
+Consider $\sum_{n\le y}\frac{a_n}n$. Let $f(x)=1/x$, then we can write
+\begin{multline*}
+\sum_{n\le y} \frac{a_n}n
+= \sum_{n\le y} a_n\cdot\frac1n = \int_0^y \frac1x ~dA(x)
+= \left.\frac1xA(x)\right|_0^y - \int_0^y A(x) ~d\left(\frac1x\right)
+= \frac{A(y)}y - \int_0^y A(x)\frac1{x^2} ~dx .
+\end{multline*}
+The final manipulation that we want to get is
+\begin{equation}
+\sum_{n\le y} a_nf(n) = A(y)f(y) - \int_0^y A(x)f'(x) ~dx .
+\label{summation by parts}
+\end{equation}
+\end{example}
 
 
 

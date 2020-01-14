@@ -55,11 +55,13 @@
 \newcommand{\then}[0]{\text{ then }}
 \newcommand{\forsome}[0]{\text{ for some }}
 \newcommand{\floor}[1]{\lfloor #1 \rfloor}
+\newcommand{\s}[0]{\sigma}
+\newcommand{\e}[0]{\epsilon}
 
 % misc
 \newcommand{\abs}[1]{\left\lvert#1\right\rvert} %
 % lcm ???
-\DeclareMathOperator{\lcm}{lcm} 
+\DeclareMathOperator{\lcm}{lcm}
 % blackboard bold
 \newcommand{\RR}{\mathbb{R}}
 \newcommand{\FF}{\mathbb{R}}
@@ -254,8 +256,135 @@ The final manipulation that we want to get is
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2020 01 14
 
+\section{Dirichlet Series}
 
+A Dirichlet series is $\sum_{n=1}^\infty n^{-s}$.
 
+Facts about Dirichlet series:
+\begin{itemize}
+\item converge in some right half-plane $\set{s\in\CC:\Re s>R}$ for some $R$ (possibly
+$R=\pm\infty$).
+\item Sometimes converge conditionally. Example: $\sum_{n=1}^\infty(-1)^n/n^{1/2}$.
+\item $\left(\sum_{n=1}^\infty a_nn^{-s}\right)\left(\sum_{n=1}^\infty b_nn^{-s}\right)
+= \sum_{n=1}^\infty c_nn^{-s}$ where $c=\sum_{de=n}a_db_e=\sum_{d\mid n}a_db_{e/d}$.
+(multiplicative convolution)
+\end{itemize}
+
+Some notation: for $s\in\CC$, we write $s=\sigma+it$, that is $\sigma$ is the real part of
+$s$, and $t$ is the imaginary part of $s$. Note that if $x>0$, then
+$\abs{x^s}=\abs{x^\sigma}\abs{x^{it}}=\abs{x^\sigma}\abs{e^{it\log{x}}}=\abs{x^\sigma}$.
+
+\begin{thm}
+Let $\alpha(s)=\sum_{n=1}^\infty a_nn^{-s}$ be a Dirichlet series. Suppose that
+$s_0\in\CC$ is such that $\alpha(s_0)$ converges. Then $\alpha(s)$ converges uniformly in
+the sector $S=\set{s\in\CC:\sigma\ge\sigma_0,\abs{t-t_0}\le H\abs{\sigma-\sigma_0}}$ for
+any $H>0$.
+\end{thm}
+
+\proof
+WLOG, let $s_0=0$, otherwise we can do a change of variables.
+
+Let $A(x)=\sum_{n\le x}a_n=\alpha(0)-R(x)$. Then, for $\sigma>0$,
+\begin{align*}
+\sum_{M<n\le N}a_n n^s &= \int_M^N x^{-s} ~dA(x) = \int_M^N x^{-s} ~d(\alpha(0)-R(x)) \\
+&= \int_M^N x^{-s} ~d\alpha(0) - \int_M^N x^{-s} ~dR(x) = -\int_M^N x^{-s} ~dR(x) \\
+&= \left.-x^{-s}R(x)\right|_M^N + \int_M^N R(x) ~d(x^{-s}) \\
+&= R(M)M^{-s} - R(N)N^{-s} - s\int_M^N R(x)x^{-s-1} ~dx .
+\end{align*}
+Note that $R(N)N^{-s}\to0$ as $N\to\infty$, and that $R(x)x^{-s-1}\ll x^{-\sigma-1}$.
+Hence, letting $N\to\infty$ gives
+\[
+  \sum_{M<n}a_nn^{-s} = R(M)M^{-s} - s\int_M^\infty R(x)x^{-s-1} ~dx
+  \to 0 \text{ as } M \to \infty .
+\]
+
+Now, choose $M$ large such that $\abs{R(x)}<\epsilon$ for all $x\ge M$. Then,
+\begin{align*}
+  \abs{\sum_{n>M}a_nn^{-s}}
+  &\le \epsilon M^{-\sigma} + \abs{s}\int_M^\infty \epsilon x^{-\sigma-1} ~dx \\
+  &= \epsilon M^{-\s} + \left.\abs{s}\epsilon x^{-\s} \frac1{-\s} \right|_M^\infty \\
+  &= \epsilon M^{-\s} + \abs{s} \epsilon \frac{M^{-\s}}{\s}
+  = \frac{\epsilon}{M^\s} \left(1 + \frac{\abs{s}}{\s}\right) .
+\end{align*}
+
+Since $s\in S$, we have
+\[
+  \abs{s} = \sqrt{\s^2+t^2} \le \sqrt{\s^2 + \abs{H\s}^2} = \s\sqrt{1+H^2} ,
+\]
+so $\abs{\sum_{n>M}a_nn^{-s}} \le \epsilon(1+\sqrt{1+H^2})$ as $M\to\infty$. Observe that
+the latter only depends on $H$, so the convergence is uniform.
+\qedhere
+
+\begin{cor}
+If $\alpha(s_0)$ converges, then $\alpha(s)$ converges for all $s$ with $\sigma>\sigma_0$.
+\end{cor}
+
+\begin{cor}
+If $\alpha(s_0)$ diverges, then $\alpha(s)$ diverges for all $s$ with $\sigma<\sigma_0$.
+\end{cor}
+
+\begin{remark}
+The Dirichlet series $\alpha(s)$ has an abscissa of convergence $\sigma_c$ such that
+$\alpha(s)$ converges if $\sigma>\sigma_c$, and diverges if $\sigma<\sigma_c$. It is
+allowed to have $\sigma_c=\pm\infty$. Furthermore, $\alpha(s)$ converges locally uniformly
+right of $\sigma_c$, whence $\alpha(s)$ is analytic.
+\end{remark}
+
+\begin{remark}
+Observe that $\int_1^N x^{-s} ~dA(x) = \sum_{1<n\le N}a_nn^{-s} = \sum_{n=2}^Na_nn^{-s}$.
+Sometimes we write $\int_{-1}^N$ to include the 1.
+\end{remark}
+
+\begin{thm}
+Let $\alpha(s)=\sum_{n=1}^\infty a_nn^{-s}$ have an abscissa of convergence $\s_c\ge0$.
+Then for $\s>\s_c$, we have $\alpha(s)=s\int_1^\infty A(x)x^{-s-1} ~dx$.
+Moreover,
+\[
+  \limsup_{x\to\infty} \frac{\log\abs{A(x)}}{\log x} = \s_c .
+\]
+\end{thm}
+
+\proof
+Observe that
+\begin{align*}
+  \sum_{n=1}^N a_nn^{-s} &= \int_{1^-}^N x^{-s} ~dA(x)
+  = \left.x^{-s}A(x)\right|_{1^-}^N - \int_{1^-}^N A(x) ~d(x^{-s}) \\
+  &= A(N)N^{-s} - \int_{1^-}^N A(x)(-sx^{-s-1} ~dx)
+  = A(N)N^{-s} + s\int_1^N A(x) x^{-s-1} ~dx .
+\end{align*}
+Observe that in the last line, we can replace $1^-$ with $1$ because the integrand is
+bounded.
+
+Define $\phi=\limsup_{x\to\infty}\frac{\log\abs{A(x)}}{\log x}$. We compare this to $\s_c$.
+
+Let $\s=\phi+\epsilon$ for some $\e>0$. Then $\frac{\log\abs{A(x)}}{\log x}<\phi+\frac\e2$
+for large $x$, so $A(x)\ll x^{\phi+\e/2}$. Then, $A(N)N^{-s}\ll N^{\phi+\e/2}N^{-(\phi+\e)}
+= N^{-\e/2}$. Hence,
+\[
+  \int_N^\infty A(x)x^{-\s-1} ~dx \ll \int_N^\infty x^{-\phi+\e/2}x^{-(\phi+\e+1)} ~dx
+  = \int_N^\infty x^{-1-\e/2} ~dx \ll N^{-\e/2} .
+\]
+It follows that
+\[
+  \sum_{n=1}^N a_nn^{-s}
+  = O(N^{-\e/2}) + s\left(\int_1^\infty A(x)x{-s-1} ~dx + O(N^{-\e/2})\right) .
+\]
+Let $N\to\infty$ gives $s\int_1^\infty A(x)x^{-s-1} ~dx$ converges. Hence
+$\sigma_c\le\phi$.
+
+Conversely, let $\s_0=\s_c+\e$, and let
+$R_0(x)=\sum_{n>x}a_nn^{-\s_0}=\alpha(\s_0)-\sum_{n\le x}a_nn^{-\s_0}$. Observe that
+\[
+  A(N) = -R_0(N)N^{\s_0} + \s_0\int_0^NR_0(x)x^{\s_0-1} ~dx .
+\]
+Since $\alpha(0)$ converges, $R_0(x)=o(1)$ so $R_0(x)\ll1$. Then
+\[
+  A(N) \ll 1 \cdot N^{\s_0} + \s_0\int_0^N 1\cdot x^{\s_0-1} ~dx
+  = N^{\s_0}+N^{\s_c} \ll N^{\s_0} = N^{\s_c+\e} .
+\]
+Hence $\frac{\log\abs{A(x)}}{\log x} \ll \frac{(\s_c+\e)\log x}{\log x} = \s_c+\e$, so
+$\phi\le\s_c+\e$. Take $\e\to0$, so $\phi\le\s_c$.
+\qedhere
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

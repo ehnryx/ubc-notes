@@ -29,14 +29,14 @@
 \newcommand{\ord}[0]{\text{ord}}
 
 % notes
-\iftrue 
+\iftrue
 \newcommand{\f}[2]{\frac{#1}{#2}}
 \newcommand{\re}[1]{\frac{1}{#1}}
 \newcommand{\half}[0]{\frac{1}{2}}
 \newcommand{\ift}[0]{It follows that}
 \newcommand{\cp}[1]{\overline{#1}}
-\newcommand{\Note}[0]{\noindent\textbf{Note: }} 
-\newcommand{\Claim}[0]{\noindent\textbf{Claim: }} 
+\newcommand{\Note}[0]{\noindent\textbf{Note: }}
+\newcommand{\Claim}[0]{\noindent\textbf{Claim: }}
 \newcommand{\Lemma}[1]{\noindent\textbf{Lemma #1}: } %
 \newcommand{\Ex}[0]{\noindent\textbf{Example: }} %
 \newcommand{\Special}[0]{\noindent\textbf{Special case: }} %
@@ -56,7 +56,7 @@
 \newcommand{\forsome}[0]{\text{ for some }}
 \newcommand{\floor}[1]{\lfloor #1 \rfloor}
 \newcommand{\s}[0]{\sigma}
-\newcommand{\e}[0]{\epsilon}
+\newcommand{\e}[0]{\varepsilon}
 
 % misc
 \newcommand{\abs}[1]{\left\lvert#1\right\rvert} %
@@ -131,7 +131,7 @@ Show that $e^{2x}-1=2x+O(x^2)$ for $x=[-1,1]$.
 Observe that $f(z)=e^{2z}-1-2z$ is analytic (and entire) and has a double zero at $z=0$
 (one can check that $f(z)=f'(z)=0$. Hence, $g(z)=(e^{2z}-1-2z)/z^2$ has a removable
 singularity at $z=0$, whence $g$ is analytic and entire. Let
-$C=\max\set{\abs{g(z)}:\abs{z}\le1}$. Then 
+$C=\max\set{\abs{g(z)}:\abs{z}\le1}$. Then
 \[
   \abs{g(z)}\le C \implies \abs{e^{2z}-1-2z} \le C\abs{z^2}
   \implies e^{2z}-1-2z = O(\abs{z}^2) .
@@ -266,7 +266,7 @@ Facts about Dirichlet series:
 $R=\pm\infty$).
 \item Sometimes converge conditionally. Example: $\sum_{n=1}^\infty(-1)^n/n^{1/2}$.
 \item $\left(\sum_{n=1}^\infty a_nn^{-s}\right)\left(\sum_{n=1}^\infty b_nn^{-s}\right)
-= \sum_{n=1}^\infty c_nn^{-s}$ where $c=\sum_{de=n}a_db_e=\sum_{d\mid n}a_db_{e/d}$.
+= \sum_{n=1}^\infty c_nn^{-s}$ where $c=\sum_{de=n}a_db_e=\sum_{d|n}a_db_{e/d}$.
 (multiplicative convolution)
 \end{itemize}
 
@@ -390,6 +390,212 @@ $\phi\le\s_c+\e$. Take $\e\to0$, so $\phi\le\s_c$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2020 01 16
+
+\begin{defn}
+The abscissa of absolute convergence is
+$\s_a=\inf\set{\s\in\RR:\sum_{n=1}^\infty\abs{a_n}n^{-\s}\text{ converges}}$.
+\end{defn}
+
+\begin{example}
+Let $\eta(s)=\sum_{n=1}^\infty(-1)^{n-1}n^{-s}$. Observe that $\s_c=0$ by the alternating
+series test. However, we only have absolute convergence when $\s>1$, so the abscissa of
+absolute convergence is $\s_a=1$.
+\end{example}
+
+\begin{remark}
+When $a_n\ge0$ for all $n\in\NN$, we have $\s_c=\s_a$.
+\end{remark}
+
+\begin{thm}
+For any Dirichlet series $\alpha(s)$, we have $\s_c\le\s_a\le\s_c+1$.
+\end{thm}
+\proof
+The first inequality is trivial.
+
+Let $\s=\s_c+1+\e$ where $\e>0$. We show that $\alpha(\s)$ converges absolutely. Note that
+$\alpha(s)$ converges at $s=\s_c+\e/2$, that is
+\[
+  a_nn^{-(\s_c+\e/2)} = o(1) \implies a_nn^{-(\s_c+\e/2)} \ll 1 .
+\]
+Then,
+\[
+  \sum_{n=1}^\infty\abs{a_n}n^{-(\s_c+1+\e)}
+  = \sum_{n=1}^\infty\abs{a_nn^{-(\s_c+\e/2)}}n^{-(1+\e/2)}
+  \ll \sum_{n=1}^\infty n^{-(1+\e/2)} \ll 1 .
+\]
+It follows that $\alpha(\s)$ converges absolutely for all $\e>0$.
+\qedhere
+
+\begin{thm}[Landau's Theorem]
+Let $\alpha(s)=\sum_{n=1}^\infty a_nn^{-s}$ with $\s_c<\infty$. If $a_n\ge0$ for each
+$n\in\NN$. Then, $\alpha(s)$ has a singularity at $s=\s_c$.
+\end{thm}
+\proof
+Suppose that there does not exist a singularity at $s=\s_c$. Then, there exists an analytic
+continuation of $\alpha$ to $C=\set{s\in\CC:\abs{s-\s_c}<\delta}$.
+
+Let $z=\s_c-\frac14\delta$ and let $w=\s_c+\frac34\delta$. Let
+$D=\set{s\in\CC:\abs{s-w}<\frac54\delta}$. Observe that $D\subset C\cup\set{s\in\CC:\s>0}$,
+so $\alpha$ has an analytic continuation to $D$. Let $P(s)$ be the power series of $\alpha$
+centered at $w$. Observe that $z\in D$, so it suffices to show that $P(z)=\alpha(z)$,
+whence we contradict the assumption that the abscissa of convergence is $\s_c$. Note that
+\begin{align*}
+P(z) &= \sum_{k=0}^\infty \frac{\alpha^{(k)}(w)}{k!} (z-w)^k \\
+&= \sum_{k=0}^\infty \frac{1}{k!}(z-w)^k \sum_{n=1}^\infty a_n(-\log n)^k n^{-w}
+~~~~~~~\text{we can differentiate termwise for }\alpha^{(k)}(w) \\
+&= \sum_{k=1}^\infty \frac{1}{k!}(w-z)^k \sum_{n=1}^\infty a_n(\log n)^k n^{-w}
+~~~~~~~\text{where the terms are all nonnegative} \\
+&= \sum_{n=1}^\infty a_nn^{-w} \sum_{k=1}^\infty \frac{1}{k!}(w-z)^k(\log n)^k \\
+&= \sum_{n=1}^\infty a_nn^{-w} e^{(w-z)\log n} = \sum_{n=1}^\infty a_nn^{-z} .
+\end{align*}
+It follows that $\alpha(z)$ converges left of $\s_c$, which is a contradiction.
+\qedhere
+
+
+% TODO @ sec 1.3 of text on multiplicative stuff
+\subsection{Dirichlet convolutions}
+
+Motivating question: are these calculations legitimate?
+\begin{itemize}
+\item $\zeta(s)^2 = \sum_{l,m=1}^\infty (lm)^{-s} = \sum_{n=1}^\infty d(n)n^{-s}$.
+\item $\zeta(s) = \prod_{p\text{ prime}}(1+p^{-s}+p^{-2s}+\cdots) = \prod_{p\text{ prime}}
+(1-p^{-s})^{-1}$ .
+\end{itemize}
+
+\begin{defn}
+  Let $a=\set{a_n}$, $b=\set{b_n}$ be sequences. The Dirichlet/multiplicative convolution
+  $a*b$ by $c=\set{c_n}$ where $c_n = \sum_{de=n}a_db_e = \sum_{d|n}a_db_{n/d}$.
+\end{defn}
+
+\begin{thm}
+Let $\alpha(s)=\sum_{n=1}^\infty a_nn^{-s}$, let $\beta(s)=\sum_{n=1}^\infty b_nn^{-s}$,
+and let $\gamma(s)=\sum_{n=1}^\infty c_nn^{-s}$. If $s\in\CC$ is such that $\alpha(s)$ and
+$\beta(s)$ onvege absolutely, and if $c=a*b$, then $\gamma(s)$ converges absolutely and
+$\gamma(s)=\alpha(s)\beta(s)$.
+\end{thm}
+
+\begin{example}
+Observe that $d(n)=(1*1)(n)$.
+\end{example}
+
+\begin{example}
+Let $M(s)=\sum_{n=1}^\infty\mu(n)n^{-s}$, where $\mu$ is the M\"obius function which
+defined as
+\[
+  \mu(n) = \begin{cases}
+  0 &\text{if } n \text{ is not square free} \\
+  1 &\text{if } n \text{ has an even number of prime divisors} \\
+  -1 &\text{if } n \text{ has an odd number of prime divisors}
+  \end{cases} .
+\]
+Equivalently, we can define $\mu$ as the function that satisfies
+\[
+  \sum_{d|n}\mu(d) = \begin{cases}
+  1 &\text{if } n = 1 \\
+  0 &\text{if } n > 1
+  \end{cases} .
+\]
+Observe that $M(s)\zeta(s) = \sum_{n=1}^\infty(\mu*1)(n)n^{-s} = 1$ for $\s>1$, since
+$(\mu*1)(n)=\sum_{d|n}\mu(d)$. It follows that $M(s)=1/\zeta(s)$.
+
+Since the abscissa of convergence of $M$ is $\s_c=1$, we get that $\zeta(s)$ has no zeroes
+when $\s>1$.
+\end{example}
+
+\begin{example}[M\"obius Inversion Formula]
+Write $F(s)=\sum_{n=1}^\infty f(n)n^{-s}$ and $G(s)=\sum_{n=1}^\infty g(n)n^{-s}$. Then
+\begin{align*}
+F(s)\zeta(s) = G(s) &\iff F(s) = \frac{G(s)}{\zeta(s)} = G(s)M(s) \\
+(f*1)(n) = g(n) &\iff f(n) = (g*\mu)(n) \\
+\sum_{d|n} f(n) = g(n) &\iff f(n) = \sum_{d|n} g(d)\mu\left(\frac{n}{d}\right) .
+\end{align*}
+\end{example}
+
+\begin{example}
+It is known that $\sum_{d|n}\phi(d)=n$. This gives $(\phi*1)(n)=\sum_{d|n}\phi(d)=n$. Then,
+for $\s>2$, we have
+\[
+\left(\sum_{n=1}^\infty \phi(n)n^{-s}\right) \left(\sum_{n=1}^\infty n^{-s}\right)
+= \sum_{n=1}^\infty n\cdot n^{-s} = \zeta(s-1) .
+\]
+This gives $\sum_{n=1}^\infty\phi(n)n^{-s}=\zeta(s-1)/\zeta(s)$.
+\end{example}
+
+\begin{exe}
+Let $\sigma_1(n)=\sum_{d|n}d$. Show that
+$\sum_{n=1}^\infty\sigma_1(n)n^{-s}=\zeta(s-1)\zeta(s)$.
+\end{exe}
+
+\begin{defn}
+A function $f$ is multiplicative if $f(m)f(n)=f(mn)$ if $\gcd(m,n)=1$.
+\end{defn}
+
+\begin{defn}
+A number $n$ is $y$-friable if $p\mid n \implies p\le y$.
+\end{defn}
+
+\begin{thm}
+Let $f$ be a multiplicative function, and let $F(s)=\sum_{n=1}^\infty f(n)n^{-s}$. If
+$\sum_{n=1}^\infty\abs{f(n)}n^{-\s}$ converges, we have the Euler product
+\[
+  F(s) = \prod_{p\text{ prime}} (1 + f(p)p^{-s} + f(p^2)p^{-2s} + \cdots) .
+\]
+\end{thm}
+\proof
+Let $\s>\s_a$. Then, for all $p$, we have
+\[
+\abs{1 + f(p)p^{-s} + f(p^2)p^{-2s} + \cdots}
+\le 1 + \abs{f(p)}p^{-s} + \abs{f(p)}p^{-2s} + \cdots
+\le \sum_{n=1}^\infty \abs{f(n)}n^{-s} .
+\]
+Since the above converges, we can rearrange the finite product
+\[
+\prod_{p\le y} (1 + f(p)p^{-s} + f(p^2)p^{-2s} + \cdots)
+= \sum_{n~y\text{-friable}} f(n)n^{-s} .
+\]
+Now, we can compute
+\begin{align*}
+\abs{F(s) - \prod_{p\le y} (1 + f(p)p^{-s} + f(p^2)p^{-2s} + \cdots)}
+&= \abs{F(s) - \sum_{n~y\text{-friable}} f(n)n^{-s}} \\
+&= \abs{\sum_{n~\text{not}~y\text{-friable}} f(n)n^{-s}} \\
+&\le \sum_{n>y} \abs{f(n)}n^{-s} = o(1) .
+\end{align*}
+The tail goes to 0, so the theorem is proved.
+\qedhere
+
+\begin{remark}
+Almost the same proof shows that the Euler product converges absolutely. In particular, it
+is nonzero (unless an individual factor is zero). Note that the convergence of a product is
+defined as the convergence of the sum of logs.
+\end{remark}
+
+\begin{example}
+Note that $\mu$ is multiplicative, so $M(s)=\prod_{p\text{ prime}}(1-p^{-s})$.
+\end{example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 01 21
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 01 23
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 01 28
+
+
+
 
 
 

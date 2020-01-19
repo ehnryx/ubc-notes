@@ -13,7 +13,7 @@
 
 \setlength\parindent{0pt}
 
-\newtheorem{thm}{Theorem}[section]
+\newtheorem{thm}{Theorem}[subsection]
 \newtheorem{cor}[thm]{Corollary}
 \newtheorem{lemma}[thm]{Lemma}
 \theoremstyle{definition}
@@ -55,6 +55,8 @@
 \newcommand{\then}[0]{\text{ then }}
 \newcommand{\forsome}[0]{\text{ for some }}
 \newcommand{\floor}[1]{\lfloor #1 \rfloor}
+\newcommand{\s}[0]{\sigma}
+\newcommand{\e}[0]{\varepsilon}
 
 % misc
 \newcommand{\abs}[1]{\left\lvert#1\right\rvert} %
@@ -102,7 +104,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2020 01 08
 
-\section{Introduction}
+\section{Topological Spaces}
 
 \begin{defn} A topological space $(S,\m{T})$ is a nonempty set with a family of subsets
 $\m{T}$ such that
@@ -317,6 +319,100 @@ $k>N$, which is a contradiction.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2020 01 15
+
+% SNOW
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 01 17
+
+\subsection{Weierstrass theorems}
+
+\begin{thm}[``Classical'' Weierstrass]
+If $f$ is a continuous function on $[a,b]$, then there exists a sequence of polynomials
+$\set{P_n}_{n\in\NN}$ such that $\lim_{n\to\infty}P_n=f$ uniformly.
+\end{thm}
+
+\begin{remark}
+This theorem implies that the set of polynomials is dense in $C_\RR([a,b])$ (real-valued
+continuous functions).
+\end{remark}
+
+\begin{defn}
+Let $X$ be compact and Hausdorff, and let $C_\RR(X)$ be the set of real-valued continuous
+functions on $X$ equipped with pointwise multiplication: $(fg)(x)=f(x)g(x)$. This is an
+algebra.
+\end{defn}
+
+\begin{defn}
+An algebra $\m{A}\subset C_\RR(X)$ separates points if for any $x\neq y$ in $X$, there
+exists an $f\in\m{A}$ such that $f(x)\neq f(y)$.
+\end{defn}
+
+\begin{thm}[Stone-Weierstrass]
+Let $X$ be a compact Hausdorff space. Let $\m{A}$ be a closed subalgebra (wrt
+$\norm{\cdot}_\infty$) of $C_\RR(X)$ that seaprates points. Then, either $\m{A}=C_\RR(X)$
+or $\exists x_0\in X$ such that $\m{A}=\set{f\in C_\RR(X):f(x_0)=0}$.
+\end{thm}
+
+\begin{remark}
+If $\m{A}$ separates points and $1\in\m{A}$, we must have $\overline{\m{A}}=C_\RR(X)$.
+Hence, any unital subalgebra $\m{A}$ of $C_\RR(X)$ is dense.
+\end{remark}
+
+\begin{defn}
+Let $f$ and $g$ be functions on the same domain. Write $f\wedge g=\min\set{f,g}$ and $f\vee
+g=\max\set{f,g}$.
+\end{defn}
+
+\begin{defn}
+A family $\m{F}\subset C_\RR(X)$ is a lattice if any functions $f,g\in\m{F}$, we have
+$f\wedge g\in\m{F}$ and $f\vee g\in\m{F}$.
+\end{defn}
+
+\begin{lemma}
+Any closed unital subalgebra $\m{A}\subset C_\RR(X)$ is a lattice.
+\end{lemma}
+\proof
+Observe that
+\begin{align*}
+  f\vee g &= \frac12\abs{f-g} + \frac12(f+g) \\
+  f\wedge g &= -((-f)\vee(-g)) ,
+\end{align*}
+so it suffices to show that $f\in\m{A}$ means $\abs{f}\in\m{A}$. By the classical
+Weierstrass theorem, there is a sequence of polynomials $\set{P_n}_{n\in\NN}$ such that
+$\abs{P_n(x)-\abs{x}}<\frac1n$ for all $x\in[-1,1]$. Hence,
+\[
+\norm{P_n(h)-\abs{h}}_\infty<\frac1n \text{ where } h=\frac{f}{\norm{f}_\infty} ,
+\]
+that is $P_n(h)\to\abs{h}$ uniformly. Note that $P_n(h)\in\m{A}$, so we are done.
+\qedhere
+
+\begin{prop}[Kakutani-Klein]
+If $\m{L}$ is a closed lattice that separates points such that $1\in\m{L}$. Then,
+$\m{L}=C_\RR(X)$.
+\end{prop}
+\proof
+Let $g\in C_\RR(X)$, let $\e>0$, and let $x\neq y\in X$. The map $\phi:\m{L}\to\RR^2$ such
+that $h\mapsto(h(x),h(y))$ is an algebra homomorphism. The image contains $(1,1)$ since
+$1\in\m{L}$. The image also contains $(a,b)$ with $a\neq b$ since $\m{L}$ separates points.
+It suffices to look at the subalgebras of $\RR^2$, whence the image is all of $\RR^2$. Now,
+there exists $f_{xy}\in\m{L}$ such that $f_{xy}(x)=g(x)$ and $f_{xy}(y)=g(y)$.
+
+By continuity, there exists an open neighbourhood $N_y$ of $y$ such that
+$f_{xy}(z)+\e=g(z)$ for all $z\in N_y$. By compactness, there exists a finite subcover
+$\set{N_{y_1},...,N_{y_m}}\subset\set{N_y:y\in X}$. Let
+$f_x=\max\set{f_{xy_1},...,f_xy_m}\in\m{L}$. Note that $f_x(x)=g(x)$ and $f_x(z)>g(z)-\e$
+for all $z\in X$. This gives a lower bound. We can also find an upper bound whence there
+exists some $f\in\m{L}$ such that $\norm{f-g}_\infty<2\e$.
+\qedhere
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 01 20
 
 
 

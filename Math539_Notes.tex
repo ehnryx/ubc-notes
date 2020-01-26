@@ -54,9 +54,14 @@
 \newcommand{\et}[0]{\text{ and }}
 \newcommand{\then}[0]{\text{ then }}
 \newcommand{\forsome}[0]{\text{ for some }}
-\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
 \newcommand{\s}[0]{\sigma}
 \newcommand{\e}[0]{\varepsilon}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
 
 % misc
 \newcommand{\abs}[1]{\left\lvert#1\right\rvert} %
@@ -258,7 +263,7 @@ The final manipulation that we want to get is
 
 \section{Dirichlet Series}
 
-A Dirichlet series is $\sum_{n=1}^\infty n^{-s}$.
+A Dirichlet series is $\sum_{n=1}^\infty a_nn^{-s}$.
 
 Facts about Dirichlet series:
 \begin{itemize}
@@ -274,11 +279,14 @@ Some notation: for $s\in\CC$, we write $s=\sigma+it$, that is $\sigma$ is the re
 $s$, and $t$ is the imaginary part of $s$. Note that if $x>0$, then
 $\abs{x^s}=\abs{x^\sigma}\abs{x^{it}}=\abs{x^\sigma}\abs{e^{it\log{x}}}=\abs{x^\sigma}$.
 
-\begin{thm}
+\begin{thm}[thm 1.1]\label{thm:1.1}
 Let $\alpha(s)=\sum_{n=1}^\infty a_nn^{-s}$ be a Dirichlet series. Suppose that
 $s_0\in\CC$ is such that $\alpha(s_0)$ converges. Then $\alpha(s)$ converges uniformly in
-the sector $S=\set{s\in\CC:\sigma\ge\sigma_0,\abs{t-t_0}\le H\abs{\sigma-\sigma_0}}$ for
-any $H>0$.
+the sector
+\[
+S=\set{s\in\CC:\sigma\ge\sigma_0,\abs{t-t_0}\le H\abs{\sigma-\sigma_0}}
+\]
+for any $H>0$.
 \end{thm}
 
 \proof
@@ -327,7 +335,8 @@ If $\alpha(s_0)$ diverges, then $\alpha(s)$ diverges for all $s$ with $\sigma<\s
 The Dirichlet series $\alpha(s)$ has an abscissa of convergence $\sigma_c$ such that
 $\alpha(s)$ converges if $\sigma>\sigma_c$, and diverges if $\sigma<\sigma_c$. It is
 allowed to have $\sigma_c=\pm\infty$. Furthermore, $\alpha(s)$ converges locally uniformly
-right of $\sigma_c$, whence $\alpha(s)$ is analytic.
+right of $\sigma_c$ and each $a_nn^{-s}$ is analytic, whence $\alpha(s)$ is analytic.
+(Conway; Theorem VII.2.1; p.147)
 \end{remark}
 
 \begin{remark}
@@ -335,7 +344,7 @@ Observe that $\int_1^N x^{-s} ~dA(x) = \sum_{1<n\le N}a_nn^{-s} = \sum_{n=2}^Na_
 Sometimes we write $\int_{-1}^N$ to include the 1.
 \end{remark}
 
-\begin{thm}
+\begin{thm}[thm 1.3]\label{thm:1.3}
 Let $\alpha(s)=\sum_{n=1}^\infty a_nn^{-s}$ have an abscissa of convergence $\s_c\ge0$.
 Then for $\s>\s_c$, we have $\alpha(s)=s\int_1^\infty A(x)x^{-s-1} ~dx$.
 Moreover,
@@ -406,7 +415,7 @@ absolute convergence is $\s_a=1$.
 When $a_n\ge0$ for all $n\in\NN$, we have $\s_c=\s_a$.
 \end{remark}
 
-\begin{thm}
+\begin{thm}[thm 1.4]\label{thm:1.4}
 For any Dirichlet series $\alpha(s)$, we have $\s_c\le\s_a\le\s_c+1$.
 \end{thm}
 \proof
@@ -426,7 +435,7 @@ Then,
 It follows that $\alpha(\s)$ converges absolutely for all $\e>0$.
 \qedhere
 
-\begin{thm}[Landau's Theorem]
+\begin{thm}[Landau's Theorem (thm 1.7)]\label{thm:1.7}
 Let $\alpha(s)=\sum_{n=1}^\infty a_nn^{-s}$ with $\s_c<\infty$. If $a_n\ge0$ for each
 $n\in\NN$. Then, $\alpha(s)$ has a singularity at $s=\s_c$.
 \end{thm}
@@ -467,7 +476,7 @@ Motivating question: are these calculations legitimate?
   $a*b$ by $c=\set{c_n}$ where $c_n = \sum_{de=n}a_db_e = \sum_{d|n}a_db_{n/d}$.
 \end{defn}
 
-\begin{thm}
+\begin{thm}[thm 1.8]\label{thm:1.8}
 Let $\alpha(s)=\sum_{n=1}^\infty a_nn^{-s}$, let $\beta(s)=\sum_{n=1}^\infty b_nn^{-s}$,
 and let $\gamma(s)=\sum_{n=1}^\infty c_nn^{-s}$. If $s\in\CC$ is such that $\alpha(s)$ and
 $\beta(s)$ converge absolutely, and if $c=a*b$, then $\gamma(s)$ converges absolutely and
@@ -504,11 +513,12 @@ when $\s>1$.
 
 \begin{example}[M\"obius Inversion Formula]
 Write $F(s)=\sum_{n=1}^\infty f(n)n^{-s}$ and $G(s)=\sum_{n=1}^\infty g(n)n^{-s}$. Then
-\begin{align*}
-F(s)\zeta(s) = G(s) &\iff F(s) = \frac{G(s)}{\zeta(s)} = G(s)M(s) \\
-(f*1)(n) = g(n) &\iff f(n) = (g*\mu)(n) \\
+\begin{align}
+F(s)\zeta(s) = G(s) &\iff F(s) = \frac{G(s)}{\zeta(s)} = G(s)M(s) \notag \\
+(f*1)(n) = g(n) &\iff f(n) = (g*\mu)(n) \notag \\
 \sum_{d|n} f(n) = g(n) &\iff f(n) = \sum_{d|n} g(d)\mu\left(\frac{n}{d}\right) .
-\end{align*}
+\label{mobius inversion formula}
+\end{align}
 \end{example}
 
 \begin{example}
@@ -534,7 +544,7 @@ A function $f$ is multiplicative if $f(m)f(n)=f(mn)$ if $\gcd(m,n)=1$.
 A number $n$ is $y$-friable if $p\mid n \implies p\le y$.
 \end{defn}
 
-\begin{thm}
+\begin{thm}[thm 1.9]\label{thm:1.9}
 Let $f$ be a multiplicative function, and let $F(s)=\sum_{n=1}^\infty f(n)n^{-s}$. If
 $\sum_{n=1}^\infty\abs{f(n)}n^{-\s}$ converges, we have the Euler product
 \[
@@ -578,16 +588,277 @@ Note that $\mu$ is multiplicative, so $M(s)=\prod_{p\text{ prime}}(1-p^{-s})$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2020 01 21
 
+\begin{pty}
+If $f$ and $g$ are multiplicative, then $f*g$ is also multiplicative (If $F(s)$ and $G(s)$
+have Euler products, the $F(s)G(s)$ also has an Euler product).
+\end{pty}
 
+\begin{pty}
+Dirichlet convolutions are associative, that is $(f*g)*h = f*(g*h)$.
+\end{pty}
 
+\begin{defn}
+Let $\om(n)$ be the number of distinct prime factors of $n$.
+\end{defn}
+
+\begin{defn}
+Let $\Om(n)$ be the number of prime factors of $n$ counting with multiplicity.
+\end{defn}
+
+\begin{defn}[Liouville lambda function]
+Let $\la(n)=(-1)^{\Om(n)}$. Note that $\la(n)=\mu(n)$ if and only if $n$ is squarefree.
+\end{defn}
+
+\begin{example}
+Find an Euler product for $L(s)=\sum_{n=1}^\infty\la(n)n^{-s}$.
+
+\emph{Solution}:
+First, note that $\la(n)$ is totally multiplicative, that is $\la(mn)=\la(m)\la(n)$ for all
+$m,n\in\NN$ (not just when $(m,n)=1$). Also, $\sum_{n=1}^\infty\abs{\la(n)n^{-s}} =
+\sum_{n=1}^\infty n^{-\s}$ converges when $\s>1$. So, for $\s>1$, by theorem \ref{thm:1.9},
+\begin{align*}
+L(s) &= \prod_{p~\text{prime}} \left(1 + \la(p)p^{-s} + \la(p^2)p^{-2s} + \cdots \right) \\
+&= \prod_{p~\text{prime}} \left(1 - p^{-s} + p^{-2s} - \cdots \right) \\
+&= \prod_{p~\text{prime}} \left(1+p^{-s}\right)^{-1} .
+\end{align*}
+\end{example}
+
+\begin{exe}
+Show that $L(s) = \frac{\zeta(2s)}{\zeta(s)}$.
+\end{exe}
+
+\begin{remark}
+If $f(n)$ is totally multiplicative, then
+\begin{align*}
+\sum_{n=1}^\infty f(n)n^{-s}
+&= \prod_p \left(1 + f(p)p^{-s} + f(p^2)p^{-2s} + \cdots \right) \\
+&= \prod_p \left(1 + f(p)p^{-s} + f(p)^2p^{-2s} + \cdots \right) \\
+&= \prod_p \left(1 - f(p)p^{-s} \right) ^{-1} .
+\end{align*}
+\end{remark}
+
+\begin{defn}[von Mangoldt Lambda function]
+Define the von Mangoldt Lambda function as
+\[
+  \La(n) = \begin{cases}
+    \log p &n=p^r \text{ for some prime } p \\
+    0 &\text{otherwise}
+  \end{cases} .
+\]
+\end{defn}
+
+\begin{remark}
+Recall that $\zeta(s)=\prod_p(1-p^{-s})^{-1}$ for $\s>1$, so we can take logarithms.
+\[
+\log \zeta(s) = \sum_p \log (1-p^{-s})^{-1}
+= \sum_p \left(p^{-s} + \frac12 p^{-2s} + \frac13 p^{-3s} + \cdots \right) .
+\]
+This is a Dirichlet series which we can differentiate term by term, hence
+\begin{align*}
+\frac{\zeta'(s)}{\zeta(s)}
+&= \frac{d}{ds} \sum_p\left(p^{-s}+\frac12p^{-2s}+\frac13p^{-3s}+\cdots\right) \\
+&= \sum_p\left((-\log p)p^{-s} + \frac12(-2\log p)p^{-2s} + \cdots \right) \\
+&= -\sum_{n=1}^\infty \La(n)n^{-s} .
+\end{align*}
+\end{remark}
+
+\subsection{Meromorphic continuation of $\zeta(s)$}
+
+\begin{example}
+We prove that $\eta(s)=(1-2^{1-s})\zeta(s)$ in two different ways (for $\s>1$).
+\proof[Proof 1]
+For $\s>1$, $\eta(s)$ converges absolutely, so
+\begin{align*}
+\eta(s)
+&= 1^{-s} + (2^{-s}-2\cdot 2^{-s}) + 3^{-s} + (4^{-s}-2\cdot 4^{-s}) + \cdots \\
+&= (1^{-s} + 2^{-s} + 3^{-s} + \cdots) - 2(2^{-s} + 4^{-s} + \cdots) \\
+&= \zeta(s) - 2\cdot 2^{-s} \zeta(s) \\
+&= (1-2^{1-s})\zeta(s) .
+\end{align*}
+\proof[Proof 2]
+Note that $(-1)^{n-1}$ is multiplicative, and its value at $p^r$ equals $-1$ if $p=2$ and
+$1$ if $p\ge3$. Thus,
+% TODO TODO TODO TODO
+% TODO TODO TODO TODO
+% TODO TODO TODO TODO
+% TODO TODO TODO TODO
+\end{example}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2020 01 23
 
+Note that $\zeta(s)=(1-2^{1-s})^{-1}\eta(s)$, and $\eta(s)$ converges when $\s>0$. Hence,
+this is a meromorphic continuation of $\zeta(s)$ to $\s>0$. Note that
+$(1-2^{1-s})^{-1}\eta(s)$ has singularities when $1-2^{1-s}=0$, that is $s=1+\frac{2\pi
+i}{\log2}$.
+
+\begin{exe}
+Show that $\zeta(s)$ has a simple pole at $s=1$ with residue 1.
+\end{exe}
+
+\begin{thm}[thm 1.12]\label{thm:1.12}
+For $\s>0$ and $s\neq1$, we can write
+\begin{equation}
+\zeta(s) = \sum_{n\le x}n^{-s} + \frac{x^{1-s}}{s-1} + \frac{\{x\}}{x^s}
+- s \int_x^\infty \{u\}u^{-s-1} ~du .
+\label{zeta improper integral}
+\end{equation}
+\end{thm}
+\proof
+For $\s>1$, we have
+\begin{align*}
+\sum_{n>x}n^{-s} &= \int_x^\infty u^{-s}~d\left(\floor{u}\right) \\
+&= \int_x^\infty u^{-s}~du - \int_x^\infty u^{-s}~d\left(\{u\}\right) \\
+&= \left. \frac{u^{1-s}}{1-s}\right|_x^\infty
+- \left(\left.\{u\}u^{-s}\right|_x^\infty - \int_x^\infty\{u\}~d(u^{-s})\right) \\
+&= \frac{x^{1-s}}{s-1} + \frac{\{x\}}{x^s} - s \int_x^\infty \{u\} u^{-s-1} ~du .
+\end{align*}
+Let $\e>0$, then for $\s>\e$, we have
+\[
+\abs{\int_x^\infty \{u\}u^{-s-1} ~du}
+\le \int_x^\infty 1\cdot u^{-\s-1} ~du
+= \frac{x^{-\s}}{\s} .
+\]
+Note that this is uniform for $\s>\e$, so we have analyticity. Then, we conclude that the
+equation \ref{zeta improper integral} holds for all $\s>0$ by the uniqueness of analytic
+continuation.
+\qedhere
+
+\begin{remark}
+We can use a similar method to show that $\zeta(s)$ is defined for all $s\in\CC\sm\set{1}$.
+\end{remark}
+
+Consequences of Theorem \ref{thm:1.12}:
+\begin{itemize}
+\item When $x=1$, we have
+\[
+\zeta(s) = 1 + \frac1{s-1} - s\int_1^\infty \{u\}u^{-s-1} ~du ,
+\]
+so $\zeta(s)-\frac1{s-1}$ has a removable singularity at $s=1$ with value
+\[
+C_0 = 1 - \int_1^\infty \{u\} u^{-2} ~du .
+\]
+Then, by DCT, we get $\zeta(s)=\frac1{s-1}+C_0 + O(\abs{s-1})$.
+
+\item We can rearrange to get
+\begin{align*}
+\sum_{n\le x}n^{-s}
+&= \zeta(s) - \frac{x^{1-s}}{s-1} - \frac{\{x\}}{x^s} + s\int_x^\infty\{u\}u^{-s-1}~du \\
+&= \zeta(s) + \frac{x^{1-s}}{1-s}
++ O\left(\frac1{x^\s}+\abs{s}\int_x^\infty1\cdot u^{-\s-1}~du\right) \\
+&= \zeta(s) + \frac{x^{1-s}}{1-s}
++ O\left(\frac1{x^\s}+\frac{\abs{s}}\s\frac1{x^\s}\right) .
+\end{align*}
+Hence, we get asymptotics for $\sum_{n\le x}n^{-\alpha}$.
+\[
+\sum_{n\le x}\frac1{n^\alpha} = \begin{cases}
+O(x^{1-\alpha}) &\text{if }0<\alpha<1 \\
+\zeta(\alpha)+O(x^{1-\alpha}) &\text{if }\alpha>1
+\end{cases} .
+\]
+
+\item Let $s=1$, then
+\begin{align*}
+\sum_{n\le x}\frac1n &= \int_{1^-}^x\frac1t~d\floor{t}
+= \int_{1^-}^x\frac1t~dt - \int_{1^-}^x\frac1t~d\{t\} \\
+&= \log x - \left.\frac{\{t\}}t\right|_{1^-}^x + \int_1^x\{t\}\frac1{t^2}~dt \\
+&= \log x - \frac{\{x\}}x + 1 - \int_1^x\{t\}\frac1{t^2}~dt \\
+&= \log x + 1-\int_1^\infty\{t\}t^{-2}~dt + \int_x^\infty\{t\}t^{-2}~dt - \frac{\{x\}}x \\
+&= \log x + C_0 + O\left(\frac1x\right) .
+\end{align*}
+Note that an error of $1/x$ is the best approximation with a smooth function (because we
+can't get better than the jumps).
+
+\end{itemize}
+
+\begin{remark}
+Note that $C_0$ is Euler's constant, that is
+\[
+C_0 = \lim_{x\to\infty}\left(\sum_{n\le x}\frac1n - \log x\right) \approx 0.577 .
+\]
+\end{remark}
 
 
+\section{Elementary Estimates for Arithmetic Functions}
+
+Motivating question: what is the expectation of $\frac{\phi(n)}n$?
+
+Note that $(\phi*1)(n)=n$, so by M\"obius inversion,
+\[
+\phi(n) = \sum_{d|n}\mu(d)\frac{n}d
+\implies
+\frac{\phi(n)}n = \sum_{d|n}\frac{\mu(d)}{d} .
+\]
+Then, we get
+\[
+\sum_{n\le x}\frac{\phi(n)}n
+= \sum_{n\le x}\sum_{d|n} \frac{\mu(d)}d
+= \sum_{d\le x}\frac{\mu(d)}d\floor{\frac{x}d}
+= \sum_{d\le x}\frac{\mu(d)}d \left(\frac{x}{d}+O(1)\right) .
+\]
+Hence, dividing by $x$ gives
+\begin{align*}
+\frac1x\sum_{n\le x}\frac{\phi(n)}n
+&= \sum_{d\le x}\frac{\mu(d)}{d^2}
++ O\left(\frac1x\sum_{d\le x}\abs{\frac{\mu(d)}{d}}\right) \\
+&= \sum_{d=1}^\infty\frac{\mu(d)}{d^2}
++ O\left(\sum_{d>x}\abs{\frac{\mu(d)}{d^2}} + \frac1x\sum_{d\le
+x}\abs{\frac{\mu(d)}d}\right) \\
+&= \frac1{\zeta(2)} + O\left(\sum_{d>x}\frac1{d^2}+\frac1x\sum_{d\le x}\frac1d\right) \\
+&= \frac1{\zeta(2)} + O\left(\frac{\log x}x\right) .
+\end{align*}
+
+\begin{example}
+Estimate the number of square-free numbers up to $x$. Let $Q(x)=\sum_{n\le x} \mu(n)^2$.
+Note that $\mu(n)^2$ is the indicator function for square-free numbers.
+\end{example}
+
+\begin{lemma}
+Define $g(d)$ as
+\[
+g(d) = \begin{cases}
+\mu(m) &\text{if }d=m^2\text{ for some }m\in\NN \\
+0 &\text{if }d\text{ is not a square}
+\end{cases} .
+\]
+Then $\mu^2=1*g$.
+\end{lemma}
+\proof[Proof 1]
+Let $k^2$ be the largest square divisor of $n$. Then
+\begin{align*}
+\mu(n)^2 &= \begin{cases}
+1 &\text{if }k=1 \\
+0 &\text{if }k>1
+\end{cases} \\
+&= \sum_{d|k}\mu(d)
+= \sum_{\substack{d|n\\d=m^2}}\mu(m)
+= \sum_{d|n} g(d) .
+\end{align*}
+\qedhere
+
+\begin{exe}[Proof 2]
+Show that $\sum_{n=1}^\infty\mu(n)^2n^{-s}=\frac{\zeta(s)}{\zeta(2s)}$ and
+$\sum_{n=1}^\infty g(n)n^{-s}=\frac1{\zeta(2s)}$.
+\end{exe}
+
+\begin{exe}[Proof 3]
+Show that $\mu(n)^2=\sum_{d|n}g(d)$ by M\"obius inversion, along with the fact that every
+$n\in\NN$ can be uniquely written as $n=a^2b$ where $b$ is square-free.
+\end{exe}
+
+We can approximate $Q(x)$ as follows.
+\begin{align*}
+Q(x) &= \sum_{n\le x}\mu(n)^2
+= \sum_{n\le x}\sum_{d|n}g(d)
+= \sum_{d\le x}g(d)\left(\frac{x}{d}+O(1)\right)
+= x\sum_{d\le x}\frac{g(d)}d + O\left(\sum_{d\le x}\abs{\frac{g(d)}d}\right) \\
+&= x\sum_{m\le\sqrt x}\frac{\mu(m)}{m^2} + O\left(\sum_{m\le\sqrt{x}}\abs{\mu(m)}\right)
+~~~~~\text{by the definition of }g \\
+&= x\left(\frac1{\zeta(2)} + O\left(\frac1{\sqrt x}\right)\right) + O(\sqrt x) \\
+&= \frac{x}{\zeta(2)} + O(\sqrt x)
+\end{align*}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -598,21 +869,32 @@ Note that $\mu$ is multiplicative, so $M(s)=\prod_{p\text{ prime}}(1-p^{-s})$.
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 01 30
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 02 04
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 02 06
+
+
+
+
 
 
 \end{document}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

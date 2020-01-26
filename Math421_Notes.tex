@@ -327,7 +327,7 @@ $k>N$, which is a contradiction.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2020 01 17
 
-\subsection{Weierstrass theorems}
+\subsection{Weierstrass Theorems}
 
 \begin{thm}[``Classical'' Weierstrass]
 If $f$ is a continuous function on $[a,b]$, then there exists a sequence of polynomials
@@ -414,14 +414,194 @@ exists some $f\in\m{L}$ such that $\norm{f-g}_\infty<2\e$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2020 01 20
 
+The Stone-Weierstrass Theorem has two generalizations.
+\begin{enumerate}
+\item It extends to complex-valued functions, provided the subalgebras are also closed
+under conjugation. Any $f\in C_\CC(X)$ can be written as $f=(f+\overline{f})/2 -
+i(f-\overline{f})/2$.
+\item It extends to locally compact Hausdorff (LCH) spaces, that is topological spaces $S$
+such that every $x\in S$ has a compact neighbourhood. Here, the relevant algebra is the set
+of functions that vanish at infinity, that is $f\in C_\RR(S)$ such that
+$\forall\epsilon>0$, the set $\set{x\in S:\abs{f(x)}\ge\epsilon}$ is compact. Hence,
+consider $S\cup\set\infty$.
+\end{enumerate}
+
+\subsection{Hausdorff Spaces}
+
+\begin{defn}
+A space $S$ is locally compact if each $x\in S$ has a compact neighbourhood.
+\end{defn}
+
+\begin{lemma}
+Let $(S,\m{T})$ be Hausdorff. Let $\set{x_n}_{n\in\NN}$ be a convergent sequence in $S$.
+Then the limit $x=\lim_{n\to\infty}x_n$ is unique.
+\end{lemma}
+\proof
+Let $y\neq x$. By Hausdorff, there exists disjoint open sets $O_x$ and $O_y$ such that
+$x\in O_x$ and $y\in O_y$. Since $x_n\to x$, there exists $n_0\in\NN$ such that $x_n\in
+O_x$ for all $n>n_0$. Hence $x_n\notin O_y$, so $\set{x_n}_{n\in\NN}$ does not converge to
+$y$.
+\qedhere
+
+\begin{lemma}
+Let $(S,\m{T})$ be Hausdorff, and let $K\subset S$ be compact. For any $x\notin K$, there
+are open disjoint sets $U,V$ such that $x\in U$ and $K\subset V$.
+\end{lemma}
+
+\begin{prop}
+Let $(S,\m{T})$ be Hausdorff, and let $K\subset S$ be compact. Then $K$ is closed.
+\end{prop}
+
+\begin{thm}
+Let $(S_1,\m{T}_1)$ and $(S_2,\m{T}_2)$ be two compact Hausdorff spaces, and let $f:S_1\to
+S_2$. If $f$ is continuous and bijective, then $f$ is a homeomorphism.
+\end{thm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 01 22
+
+\begin{prop}
+Let $S$ be a LCH space. Let $K\subset U\subset S$, where $K$ is compact and $U$ is open.
+Then, there is an open set $O$ with compact closure such that
+\[
+K\subset O\subset \overline{O}\subset U .
+\]
+\end{prop}
+\proof
+Since $S$ is LCH, every point of $K$ has an open neighbourhood with compact closure. Since
+$K$ is compact, there is a finite subcover of such neighbourhoods. Hence $K$ is a subset of
+their union $V$ which has a compact closure. If $U=S$, then $O=V$. Otherwise, $U^c$
+nonempty. By Hausdorff, for any $x\in U^c\subset K^c$, there exists an open set $O_x$ such
+that $K\subset O_x$ and $x\notin \overline{O_x}$. It follows that
+\[
+\bigcap_{x\in U^c} U^c\cap\overline{V}\overline{O_x} = \emptyset .
+\]
+By the finite intersection property, there are finitely many $\set{x_1,...,x_n}$ such that
+\[
+U^c\cap\overline{V}\cap\overline{O_{x_1}}\cap\cdots\cap\overline{O_{x_n}} = \emptyset .
+\]
+Let $O=V\cap O_{x_1}\cap\cdots\cap O_{x_n}$.
+\qedhere
+
+\begin{defn}
+The support of a complex-valued function $f$ is $\overline{\set{x\in S:f(x)\neq0}}$.
+\end{defn}
+
+\begin{defn}
+Let $C_c(S)$ be the set of compactly supported continuous functions on $S$. Write $K\prec
+f$ for a compact set $K$ and a function $f\in C_c(S)$ such that $0\le f(x)\le 1$ for all
+$x\in S$ and $f(x)=1$ for all $x\in K$. Write $f\prec U$ for an open set $U$ and a function
+$f\in C_c(S)$ such that $0\le f(x)\le 1$ for all $x\in S$ and the support of $f$ is a
+subset of $U$.
+\end{defn}
+
+\begin{lemma}[Urysohn's Lemma]
+Let $S$ be a LCH space. Let $K\subset U\subset S$, where $K$ is compact and $U$ is open.
+There exists a function $f\in C_c(S)$ such that $K\prec f\prec U$.
+\end{lemma}
+\proof
+We have a family of open sets $\set{O_r:r\in\QQ\cap[0,1]}$ with compact closures such that
+$K\subset O_1$, $\overline{O_0}\subset U$, and $\overline{O_s}\subset O_r$ for $s>r$.
+Define
+\[
+f_r(x) = r\chi_{O_r} = \begin{cases}
+r&\text{if }x\in O_r \\
+0&\text{otherwise}
+\end{cases}
+~~~\text{and}~~~
+g_s(x) = s+(1-s)\chi_{\overline{O_s}} = \begin{cases}
+1&\text{if }x\in\overline{O_s} \\
+s&\text{otherwise}
+\end{cases} .
+\]
+Also define
+\[
+f(x)=\sup\set{f_r(x):r\in\QQ\cap[0,1]}
+~~~\text{and}~~~
+g(x)=\inf\set{g_s(x):s\in\QQ\cap[0,1]} .
+\]
+Observe that $\set{x:f(x)>a}$ is open for all $a\in\RR$ (lower semicontinuous), and
+$\set{x:g(x)<a}$ is open for all $a\in\RR$ (upper semicontinuous). Moreover, $0\le f\le1$
+and $f(x)=1$ for all $x\in K\subset O_1$. Also, $\text{supp}(f)\subset \overline{O_0}
+\subset U$. It suffices to show that $f=g$. Note that $f_r(x)>g_s(x)$ if $r>s$ and $x\in
+O_r\cap\overline{O_s}^c$. But $r>s$ means $O_r\subset O_s$, so $f_r\le g_s$ for all
+$r,s\in\QQ$, so $f\le g$. Suppose, for contradiction, that there exists an $x$ such that
+$f(x)<g(x)$. Then, $\exists r,s\in\QQ$ such that $f(x)<r<s<g(x)$. The first inequality
+implies that $x\notin O_r$, while the last implies that $x\in\overline{O_s}$, which is a
+contradiction since $r<s$. Therefore $f=g$, and we are done.
+\qedhere
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 01 24
+
+\begin{prop}
+Let $(S,\m{T})$ be LCH, let $K$ be compact, and let $\set{O_i:1\le i\le n}$ be a finite
+open cover of $K$. Then there are functions $\set{f_i\in C_c(S):1\le i\le n}$ such that
+\begin{enumerate}
+\item $f_i\prec O_i$ for $i\in[n]$.
+\item $\sum_{i=1}^nf_i(x)=1$ for all $x\in K$.
+\end{enumerate}
+The set $\set{f_i}$ is called a partition of unity subordinate to the cover $\set{O_i}$.
+\end{prop}
+\proof
+Let $x\in K$, there exists $i$ such that $x\in O_i$. There is a compact neighbourhood $N_x$
+of $x$ such that $N_x\subset O_i$. By compactness, there exists $\set{x_1,...,x_m}$ such
+that $K\subset\bigcup_{j=1}^mN_x^o\subset\bigcup_{j=1}^mN_x$. For $i\in[n]$, define
+$K_i=\bigcup_{N_{x_j}\subset O_i}N_{x_j}$. By Urysohn's lemma, there exists continuous
+functions $g_i$ such that $K_i\prec g_i\prec O_i$. Since $K\subset\bigcup_{i=1}^nK_i$, we
+have $\sum_{i=1}^ng_i\ge1$ on $K$.
+
+Let $W=\set{x:\sum_{i=1}^ng_i(x)>0}$ is open because $W$ is the preimage of an open set, so
+by Urysohn's lemma, there exists $f$ such that $K\prec f\prec W$. Let $g_{n+1}=1-f$. By
+construction, $G(x)=\sum_{i=1}^{n+1}g_i(x)>0$ everywhere. Now, let $f_i(x)=g_i(x)/G(x)$ for
+$i\in[n]$. Therefore, $f_i\prec O_i$ (ie. $\text{supp}(f_i)\subset O_i$), and
+$\sum_{i=1}^nf_i=1$ on $K$.
+\qedhere
+
+\begin{prop}[Tietze's Extension]
+Let $(S,\m{T})$ be LCH, let $K$ be compact, and let $f\in C(K)$. Then there exists $F\in
+C_c(S)$ such that $F(x)=f(x)$ for all $x\in K$.
+\end{prop}
+\proof
+Since $f$ is continuous on a compact set, it is bounded. We assume WLOG that $\abs{f}\le1$
+on $K$. Let $V$ be an open set with compact closure such that $K\subset V$. Let
+$K^+=\set{x\in K:f(x)\ge\frac13}$, $K^-=\set{x\in K:f(x)\le-\frac13}$. Note that $K^+$ and
+$K^-$ are disjoint closed (compact) subsets of $K$. Applying Urysohn's Lemma to $K^+$ and
+$V\sm K^-$, and to $K^-$ and $V\sm K^+$, and rescaling gives $f_1\in C_c(S)$ such that
+$f_1=\frac13$ on $K^+$, $f_1=-\frac13$ on $K^-$, and $\abs{f_1}\le\frac13$ everywhere.
+Moreover, $\text{supp}(f)\subset V$ and $\abs{f-f_1}\le\frac23$ on $K$. Repeat this
+procedure for $f-f_1$ to get $f_2$ such that $\abs{f-f_1-f_2}\le\left(\frac23\right)^2$ on
+$K$. Hence, we obtain a sequence $\set{f_n}_{n\in\NN}$ such that $f_n\in C_c(S)$ where
+$\abs{f_n}\le\frac13\left(\frac23\right)^{n-1}$ and
+$\abs{f-\sum_{i=1}^n}\le\left(\frac23\right)^n$ on $K$. Now, let $F=\sum_{i=1}^\infty f_i$.
+Note that $F$ is convergent uniformly everywhere so $F$ is continuous, and $F=f$ on $K$.
+Moreover, $\text{supp}(F)\subset\overline{V}$.
+\qedhere
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 01 27
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 2020 01 17
+% 2020 01 29
 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 01 31
 
 
 

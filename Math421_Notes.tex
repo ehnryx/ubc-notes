@@ -586,25 +586,104 @@ Moreover, $\text{supp}(F)\subset\overline{V}$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 2020 01 27
+% 2020 01 27-31
 
+\section{Normed Vector Spaces}
 
+\begin{defn}
+A normed vector space $(V,\norm{\cdot})$ is a vector space $V$ over $\CC$ or $\RR$ equipped
+with a norm $\norm\cdot:V\to[0,\infty)$ such that
+\begin{enumerate}
+\item $\norm v\ge0$ for all $v\in V$ and $\norm v=0 \iff v=0$
+\item $\norm{\lambda v} = \abs\lambda\norm v$ for all $v\in V, \lambda\in\CC$
+\item $\norm{v+w}\le\norm{v}+\norm{w}$ for all $v,w\in V$ (Minkowski's inequality)
+\end{enumerate}
+\end{defn}
 
+\begin{defn}
+Let $(V_1,\norm\cdot_1)$ and $(V_2,\norm\cdot_2)$ be two normed linear spaces. A bounded
+linear transformation is a function $T:V_1\to V_2$ such that
+\begin{enumerate}
+\item $T(\lambda v+w) = \lambda T(v)+T(w)$ for all $v,w\in V_1,\lambda\in\CC$
+\item There exists some $C\ge0$ such that $\norm{Tv}_2\le C\norm{v}_1$ for all $v\in V_1$
+\end{enumerate}
+The norm of $T$ is
+\[
+\norm{T} = \sup\set{\frac{\norm{Tv}_2}{\norm{v}_1} : v\in V_1, v\neq0} .
+\]
+\end{defn}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 2020 01 29
+The set of all bounded linear transformations is a vector space denoted $\m{L}(V_1,V_2)$,
+and the norm is referred to as the operator norm.
 
+\begin{prop}
+Let $T:V_1\to V_2$ be a linear transformation between two normed linear spaces
+$(V_1,\norm\cdot_1)$ and $(V_2,\norm\cdot_2)$. The following are equivalent:
+\begin{enumerate}
+\item $T$ is continuous at $v_0\in V_1$
+\item $T$ is continuous everywhere
+\item $T$ is bounded
+\end{enumerate}
+\end{prop}
+\proof
+($2\implies1$) is trivial.
 
+If (1) holds, then there is some $r>0$ such that
+\[
+\norm{v-v_0}_1<2r^{-1} \implies \norm{Tv-Tv_0}_2<1 .
+\]
+For any $w\in V_1$, the vector $v=\frac{w}{r\norm{w}_1}+v_0$ satisfies
+$\norm{v-v_0}_1=r^{-1}$, so
+\[
+\norm{Tw}_2 = r\norm{w}_1\norm{T(v-v_0)}_2
+= r\norm{w}_1\norm{Tv-Tv_0}_2 \le r\norm{w}_1 .
+\]
+Therefore ($1\implies3$).
 
+If (3) holds, then
+\[
+\norm{Tv_1-Tv_2}_2 = \norm{T(v_1-v_2)}_2
+\le C\norm{v_1-v_2}_1 .
+\]
+Therefore ($3\implies2$).
+\qedhere
 
+\begin{thm}
+Let $V$ be an infinite-dimensional normed linear space. Then the set $\m{B}_1=\set{v\in
+V:\norm{v}\le1}$ is not compact.
+\end{thm}
+\proof
+We recursively construct a sequence $\set{w_n}_{n\in\NN}$ in $\m{B}_1$ as follows. Let
+$w_1\in\m{B}_1$. Given $\set{w_1,...,w_n}$, let $W_n$ be their span, which is finite
+dimensional and hence closed. Since $V$ is infinite-dimensional, $V\sm W_n\neq\emptyset$.
+Then, there exists some $w_{n+1}\in V$ such that
+\[
+\norm{w_{n+1}}=1, ~~~~~\text{and}~~~~~
+\norm{w_{n+1}-w}>\frac12 ~~~(w\in W_n) .
+\]
+Indeed, let $x\in V\sm W_n$. Since $W_n$ is closed, $\delta_0=\inf\set{\norm{x-w}:w\in
+W_n}>0$. In particular, there exists some $z\in W_n$ such that $\norm{x-z}<2\delta_0$. Let
+$w_{n+1}=\frac{x-z}{\norm{x-z}}$. Then, $\norm{w_{n+1}}=1$ and
+\[
+\inf_{w\in W_n}\norm{w_{n+1}-w}
+= \inf_{w\in W_n} \frac{\norm{x-z-w}}{\norm{x-z}}
+= \frac{\inf\norm{x-w}}{\norm{x-z}} > \frac12 .
+\]
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 2020 01 31
+Now, it follows that $\norm{w_i-w_j}>\frac12$ for all $i,j\in\NN$, so the sequence
+$\set{w_n}_{n\in\NN}$ in $\m{B}_1$ has no convergent subsequence. Since the norm induces a
+metric topology which is first countable, we conclude that $\m{B}_1$ is not sequentially
+compact, and hence not compact.
+\qedhere
 
+\begin{defn}
+A Banach space is a complete normed linear space.
+\end{defn}
 
+\begin{thm}
+\end{thm}
 
+% TODO
 
 
 \end{document}

@@ -865,17 +865,261 @@ Q(x) &= \sum_{n\le x}\mu(n)^2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2020 01 28
 
+\begin{defn}
+The density of $A\subset\NN$ is
+\[
+\delta(A) = \lim_{x\to\infty} \frac1x \#\set{n\le x: n\in A} .
+\]
+\end{defn}
 
+\begin{exe}
+Show $\forall y\ge1$ that
+\[
+\#\set{n\le x:p\le y\implies p^2\nmid n}
+= x\prod_{p\le y}\left(1-\frac1{p^2}\right) + O_y(1) .
+\]
+\end{exe}
 
+The general method we get from the above is as follows. Let $A(x)=\sum_{n\le x} a_n$ and
+$B(x)=\sum_{n\le x} b_n$. Define $c=a*b$ and $C(x)=\sum_{n\le x} c_n$. Then,
+\begin{align*}
+C(x) &= \sum_{n\le x} \sum_{d|n} a_d b_{n/d}
+= \sum_{d\le x} \sum_{\substack{n\le x\\d|n}} a_d b_{n/d} \\
+&= \sum_{d\le x} a_d \sum_{l\le x/d} b_l
+= \sum_{d\le x} a_d B\left(\frac{x}{d}\right) .
+\end{align*}
 
+\begin{example}
+\label{ex.hyperbola}
+Let $a_n=b_n=1$ and $c_n=d(n)$. Then,
+\begin{align*}
+\sum_{n\le x} d(n) = C(x) &= \sum_{d\le x} a_d B\left(\frac{x}{d}\right) \\
+&= \sum_{n\le x} \floor{\frac{x}{d}}
+= \sum_{d\le x}\left(\frac{x}{d} + O(1)\right)
+= x \sum_{d\le x} \frac1d + O(x) \\
+&= x\left(\log x + C_0 + O\left(\frac1x\right)\right) + O(x)
+= x\log x + O(x) .
+\end{align*}
+\end{example}
+
+\begin{remark}
+Note that
+\[
+x\log x - x = \int_1^x\log t ~dt
+< \sum_{n\le x} \log n
+< \int_1^{x+1}\log t ~dt
+= (x+1)\log(x+1) - (x+1) .
+\]
+\end{remark}
+
+\begin{exe}
+For $x\ge2$, we have $\sum_{n\le x}\log x = x\log x-x+O(\log x)$.
+\end{exe}
+
+Then, $\sum_{n\le x}d(n) \sim x\log x \sim \sum_{n\le x}\log n$, so we say $d(n)$ has
+average order $\log n$.
+
+Note that example \ref{ex.hyperbola} does not give a very good error term. This is because
+$B\left(\frac{x}{d}\right)$ gives a poor approximation when $x/d$ is small. Instead, we can
+compute
+\begin{equation}[Dirichlet's Hyperbola Method]
+C(x) = \sum_{d\le y} a_d B\left(\frac{x}{d}\right)
++ \sum_{l\le x/y} b_l A\left(\frac{x}{l}\right)
+- A(y)B\left(\frac{x}{y}\right) .
+\end{equation}
+
+Now we can improve example \ref{ex.hyperbola} as follows.
+\begin{align*}
+\sum_{n\le x} d(n) &= \sum_{d\le y} \floor{\frac{x}{d}}
++ \sum_{l\le x/y} \floor{\frac{x}{l}}
+- \floor{y}\floor{\frac{x}{y}} \\
+&= x\left(\log y+C_0+O\left(\frac1y\right)\right) + O(y)
++ x\left(\log\frac{x}{y} + C_0 + O\left(\frac{y}{x}\right)\right)
++ O\left(\frac{x}{y}\right) \\
+&\hspace{36pt}- y\frac{x}{y} + O(y) + O\left(\frac{x}{y}\right) + O(1) \\
+&= x\log x + (2C_0-1)x + O\left(y+\frac{x}{y}\right) \\
+&= x\log x + (2C_0-1)x + O\left(\sqrt x\right) .
+\end{align*}
+
+\subsection{Prime number estimates}
+
+We can think of the von Mangoldt Lambda function as a prime indicator function because
+proper prime powers are rare, so they should not influence the main term. Let
+$\Psi(x)=\sum_{n\le x}\La(n)$. Note that the Prime Number Theorem is equivalent to
+\[
+\Psi(x)\sim x .
+\]
+
+Recall that $\Psi(s)=-\frac{\zeta'(s)}{\zeta(s)}$. Since
+$-\frac{\zeta'}{\zeta}(s)\zeta(s)=-\zeta'(s)$, we get
+\[
+\La*1 = \log \implies \La=\log*\mu
+\implies \La(n) = \sum_{d|n}\mu(d)\log\left(\frac{n}{d}\right) .
+\]
+
+\begin{exe}
+Show that $\La(n)=-\sum_{d|n}\mu(d)\log(d)$.
+\end{exe}
+
+Note that for $x\ge2$, we get
+\begin{align}
+\sum_{n\le x} \log n &= \sum_{n\le x} \sum_{d|n} \La(d)
+= \sum_{d\le x} \La(d)\floor{\frac{x}{d}}
+ \label{1840cheby1} \\
+\sum_{n\le x} \log n &= x\log x - x + O(\log x) .
+ \label{1840cheby2}
+\end{align}
+Call these two equations $[x]$. Now, replace $x$ with $x/2$ in $[x]$ and call it $[x/2]$.
+Let $E(t)=\floor{t}-2\floor{t/2}$. Taking $[x]-2[x/2]$ gives
+\begin{align*}
+\text{LHS:}&~~~~~
+(x\log x - x + O(\log x)) - 2\left(\frac{x}2\log\frac{x}2 - \frac{x}2 + O(\log x)\right)
+= (\log2)x + O(\log x) \\
+\text{RHS:}&~~~~~
+\sum_{d\le x}\La(d)\floor{x}{d} - 2\sum_{d\le x}\La(d)\floor{\frac{x}{2d}}
+= \sum_{d\le x} \La(d)E\left(\frac{x}{d}\right) .
+\end{align*}
+This gives the bounds
+\[
+\Psi(x)-\Psi\left(\frac{x}{2}\right)
+= \sum_{\frac{x}{2}\le d\le x} \La(d)
+\le \sum_{d\le x} \La(d)E\left(\frac{x}{d}\right)
+\le \sum_{d\le x} \La(d) = \Psi(x) .
+\]
+Immediately we get
+\begin{equation}
+\Psi(x)\ge\sum_{d\le x}\La(d)E\left(\frac{x}{d}\right)
+= (\log2)x + O(\log x) .
+\end{equation}
+With some calculation, we get
+\begin{align}
+\Psi(x) &= \left(\Psi(x)-\Psi\left(\frac{x}{2}\right)\right)
++ \left(\Psi\left(\frac{x}{2}\right)-\Psi\left(\frac{x}{4}\right)\right) + \cdots \notag \\
+&\le \left((\log2)x+O(\log x)\right) + \left((\log2)\frac{x}{2}+O(\log x)\right) + \cdots
+\notag \\
+&= (2\log2)x + O\left(\log^2(x)\right)
+\end{align}
+
+Chebyshev took $[x]-[x/2]-[x/3]-[x/5]+[x/30]$ to get the bounds
+\[
+0.9212x + O(\log x) \le \Psi(x) \le 1.1056x + O(\log^2 x) .
+\]
+
+\begin{defn}
+We write $f\asymp g$ if $f\ll g$ and $g\ll f$. We say ``$f$ is of the same order of
+magnitude as $g$''.
+\end{defn}
+
+Therefore, $\Psi(x) \asymp x$.
+
+\begin{exe}[a weak version of Bertrand's Postulate]
+Note that $\sum_{x<n\le 2x}\La(n) = \Psi(2x)-\Psi(x)\gg x$. Then,
+\[
+\#\set{p:x<p\le 2x} \gg \frac{x}{\log x} .
+\]
+\end{exe}
+
+\begin{thm}[Mertens] \label{thm:2.7}
+For $x\ge2$,
+\begin{enumerate}
+\item $\sum_{n\le x}\frac{\La(n)}{n} = \log x + O(1)$.
+\item $\sum_{p\le x}\frac{\log p}{p} = \log x + O(1)$.
+\item $\sum_{p\le x}\frac1p = \log\log x + b + O\left(\frac1{\log x}\right)$.
+\item $\prod_{p\le x}\left(1-\frac1p\right)^{-1} = e^c\log x + O(1)$.
+\end{enumerate}
+\end{thm}
+
+\proof[Proof of (a)]
+Note that equations \ref{1840cheby1} and \ref{1840cheby2} give
+\begin{align*}
+x\log x + O(x) &= \sum_{d\le x}\La(d)\floor{\frac{x}d}
+= x\sum_{d\le x}\frac{\La(d)}d + O\left(\sum_{d\le x}\La(d)\right) \\
+&= x\sum_{d\le x}\frac{\La(d)}d + O(x) .
+\end{align*}
+Dividing by $x$ gives the desired result.
+\qedhere
+
+\proof[Proof of (b)]
+Note that
+\begin{align*}
+\sum_{n\le x}\frac{\La(n)}n - \sum_{p\le x} \frac{\log p}p
+&= \sum_{\substack{p^r\le x\\r\ge2}} \frac{\log p}{p^r}
+\le \sum_{p\le x} \log p \sum_{r=2}^\infty \frac1{p^r} \\
+&= \sum_{p\le x}(\log p)\cdot\frac{1}{p(p-1)}
+\ll \sum_{p=1}^\infty \frac{p^\e}{p^2} = O(1) .
+\end{align*}
+\qedhere
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2020 01 30
 
+\proof[Proof of (d)]
+Write $R(x)=\sum_{p\le x}\frac{\log p}p-\log x$, so $R(x)\ll1$ and $R(2^-)=-\log2$. Then,
+\begin{align*}
+\sum_{p\le x}\frac1p
+&= \int_{2^-}^x \frac1{\log u} ~d\left(\sum_{p\le u}\frac{\log p}p\right) \\
+&= \int_{2^-}^x \frac1{\log u} ~d(\log u) + \int_{2^-}^x\frac1{\log u} ~dR(u) \\
+&= \int_{2^-}^x \frac1{u\log u} ~du + \left.\frac{R(u)}{\log u}\right|_{2^-}^x
+- \int_{2^-}^x R(u) ~d\left(\frac1{\log u}\right) \\
+&= \left.\log\log u\right|_{2^-}^x + \frac{R(x)}{\log x} - \frac{R(2^-)}{\log2}
++ \int_{2^-}^x R(u)\frac1{u\log^2u}~du \\
+&= \log\log x-\log\log2 + 1 + O\left(\frac1{\log x}\right)
++ \int_2^\infty \frac{R(u)}{u\log^2u}
++ O\left(\int_x^\infty\frac{\abs{R(u)}}{u\log^2u}~du\right) \\
+&= \log\log x + \left(1-\log\log2 + \int_2^\infty\frac{R(u)}{u\log^2u}~du\right)
++ O\left(\frac1{\log x}\right) .
+\end{align*}
+\qedhere
 
+\proof[Proof of (e)]
+Note that $\log(1-t)^{-1}-t\ll\abs{t}^2$ for $\abs{t}\le\frac12$ by power series. Hence
+\[
+S = \sum_{p>x}\log\left(1-\frac1p\right)^{-1}-\frac1p
+\ll \sum_{p>x}\left(\frac1p\right)^2 \le \sum_{n>x}\frac1{n^2}
+\ll \frac1x .
+\]
+Note that $S$ exists and
+\begin{align*}
+\sum_{p\le x}\log\left(1-\frac1p\right)^{-1}
+&= \sum_{p\le x}\frac1p + S
++ \sum_{p>x}\left(\log\left(1-\frac1p\right)^{-1}-\frac1p\right) \\
+&= \log\log x + b + O\left(\frac1{\log x}\right) + S + O\left(\frac1x\right) \\
+&= \log\log x + c + O\left(\frac1{\log x}\right) .
+\end{align*}
+Note that $e^t=1+O\left(\abs{t}\right)$ by power series, so
+\begin{align*}
+\prod_{p\le x}\left(1-\frac1p\right)^{-1}
+&= \exp\left(\sum_{p\le x}\log\left(1-\frac1p\right)^{-1}\right)
+= \exp\left(\log\log x + c + O\left(\frac1{\log x}\right)\right) \\
+&= \log x \cdot e^c \cdot e^{O\left(1/\log x\right)}
+= e^c\log x\left(1 + O\left(\frac1{\log x}\right)\right) \\
+&= e^c\log x + O(1) .
+\end{align*}
+\qedhere
 
+\begin{remark}
+Note that in theorem \ref{thm:2.7}, we have $c=C_0$ and
+$b=C_0-\sum_p\sum_{k\ge2}\frac1{kp^k}$.
+\end{remark}
 
+\begin{prop}
+The average order of $\omega(n)=\#\set{p:p|w}$ is $\log\log n$.
+\end{prop}
+\proof
+We can compute
+\begin{align*}
+\sum_{n\le x}\omega(n) &= \sum_{n\le x}\sum_{p|n}1
+= \sum_{p\le x}\sum_{\substack{n\le x\\p|n}}1
+= \sum_{p\le x}\floor{\frac{x}p}
+= x\sum_{p\le x}\frac1p + O\left(\sum_{p\le x}1\right) \\
+&= x\log\log x + O(x) .
+\end{align*}
+\qedhere
+
+\begin{exe}
+Check that $\sum_{n\le x}\log\log n \sim x\log\log x$.
+\end{exe}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

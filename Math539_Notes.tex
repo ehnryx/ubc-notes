@@ -730,9 +730,8 @@ continuation.
 We can use a similar method to show that $\zeta(s)$ is defined for all $s\in\CC\sm\set{1}$.
 \end{remark}
 
-Consequences of Theorem \ref{thm:1.12}:
-\begin{itemize}
-\item When $x=1$, we have
+\begin{cor}
+When $x=1$, we have
 \[
 \zeta(s) = 1 + \frac1{s-1} - s\int_1^\infty \{u\}u^{-s-1} ~du ,
 \]
@@ -741,8 +740,10 @@ so $\zeta(s)-\frac1{s-1}$ has a removable singularity at $s=1$ with value
 C_0 = 1 - \int_1^\infty \{u\} u^{-2} ~du .
 \]
 Then, by DCT, we get $\zeta(s)=\frac1{s-1}+C_0 + O(\abs{s-1})$.
+\end{cor}
 
-\item We can rearrange to get
+\begin{cor}
+We can rearrange to get
 \begin{align*}
 \sum_{n\le x}n^{-s}
 &= \zeta(s) - \frac{x^{1-s}}{s-1} - \frac{\{x\}}{x^s} + s\int_x^\infty\{u\}u^{-s-1}~du \\
@@ -758,8 +759,10 @@ O(x^{1-\alpha}) &\text{if }0<\alpha<1 \\
 \zeta(\alpha)+O(x^{1-\alpha}) &\text{if }\alpha>1
 \end{cases} .
 \]
+\end{cor}
 
-\item Let $s=1$, then
+\begin{cor}
+Let $s=1$, then
 \begin{align*}
 \sum_{n\le x}\frac1n &= \int_{1^-}^x\frac1t~d\floor{t}
 = \int_{1^-}^x\frac1t~dt - \int_{1^-}^x\frac1t~d\{t\} \\
@@ -770,8 +773,7 @@ O(x^{1-\alpha}) &\text{if }0<\alpha<1 \\
 \end{align*}
 Note that an error of $1/x$ is the best approximation with a smooth function (because we
 can't get better than the jumps).
-
-\end{itemize}
+\end{cor}
 
 \begin{remark}
 Note that $C_0$ is Euler's constant, that is
@@ -921,8 +923,8 @@ average order $\log n$.
 
 Note that example \ref{ex.hyperbola} does not give a very good error term. This is because
 $B\left(\frac{x}{d}\right)$ gives a poor approximation when $x/d$ is small. Instead, we can
-compute
-\begin{equation}[Dirichlet's Hyperbola Method]
+use Dirichlet's Hyperbola Method:
+\begin{equation}
 C(x) = \sum_{d\le y} a_d B\left(\frac{x}{d}\right)
 + \sum_{l\le x/y} b_l A\left(\frac{x}{l}\right)
 - A(y)B\left(\frac{x}{y}\right) .
@@ -1125,13 +1127,119 @@ Check that $\sum_{n\le x}\log\log n \sim x\log\log x$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2020 02 04
 
+\begin{defn}
+The variance of $f(n)$ is
+\[
+\lim_{x\to\infty}\sum_{n\le x}(f(n)-g(x))^2
+\]
+where $g(x)$ is $g(x)=\frac1x\sum_{n\le x}f(n)$.
+\end{defn}
 
+Now we compute the variance of $\omega(n)$.
 
+\begin{lemma}
+We show that
+\[
+\sum_{n\le x} \omega(n)^2 \le x\left(\log\log x\right)^2 + O\left(x\log\log x\right) .
+\]
+\end{lemma}
+\proof
+\begin{align*}
+\sum_{n\le x}\omega(n)^2
+&= \sum_{n\le x}\left(\sum_{p|n}1\right)\left(\sum_{q|n}1\right)
+= \sum_{p\le x}\sum_{q\le x}\sum_{\substack{n\le x\\p|n\\q|n}}1 \\
+&= \sum_{p\le x}\sum_{\substack{q\le x\\q\neq p}}\floor{\frac{x}{pq}}
++ \sum_{p\le x}\floor{\frac{p}x} \\
+&\le \sum_{p\le x}\sum_{q\le x}\frac{x}{pq}+\sum_{p\le x}\frac{x}p
+= x\left(\sum_{p\le x}\frac1p\right)^2 + x\sum_{p\le x}\frac1p \\
+&= x\left(\log\log x+O(1)\right)^2+O\left(x\log\log x\right) .
+\end{align*}
+\qedhere
+
+\begin{prop}
+The variance of $\omega(n)$ is $\ll\log\log x$.
+\end{prop}
+\proof
+\begin{align*}
+\sum_{n\le x}\left(\omega(n)-\log\log x\right)^2
+&= \sum_{n\le x}\omega(n)^2 - 2(\log\log x) \sum_{n\le x}\omega(n)
++ \left(\log\log x\right)^2 \sum_{n\le x}1 \\
+&= \sum_{n\le x}\omega(n)^2 - 2(\log\log x)\left(x\log\log x + O(x)\right)
++ \left(x+O(1)\right)\left(\log\log x\right)^2 \\
+&\le \left(x(\log\log x)^2+O(x\log\log x)\right)
+- \left(x\log\log x\right)^2 + O(x\log\log x) .
+\end{align*}
+\qedhere
+
+\begin{cor}
+It follows that
+\[
+S = \#\set{n\le x:\abs{\omega(n)-\log\log x}>\left(\log\log x\right)^{\frac12+\e}}
+\ll \frac{x}{\left(\log\log x\right)^{2\e}} .
+\]
+\end{cor}
+\proof
+\begin{align*}
+\sum_{\substack{n\le x\\n\in S}}1
+&\le \sum_{n\le x}\left(\frac{\abs{\omega(n)-\log\log x}}
+{(\log\log x)^{\frac12+\e}}\right)^2 \\
+&= \frac1{(\log\log x)^{1+2\e}} \sum_{n\le x}(\omega(n)-\log\log x)^2 \\
+&\ll \frac{x\log\log x}{(\log\log x)^{1+2\e}} .
+\end{align*}
+\qedhere
+
+\begin{exe}[Hardy-Ramanujan]
+Show that
+\[
+\#\set{n\le x:\abs{\omega(n)-\log\log n}>(\log\log n)^{\frac12+\e}}
+\ll \frac{x}{(\log\log x)^{2\e}} = o(x) .
+\]
+It follows that the natural density is 0.
+\end{exe}
+
+\begin{exe}
+Do the above computations for $\Omega(n)$.
+\end{exe}
+
+\begin{exe}
+Prove that $2^{\omega(n)}\le d(n)\le 2^{\Omega(n)}$.
+\end{exe}
+
+From Hardy-Ramanujan, for almost all $n\in\NN$,
+\[
+(1-\delta)\log\log n \le \omega(n) \le \Omega(n) \le (1+\delta)\log\log n ,
+\]
+\[
+(\log n)^{(1-\delta)\log2} = 2^{(1-\delta)\log\log n}
+\le d(n) \le 2^{(1+\delta)\log\log n}
+= (\log n)^{(1+\delta)\log2} .
+\]
+So for most $n\in\NN$, we have $d(n)\approx(\log n)^{\log2}$, but the average order of
+$d(n)$ is $\log n$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2020 02 06
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 02 13
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2020 02 15
+
 
 
 
